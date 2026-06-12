@@ -1,7 +1,53 @@
 ---
+import { navItems } from '../data/nav.ts';
+import DropdownMenu from './Dropdown_menu.astro';
 ---
-<div id="main-menu" class="nav-links">
-  <a href="/">Home</a>
-  <a href="/about/">About</a>
-  <a href="/blog/">Blog</a>
-</div>
+
+
+<nav class="nav-links">
+  {navItems.map(item => (
+    item.dropdown ? (
+      <div class="dropdown">
+        <a href={item.href} class="nav-item">
+          {item.label} <span class="arrow">▼</span>
+        </a>
+        <DropdownMenu elements={item.dropdown} />
+      </div>
+    ) : (
+      <a href={item.href} class={`nav-item ${item.class ?? ""}`}>
+        {item.label}
+      </a>
+    )
+  ))}
+</nav>
+
+
+<style>
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+}
+
+.nav-links {
+  position: relative;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown:hover .arrow {
+  transform: rotate(180deg);
+}
+
+ :global(.dropdown:hover .dropdown-menu) {
+    display: block;
+  }
+</style>

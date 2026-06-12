@@ -1,11 +1,19 @@
 /* nav styles */
-.menu {
-  background-color: #0d0950;
-  border: none;
-  color: #fff;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 5px 10px;
+
+:root {
+  --black: #000;
+  --white: #fff;
+  --primary-color:  #DBDFAC;
+  --secondary-color: #DB162F;
+  --tertiary-color: #3B1F2B;
+  --border-radius: 25px;
+  --primary-font: 'Poppins', sans-serif;
+    --navbar-height: 60px;
+}
+
+
+html {
+  font-family: var(--primary-font);
 }
 
 .nav-links {
@@ -22,17 +30,15 @@
   font-size: 1.2rem;
   font-weight: bold;
   text-transform: uppercase;
-  color: #0d0950;
 }
 
 .nav-links a:hover,
 .nav-links a:focus{
-  background-color: #ff9776;
+  background-color: var(--primary-color);
+  color: var(--tertiary-color);
 }
 
-:has(.menu[aria-expanded="true"]) .nav-links {
-  display: unset;
-}
+
 
 @media screen and (min-width: 636px) {
   .nav-links {
@@ -45,10 +51,81 @@
 
   .nav-links a {
     display: inline-block;
-    padding: 15px 20px;
+    padding: 10px 10px;
   }
 
-  .menu {
-    display: none;
+}
+
+
+footer{
+background-color: var(--black);
+width: 100%;
+}
+
+ .nav-item {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 200ms ease;
+    border-radius: var(--border-radius);
   }
+
+  .nav-item:hover {
+    color: var(--tertiary-color);
+  }
+
+    .arrow {
+    font-size: 0.6rem;
+    vertical-align: middle;
+    margin-left: 0.3rem;
+    opacity: 0.7;
+  }
+
+  
+  .btn-contact {
+    color: var(--secondary-color);
+    padding: 2rem 1.2rem;
+    background: var(--white);
+  }
+
+  .btn-contact:hover {
+    background: #ffffff;
+    color: var(--tertiary-color);
+  }
+
+.hero {
+  padding-top: var(--navbar-height);
+}
+    .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 64px;
+    border-radius: var(--border-radius);
+    background-color: var(--black);
+    position: fixed;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: var(--primary-font);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  body {
+    padding-top: 15px; /* Compense la hauteur de la navbar */
+    align-items: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+main {
+  flex: 1;
 }

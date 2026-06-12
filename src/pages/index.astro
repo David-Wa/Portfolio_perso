@@ -1,28 +1,105 @@
 ---
-import '../styles/global.css';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Greeting from '../components/Greeting';
+const pageTitle = "Home Page";
 ---
+<BaseLayout pageTitle={pageTitle}>
 
-<Header />
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro Tutorial</h1>
-		<Footer />
-		<script>
- import "../scripts/menu.js";
-		</script>
-     
+<!-- 1. HERO -->
+<section class="hero">
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="/videos/hero.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-content">
+    <h1>Titre principal</h1>
+    <p>Sous-titre ou description courte</p>
+  </div>
+</section>
 
-	</body>
-	 
-</html>
+<!-- 2. A PROPOS -->
+<section class="about">
+  <div class="about-text">
+    <h2>A propos</h2>
+    <p>Ingénieur & physicien théorique...</p>
+    <div class="about-buttons">
+      <a href="#" class="btn-primary">Télécharger mon CV</a>
+      <a href="#" class="btn-secondary">Secondary</a>
+    </div>
+  </div>
+  <div class="about-image">
+    <img src="/images/photo.jpg" alt="Photo de moi" />
+  </div>
+</section>
+
+<!-- 3. CONTACT -->
+<section class="contact">
+  <h2>Contact</h2>
+  <p>Contactez moi via</p>
+  <div class="contact-buttons">
+    <a href="#" class="btn-primary">Télécharger mon CV</a>
+    <a href="#" class="btn-secondary">Secondary</a>
+  </div>
+</section>
+
+  <!-- <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} /> -->
+</BaseLayout>
+
+
+<style>
+  /* HERO */
+.hero {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: white;
+}
+
+/* A PROPOS */
+.about {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding: 80px 10%;
+}
+
+.about-text { flex: 1; }
+
+.about-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: var(--border-radius);
+  object-fit: cover;
+}
+
+/* CONTACT */
+.contact {
+  padding: 80px 10%;
+  text-align: center;
+}
+</style>

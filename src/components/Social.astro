@@ -4,10 +4,24 @@ const { platform, username } = Astro.props;
 <a href={`https://www.${platform}.com/${username}`}>{platform}</a>
 
 <style>
-  a {
-    padding: 0.5rem 1rem;
-    color: white;
-    background-color: #4c1d95;
-    text-decoration: none;
-  }
+a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #a0b4cc;
+  display: flex;
+  align-items: center;
+}
+
+
+/* Badge rouge LinkedIn */
+.icon-li {
+  background: #e03050;
+  border-radius: 3px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>

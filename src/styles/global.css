@@ -11,6 +11,9 @@
     --navbar-height: 60px;
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 html {
   font-family: var(--primary-font);

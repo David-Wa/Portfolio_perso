@@ -32,6 +32,11 @@ const pageTitle = "Home Page";
   </div>
 </section>
 
+
+<section class="image_parallax">
+  <img src="/images/parallax.jpg" alt="Image Parallax" /  >
+</section>
+
 <!-- 3. CONTACT -->
 <section class="contact">
   <h2>Contact</h2>
@@ -52,6 +57,8 @@ const pageTitle = "Home Page";
   position: relative;
   height: 100vh;
   overflow: hidden;
+  width: 100%;
+  align-items: center;
 }
 
 .hero-video {
@@ -71,7 +78,7 @@ const pageTitle = "Home Page";
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: white;
+  color: var(--secondary-color);
 }
 
 /* A PROPOS */
@@ -82,7 +89,9 @@ const pageTitle = "Home Page";
   padding: 80px 10%;
 }
 
-.about-text { flex: 1; }
+.about-text { flex: 1; 
+color: var(--secondary-color);
+}
 
 .about-image {
   flex: 1;
@@ -101,5 +110,6 @@ const pageTitle = "Home Page";
 .contact {
   padding: 80px 10%;
   text-align: center;
+  color: var(--secondary-color);
 }
 </style>

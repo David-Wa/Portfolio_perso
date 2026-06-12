@@ -118,7 +118,7 @@ width: 100%;
   }
 
   body {
-    padding-top: 15px; /* Compense la hauteur de la navbar */
+    
     align-items: center;
   display: flex;
   flex-direction: column;

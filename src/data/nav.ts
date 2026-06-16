@@ -4,7 +4,7 @@ export const navItems = [
     href: "/conception",
     dropdown: [
       { label: "3D",        href: "/3d" },
-      { label: "Bricolage", href: "/bricolage" },
+      { label: "Bricolage", href: "/Conception/bricolage/" },
     ]
   },
   { label: "Graphisme", href: "/graphisme",  dropdown: [

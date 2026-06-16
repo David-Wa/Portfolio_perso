@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const pageTitle = "Hobbit";
+import { Image } from 'astro:assets';
+const images = Object.values(import.meta.glob('/src/assets/galerie/*', { eager: true }));
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <!-- TITRE -->
+  <section class="page-title">
+    <h1>Bricolage</h1>
+  </section>
+
+  <section class="project">
+    <a href="/Conception/bricolage/hobbit/" class="project-link">
+      <img src="/pictures/conception/bricolage/hobbit/Hero_picture/PXL_20251224_144214495.jpg" alt="Porte de Hobbit" class="project-image" />
+      <h2 class="project-name">Porte de Hobbit</h2>
+    </a>
+  </section>
+</BaseLayout>
+
+<style>
+  main {
+    width: 100%;
+  }
+
+  /* TITRE */
+  .page-title {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px;
+    margin-top: 100px;
+    color: var(--tertiary-color);
+  }
+
+  .page-title h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+    align-self: flex-end;
+
+  }
+
+
+  .project img {
+    width: 100px;
+    height: 100px;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+</style>

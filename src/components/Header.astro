@@ -2,7 +2,13 @@
 import Navigation from './Navigation.astro';
 ---
 <header class="navbar">
-    <a href="/" class="logo">STOY</a>
+    <a href="/" class="logo"><img src="/tag.svg" alt="Logo" /></a>
     <Navigation />
 </header>
 
+
+<style>
+  .navbar {
+margin-top: calc(var(--navbar-height)/10);
+  }
+</style>

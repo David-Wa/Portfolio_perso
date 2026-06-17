@@ -1,13 +1,12 @@
 export const navItems = [
   {
     label: "Conception",
-    href: "/conception",
     dropdown: [
-      { label: "3D",        href: "/3d" },
-      { label: "Bricolage", href: "/Conception/bricolage/" },
+      { label: "3D",        href: "/conception/3D/" },
+      { label: "Bricolage", href: "/conception/bricolage/" },
     ]
   },
-  { label: "Graphisme", href: "/graphisme",  dropdown: [
+  { label: "Graphisme",  dropdown: [
       { label: "Graffs",        href: "/graphisme/graffs" },
       { label: "Dessins", href: "/graphisme/dessins" },
       {label: "Pochoirs", href: "/graphisme/pochoirs"}

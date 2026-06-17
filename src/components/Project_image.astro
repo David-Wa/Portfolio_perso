@@ -1,20 +1,19 @@
+
 ---
-import GalleryLayout from '../../layouts/GalleryLayout.astro';
+const { href, src, alt, title } = Astro.props;
 ---
 
-<GalleryLayout>
-  <a href="/Conception/bricolage/hobbit/" class="project-link">
+<a href={href} class="project-link">
     <img
-      src="/pictures/conception/bricolage/hobbit/Hero_picture/PXL_20251224_144214495.jpg"
-      alt="Porte de Hobbit"
+      src={src.src}
+      alt={alt}
       class="project-image"
     />
     <div class="overlay">
-      <h2>Hobbit</h2>
+      <h2>{title}</h2>
       <p>Voir le projet</p>
     </div>
   </a>
-</GalleryLayout>
 
 <style>
 .project-link {
@@ -27,7 +26,6 @@ import GalleryLayout from '../../layouts/GalleryLayout.astro';
 .project-image {
   display: block;
   transition: filter 0.3s ease;
-    aspect-ratio: 1;
     object-fit: cover;
     position: relative;
     width: 100%;

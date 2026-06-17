@@ -1,6 +1,26 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-const pageTitle = "Bricolage";
+import Project_img from '../components/Project_image.astro';
+
+const { pageTitle, path } = Astro.props;
+
+// static, broad glob — covers every category/project folder
+const allImages = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/pictures/**/main.{jpg,jpeg,png,webp}',
+  { eager: true }
+);
+
+const projects = Object.entries(allImages)
+  .filter(([filePath]) => filePath.includes(`/pictures/${path}/`))
+  .map(([filePath, img]) => {
+    const slug = filePath.split('/').slice(-2, -1)[0];
+    return {
+      href: `/${path}/${slug}/`,
+      src: img.default,
+      alt: slug,
+      title: slug,
+    };
+  });
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -8,14 +28,14 @@ const pageTitle = "Bricolage";
   <section class="page-title">
     <h1>{pageTitle}</h1>
   </section>
+
     <section class="project">
-        <slot/>
+          {projects.map((project) => (
+    <Project_img href={project.href} src={project.src} alt={project.alt} title={project.title} />
+  ))}
     </section>
 
-
-
-    
-</BaseLayout>
+  </BaseLayout>
 
 <style>
   main {

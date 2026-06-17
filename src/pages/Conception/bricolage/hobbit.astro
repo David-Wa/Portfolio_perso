@@ -36,6 +36,9 @@ const images = Object.values(import.meta.glob('/src/assets/galerie/*', { eager: 
 
   <!-- GALERIE -->
 <section class="project-gallery">
+  <div class="title">
+    <h2>Making of</h2>
+  </div>
   <div class="gallery-track">
   {images.map((img: any) => (
     <Image src={img.default} alt="photo galerie" width={300} height={300} />

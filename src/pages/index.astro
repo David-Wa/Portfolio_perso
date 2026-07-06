@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Greeting from '../components/Greeting';
+import Social from '../components/Social.astro';
+
 const pageTitle = "Home Page";
 ---
 <BaseLayout pageTitle={pageTitle}>
@@ -12,42 +13,43 @@ const pageTitle = "Home Page";
     <source src="/videos/hero.mp4" type="video/mp4" />
   </video>
   <div class="hero-content">
-    <h1>Titre principal</h1>
+    <h1>Portfolio - David Wagner</h1>
     <p>Sous-titre ou description courte</p>
   </div>
 </section>
 
 <!-- 2. A PROPOS -->
-<section class="about">
+<section id="about" class="about">
   <div class="about-text">
     <h2>A propos</h2>
-    <p>Ingénieur & physicien théorique...</p>
+    <p>J'ai commencé à m'intéresser au graffitti suite à une visite du Street Art Parc de Cnades-Saint-Martin. Avec une formation d'ingénieur et de physicien théorique, j'ai eu l'occasion de découvrir le design de décors au sein de la comédie musicale de l'école. J'ai depuis continué d'explorer le domaine du bricolage en essayant sans cesse de nouvelles techniques.</p>
     <div class="about-buttons">
-      <a href="#" class="btn-primary">Télécharger mon CV</a>
-      <a href="#" class="btn-secondary">Secondary</a>
+      <a href="/David_Wagner_Resume_NEQ_Statistical_mechanics.pdf" class="btn-primary"   target="_blank" 
+  rel="noopener noreferrer">Télécharger mon CV</a>
     </div>
   </div>
   <div class="about-image">
-    <img src="/images/photo.jpg" alt="Photo de moi" />
+    <img src="/photo_about.jpeg" alt="Photo de moi" width="400" height="300" />
   </div>
 </section>
 
 
-<section class="image_parallax">
-  <img src="/images/parallax.jpg" alt="Image Parallax" /  >
+<section class="parallax-section">
+  <img class="image_parallax" src="/photo_parallax.jpg" alt="Image Parallax" />
 </section>
 
-<!-- 3. CONTACT -->
-<section class="contact">
-  <h2>Contact</h2>
-  <p>Contactez moi via</p>
-  <div class="contact-buttons">
-    <a href="#" class="btn-primary">Télécharger mon CV</a>
-    <a href="#" class="btn-secondary">Secondary</a>
+<section id="contact" class="about">
+    <div class="about-image">
+    <img src="/photo_about.jpeg" alt="Photo de moi" width="400" height="300" />
   </div>
+  <div class="about-text">
+    <h2>Contact</h2>
+     <p>Je serais ravi de collaborer avec vous pour tout projet aussi inventif soit-il. Je suis actif sur toutes les plateformes ci-dessous.</p>
+  <Social />
+    </div>
 </section>
 
-  <!-- <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} /> -->
+
 </BaseLayout>
 
 
@@ -78,7 +80,17 @@ const pageTitle = "Home Page";
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: var(--secondary-color);
+  color: var(--white);
+}
+
+.hero-content h1{
+  background-color: var(--secondary-color);
+  opacity: 0.8;
+}
+
+.hero-content p{
+  background-color: var(--secondary-color);
+  opacity: 0.8;
 }
 
 /* A PROPOS */
@@ -106,10 +118,47 @@ color: var(--secondary-color);
   object-fit: cover;
 }
 
+.parallax-section {
+  overflow: hidden;
+  height: 200px;
+  width: 100%;
+  position: relative;
+}
+
+.image_parallax {
+  width: 100%;
+  height: 130%;           /* plus grand que le conteneur pour laisser de la marge au décalage */
+  object-fit: cover;
+  position: absolute;
+  top: -15%;
+  left: 0;
+  will-change: transform;
+    z-index: -100;
+}
+
 /* CONTACT */
 .contact {
+  display: flex;
   padding: 80px 10%;
   text-align: center;
   color: var(--secondary-color);
 }
+
 </style>
+
+<script>
+  const parallaxImg = document.querySelector<HTMLImageElement>('.image_parallax');
+  const speed = 0.4; // < 1 = plus lent que le scroll, > 1 = plus rapide
+
+  function updateParallax() {
+    if (!parallaxImg) return;
+    const rect = parallaxImg.getBoundingClientRect();
+    const scrolled = window.scrollY;
+    const offset = rect.top + scrolled;
+    const yPos = (scrolled - offset) * speed;
+    parallaxImg.style.transform = `translateY(${yPos}px)`;
+  }
+
+  window.addEventListener('scroll', updateParallax, { passive: true });
+  updateParallax();
+</script>

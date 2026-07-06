@@ -1,27 +1,38 @@
 ---
-const { platform, username } = Astro.props;
+import { Icon } from 'astro-icon/components';
+
 ---
-<a href={`https://www.${platform}.com/${username}`}>{platform}</a>
-
+ <div class="contact-buttons">
+   <a href="https://www.instagram.com/davzzzd/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <Icon name="simple-icons:instagram" width="28" height="28" />
+    </a>
+    <a href="https://www.linkedin.com/in/david-wagner-ecl/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <Icon name="simple-icons:linkedin" width="28" height="28" />
+    </a>
+    <a href="mailto:david.wagner@etu.ec-lyon.fr" aria-label="Email">
+      <Icon name="mdi:email-outline" width="28" height="28" />
+    </a>
+    <a href="https://github.com/David-Wa" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+      <Icon name="simple-icons:github" width="28" height="28" />
+    </a>
+  </div>
 <style>
-a {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: #a0b4cc;
-  display: flex;
-  align-items: center;
-}
 
+  .contact-buttons {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
 
-/* Badge rouge LinkedIn */
-.icon-li {
-  background: #e03050;
-  border-radius: 3px;
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .contact-buttons a {
+    color: var(--primary-color);
+    display: inline-flex;
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .contact-buttons a:hover {
+    color: var(--secondary-color);
+    transform: translateY(-3px);
+  }
+
 </style>

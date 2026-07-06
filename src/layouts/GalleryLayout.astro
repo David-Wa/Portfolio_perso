@@ -62,10 +62,10 @@ const projects = Object.entries(allImages)
 
 
 .project {
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   padding-left: 20px;
-  padding-bottom:20px;
+  padding-bottom: 20px;
 }
 </style>

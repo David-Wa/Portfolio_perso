@@ -15,24 +15,61 @@ import DropdownMenu from './Dropdown_menu.astro';
       </div>
     ) : (
       <a href={item.href} class={`nav-item ${item.class ?? ""}`}>
-        {item.label}
-      </a>
+         {item.class === "btn-contact" && (
+    <img src="/sticker_hello_my_name_is.svg" alt="" class="img-default" />
+  )}
+  {item.class === "btn-contact" && (
+    <img src="/sticker_hello_my_name_is_hover.svg" alt="" class="img-hover" />
+  )}
+  {item.label}
+ 
+</a>
     )
   ))}
 </nav>
 
 
 <style>
+
 .nav-links {
+    position: relative;
   display: flex;
   align-items: center;
   gap: 24px;
-  position: relative;
+  font-family: 'MaPolice', sans-serif;
+  width: 100%;
+  margin: 0;
 }
 
-.nav-links {
-  position: relative;
-  font-family: 'MaPolice', sans-serif;
+  .nav-links a {
+    display: inline-block;
+    padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.nav-links a:hover,
+.nav-links a:focus{
+  background-color: var(--primary-color);
+  color: var(--tertiary-color);
+}
+
+
+
+@media screen and (min-width: 636px) {
+  .nav-links {
+    margin-left: 5em;
+    display: flex;
+    position: static;
+    width: auto;
+    background: none;
+  }
+
+
+
 }
 
 .arrow {
@@ -51,4 +88,52 @@ import DropdownMenu from './Dropdown_menu.astro';
  :global(.dropdown:hover .dropdown-menu) {
     display: block;
   }
+
+  .btn-contact {
+     display: inline-flex;
+     position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+    gap: 0.4rem;
+    color: var(--secondary-color);
+    padding: 2rem 1.2rem;
+    z-index: 2;
+  }
+
+
+.img-hover {
+  opacity: 0;
+}
+
+.btn-contact:hover .img-default {
+  opacity: 0;
+}
+
+.btn-contact:hover .img-hover {
+  opacity: 1;
+}
+
+.btn-contact img {
+  transition: opacity 0.3s ease;
+  position: absolute;
+  margin-top: -1.5rem;
+  margin-left: -0.5rem;
+  rotate: 20deg;
+  width: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+
+.nav-links a.btn-contact{
+  color: var(--tertiary-color);
+}
+
+.nav-links a.btn-contact:hover {
+  background-color: transparent;
+  color: var(--secondary-color);
+}
+
+
 </style>

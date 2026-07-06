@@ -2,7 +2,7 @@
 import Navigation from './Navigation.astro';
 ---
 <header class="navbar">
-    <a href="/" class="logo"><img src="/tag.svg" alt="Logo" /></a>
+    <a href="/" class="logo"><img src="/tag.svg" alt="Logo" width="100px"/></a>
     <Navigation />
 </header>
 
@@ -10,5 +10,15 @@ import Navigation from './Navigation.astro';
 <style>
   .navbar {
 margin-top: calc(var(--navbar-height)/10);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 64px;
+    border-radius: var(--border-radius);
+    background-color: var(--tertiary-color);
+    position: fixed;
+    z-index: 100;
   }
+
 </style>

@@ -11,6 +11,6 @@ export const navItems = [
       { label: "Dessins", href: "/graphisme/dessins" },
       {label: "Pochoirs", href: "/graphisme/pochoirs"}
     ] },
-  { label: "A Propos",  href: "/a-propos" },
-  { label: "Contact",   href: "/contact", class: "btn-contact" },
+  { label: "A Propos",  href: "/#about" },
+  { label: "Contact",   href: "/#contact", class: "btn-contact" },
 ];

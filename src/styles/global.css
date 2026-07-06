@@ -24,53 +24,10 @@
 
 html {
   font-family: var(--primary-font);
-}
-
-.nav-links {
-  width: 100%;
-  display: none;
-  margin: 0;
-}
-
-.nav-links a {
-  display: block;
-  text-align: center;
-  padding: 10px 0;
-  text-decoration: none;
-  font-size: 2rem;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
-.nav-links a:hover,
-.nav-links a:focus{
-  background-color: var(--primary-color);
-  color: var(--tertiary-color);
+  overflow-x: hidden
 }
 
 
-
-@media screen and (min-width: 636px) {
-  .nav-links {
-    margin-left: 5em;
-    display: block;
-    position: static;
-    width: auto;
-    background: none;
-  }
-
-  .nav-links a {
-    display: inline-block;
-    padding: 10px 10px;
-  }
-
-}
-
-
-footer{
-background-color: var(--black);
-width: 100%;
-}
 
  .nav-item {
     color: var(--primary-color);
@@ -92,31 +49,11 @@ width: 100%;
   }
 
   
-  .btn-contact {
-    color: var(--secondary-color);
-    padding: 2rem 1.2rem;
-    background: var(--white);
-  }
-
-  .btn-contact:hover {
-    background: #ffffff;
-    color: var(--tertiary-color);
-  }
 
 .hero {
   padding-top: var(--navbar-height);
 }
-    .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
-    height: 64px;
-    border-radius: var(--border-radius);
-    background-color: var(--black);
-    position: fixed;
-    z-index: 100;
-  }
+
 
   .logo {
     font-family: var(--primary-font);
@@ -128,7 +65,7 @@ width: 100%;
   }
 
   body {
-    
+    text-align: justify;
     align-items: center;
   display: flex;
   flex-direction: column;

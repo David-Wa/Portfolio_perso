@@ -1,0 +1,118 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const pageUrl = Astro.url.href;
+const shareText = "Découvre ce contenu !";
+
+const shareLinks = [
+  {
+    name: "Pinterest",
+    icon: "mdi:pinterest",
+    url: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(pageUrl)}&description=${encodeURIComponent(shareText)}`,
+  },
+  {
+    name: "LinkedIn",
+    icon: "mdi:linkedin",
+    url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`,
+  },
+  {
+    name: "WhatsApp",
+    icon: "mdi:whatsapp",
+    url: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + " " + pageUrl)}`,
+  },
+  {
+    name: "Dribbble",
+    icon: "mdi:dribbble",
+    url: `https://dribbble.com/shots/new`,
+  },
+  {
+    name: "Instagram",
+    icon: "mdi:instagram",
+    url: `https://www.instagram.com/`,
+  },
+];
+---
+
+<div class="share-wrapper">
+  <button class="share-trigger" aria-label="Partager">
+    <Icon name="mdi:share-variant" width="24" height="24" />
+    <span>Share</span>
+  </button>
+
+  <div class="share-menu">
+    {shareLinks.map((link) => (
+      <a
+        href={link.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Partager sur ${link.name}`}
+        class="share-item"
+        title={link.name}
+      >
+        <Icon name={link.icon} width="22" height="22" />
+      </a>
+    ))}
+  </div>
+</div>
+
+<style>
+  .share-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+   .share-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+  .share-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: flex;
+    gap: 10px;
+    padding: 10px 14px;
+    margin-top: 8px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 10;
+  }
+
+  .share-wrapper:hover .share-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .share-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #f3f3f3;
+    color: #111;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .share-item:hover {
+    background: #e0e0e0;
+    transform: scale(1.1);
+  }
+</style>

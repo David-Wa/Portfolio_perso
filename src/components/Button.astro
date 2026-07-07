@@ -1,0 +1,24 @@
+---
+const {href} = Astro.props;
+---
+
+      <a href={href} class="btn-primary"   target="_blank" 
+  rel="noopener noreferrer">
+<slot />
+</a>
+
+  <style>
+
+.btn-primary {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: var(--tertiary-color);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  font-family: 'SecondaryFont', sans-serif;
+  font-size: 1em;
+}
+
+</style>

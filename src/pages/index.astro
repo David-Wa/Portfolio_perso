@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Social from '../components/Social.astro';
+import Button from '../components/Button.astro';
 
 const pageTitle = "Home Page";
 ---
@@ -43,8 +44,7 @@ const pageTitle = "Home Page";
     <h2>A propos</h2>
     <p>J'ai commencé à m'intéresser au graffitti suite à une visite du Street Art Parc de Candes-Saint-Martin. </br> Avec une formation d'ingénieur et de physicien théorique, j'ai eu l'occasion de découvrir le design de décors au sein de la comédie musicale de l'école. J'ai depuis continué d'explorer le domaine du bricolage en essayant sans cesse de nouvelles techniques.</p>
     <div class="about-buttons">
-      <a href="/David_Wagner_Resume_NEQ_Statistical_mechanics.pdf" class="btn-primary"   target="_blank" 
-  rel="noopener noreferrer">Mon CV</a>
+      <Button href="/David_Wagner_Resume_NEQ_Statistical_mechanics.pdf">Mon CV </Button>
     </div>
   </div>
   <div class="about-image">
@@ -146,18 +146,6 @@ color: var(--secondary-color);
   padding: 80px 10%;
   text-align: center;
   color: var(--secondary-color);
-}
-
-.btn-primary {
-  display: inline-block;
-  padding: 12px 24px;
-  background-color: var(--primary-color);
-  color: var(--tertiary-color);
-  text-decoration: none;
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
-  font-family: 'MaPolice', sans-serif;
-  font-size: 1.5em;
 }
 
 </style>

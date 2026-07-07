@@ -10,17 +10,32 @@ const allImages = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true }
 );
 
+
+// glob juste pour repérer l'existence de dossiers "making-of"
+// (peu importe ce qu'il y a dedans, on veut juste la présence du chemin)
+const makingOfPaths = import.meta.glob(
+  '../assets/pictures/**/making-of/**',
+  { eager: true }
+);
+
 const projects = Object.entries(allImages)
   .filter(([filePath]) => filePath.includes(`/pictures/${path}/`))
   .map(([filePath, img]) => {
     const slug = filePath.split('/').slice(-2, -1)[0];
+   const hasMakingOf = Object.keys(makingOfPaths).some((p) =>
+      p.includes(`/pictures/${path}/${slug}/making-of/`)
+    );
     return {
       href: `/${path}/${slug}/`,
       src: img.default,
       alt: slug,
       title: slug,
+      makingOf: hasMakingOf,
     };
   });
+
+
+
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -31,7 +46,7 @@ const projects = Object.entries(allImages)
 
     <section class="project">
           {projects.map((project) => (
-    <Project_img href={project.href} src={project.src} alt={project.alt} title={project.title} />
+    <Project_img href={project.href} src={project.src} alt={project.alt} title={project.title} makingOf={project.makingOf} />
   ))}
     </section>
 

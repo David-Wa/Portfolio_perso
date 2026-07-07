@@ -1,9 +1,10 @@
 
 ---
-const { href, src, alt, title } = Astro.props;
+const { href, src, alt, title, makingOf } = Astro.props;
+const Tag = makingOf ? 'a' : 'div';
 ---
 
-<a href={href} class="project-link">
+<Tag href={makingOf ? href : undefined} class="project-link">
     <img
       src={src.src}
       alt={alt}
@@ -11,9 +12,9 @@ const { href, src, alt, title } = Astro.props;
     />
     <div class="overlay">
       <h2>{title}</h2>
-      <p>Voir le projet</p>
+      {makingOf && <p>Voir le making-of</p>}
     </div>
-  </a>
+  </Tag>
 
 <style>
 .project-link {
@@ -21,6 +22,11 @@ const { href, src, alt, title } = Astro.props;
   display: inline-block;
   overflow: hidden;
     width: 100%;
+  cursor: default;
+}
+
+a.project-link {
+  cursor: pointer;
 }
 
 .project-image {

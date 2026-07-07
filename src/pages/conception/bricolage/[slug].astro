@@ -26,6 +26,21 @@ const allMakingOfImages = import.meta.glob<{ default: ImageMetadata }>(
 const images = Object.entries(allMakingOfImages)
   .filter(([filePath]) => filePath.includes(`/bricolage/${project.id}/making-of/`))
   .map(([, img]) => img);
+
+
+// Glob statique et large
+const allMainImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/pictures/conception/bricolage/**/main.{jpg,jpeg,png,webp}',
+  { eager: true }
+);
+
+// Filtrage pour le projet actuel
+const mainImageEntry = Object.entries(allMainImages).find(([filePath]) =>
+  filePath.includes(`/bricolage/${project.id}/main.`)
+);
+
+const mainImage = mainImageEntry?.[1];
+
 ---
 
 <BaseLayout pageTitle={project.data.title}>
@@ -40,12 +55,9 @@ const images = Object.entries(allMakingOfImages)
       <ButtonShare />
     </div>
     <div class="about-image">
-      <img
-        src={`/src/assets/pictures/conception/bricolage/${project.id}/main.jpg`}
-        alt={project.data.title}
-        width="400"
-        height="500"
-      />
+       {mainImage && (
+    <Image src={mainImage.default} alt={project.data.title} width={400} height={500} />
+  )}
     </div>
   </section>
 

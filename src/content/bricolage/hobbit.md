@@ -1,0 +1,13 @@
+---
+title: "Décoration murale - porte de Hobbit"
+---
+
+Inspiré par les portes de Hobbit, j'ai décidé de réaliser cette
+décoration murale de 50cm de diamètre pour un salon.
+
+Assemblage de planches de sapin chanfreinées puis tourillonnées entre elles,
+le cercle a été découpé à la scie sauteuse puis chanfreiné à la défonceuse.
+J'ai ensuite teint l'objet au broux de noix.
+
+Le motif a été réalisé à la scie à chantourner manuelle dans du contreplaqué de sapin puis collé sur la porte.
+De légères gravures à la dremel ont été ajoutées ainsi qu'une serrure découpée dans du métal.

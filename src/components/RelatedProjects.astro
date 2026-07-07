@@ -1,0 +1,86 @@
+---
+// src/components/RelatedProjects.astro
+import Project_img from './Project_image.astro';
+
+interface Props {
+  path: string;        // ex: "conception/bricolage"
+  currentSlug: string; // ex: "hobbit" (pour l'exclure de la liste)
+  title?: string;
+}
+
+const { path, currentSlug, title = "Autres créations" } = Astro.props;
+
+const allImages = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/pictures/**/main.{jpg,jpeg,png,webp}',
+  { eager: true }
+);
+
+const makingOfPaths = import.meta.glob(
+  '../assets/pictures/**/making-of/**',
+  { eager: true }
+);
+
+const projects = Object.entries(allImages)
+  .filter(([filePath]) => filePath.includes(`/pictures/${path}/`))
+  .map(([filePath, img]) => {
+    const slug = filePath.split('/').slice(-2, -1)[0];
+    const hasMakingOf = Object.keys(makingOfPaths).some((p) =>
+      p.includes(`/pictures/${path}/${slug}/making-of/`)
+    );
+    return {
+      href: `/${path}/${slug}/`,
+      src: img.default,
+      alt: slug,
+      title: slug,
+      makingOf: hasMakingOf,
+      slug,
+    };
+  })
+  .filter((project) => project.slug !== currentSlug); // exclut le projet actuel
+---
+
+{projects.length > 0 && (
+  <section class="related-projects">
+    <h2>{title}</h2>
+    <div class="project-grid">
+      {projects.map((project) => (
+        <Project_img
+          href={project.href}
+          src={project.src}
+          alt={project.alt}
+          title={project.title}
+          makingOf={project.makingOf}
+        />
+      ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .related-projects {
+  padding: 40px 10%;
+  position: relative;
+  color: var(--secondary-color);
+}
+
+.related-projects::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--secondary-color),
+    transparent
+  );
+}
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+</style>

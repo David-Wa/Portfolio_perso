@@ -21,9 +21,14 @@ const shareLinks = [
     url: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + " " + pageUrl)}`,
   },
   {
-    name: "Dribbble",
-    icon: "mdi:dribbble",
-    url: `https://dribbble.com/shots/new`,
+    name: "Facebook",
+    icon: "mdi:facebook",
+    url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`,
+  },
+  {
+    name: "Twitter",
+    icon: "mdi:twitter",
+    url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(shareText)}`,
   },
   {
     name: "Instagram",

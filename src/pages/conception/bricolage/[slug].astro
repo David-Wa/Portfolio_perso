@@ -1,0 +1,162 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ButtonShare from '../../../components/ButtonShare.astro';
+import RelatedProjects from '../../../components/RelatedProjects.astro';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('bricolage');
+  return projects.map((project: any) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = (Astro.props as any);
+const { Content } = await render(project);
+
+// Glob statique et large (Vite peut l'analyser)
+const allMakingOfImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/pictures/conception/bricolage/**/making-of/*',
+  { eager: true }
+);
+
+// Filtrage en JS pour ne garder que les images du projet actuel
+const images = Object.entries(allMakingOfImages)
+  .filter(([filePath]) => filePath.includes(`/bricolage/${project.id}/making-of/`))
+  .map(([, img]) => img);
+---
+
+<BaseLayout pageTitle={project.data.title}>
+  <section class="project-title">
+    <h1>{project.data.title}</h1>
+  </section>
+
+  <section class="about">
+    <div class="about-text">
+      <h2>Histoire</h2>
+      <Content />
+      <ButtonShare />
+    </div>
+    <div class="about-image">
+      <img
+        src={`/src/assets/pictures/conception/bricolage/${project.id}/main.jpg`}
+        alt={project.data.title}
+        width="400"
+        height="500"
+      />
+    </div>
+  </section>
+
+  <section class="project-gallery">
+    <h2>Making of</h2>
+    <div class="gallery-viewport">
+      <div class="gallery-track">
+        {images.map((img: any) => (
+          <Image src={img.default} alt="photo galerie" width={300} height={400} />
+        ))}
+        {images.map((img: any) => (
+          <Image src={img.default} alt="photo galerie" width={300} height={400} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" />
+  <RelatedProjects path="conception/bricolage" currentSlug={project.id} />
+</BaseLayout>
+
+<style>
+
+
+  main {
+    width: 100%;
+  }
+
+
+h2 {font-size:2.5em 
+}
+  /* TITRE */
+  .project-title {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    padding-top: 120px;
+    width:100%;
+    text-align: center;
+    color: var(--tertiary-color);
+    background-color: var(--primary-color);
+  }
+
+
+
+  /* HERO IMAGE */
+ .about {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding: 80px 10%;
+}
+
+.about-text { flex: 1; 
+color: var(--secondary-color);
+font-size: 1.2em;
+}
+
+.about-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: var(--border-radius);
+  object-fit: cover;
+}
+
+  /* SECTIONS */
+  .project-section {
+    padding: 40px 10%;
+  }
+
+
+
+  /* GALERIE */
+ .project-gallery {
+  padding: 40px 0;
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: calc(var(--navbar-height) / 10);
+  color: var(--secondary-color);
+}
+
+.project-gallery h2 {
+  padding-left: 10%;
+  font-size: 2.5em;
+}
+
+.gallery-track {
+  display: flex;
+  gap: 8px;
+  width: max-content;
+  animation: scroll 20s linear infinite;
+  will-change: transform;
+}
+
+.gallery-track img {
+  width: 300px;
+  height: 400px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+</style>

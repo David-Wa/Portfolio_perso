@@ -10,43 +10,46 @@ const pageTitle = "Home Page";
 <!-- 1. HERO -->
 <section class="hero">
   <video autoplay muted loop playsinline class="hero-video">
-    <source src="/videos/hero.mp4" type="video/mp4" />
+    <source src="/videos/hero1.mp4" type="video/mp4" />
   </video>
   <div class="hero-content">
     <h1>Portfolio - David Wagner</h1>
-    <p>Sous-titre ou description courte</p>
+    <p>Cultivez le love</p>
   </div>
 </section>
 
-<!-- 2. A PROPOS -->
-<section id="about" class="about">
+
+<section id="contact" class="about">
+    <div class="about-image">
+    <img src="/photo_contact.jpg" alt="Photo de moi" width="400" height="300" />
+  </div>
   <div class="about-text">
-    <h2>A propos</h2>
-    <p>J'ai commencé à m'intéresser au graffitti suite à une visite du Street Art Parc de Cnades-Saint-Martin. Avec une formation d'ingénieur et de physicien théorique, j'ai eu l'occasion de découvrir le design de décors au sein de la comédie musicale de l'école. J'ai depuis continué d'explorer le domaine du bricolage en essayant sans cesse de nouvelles techniques.</p>
-    <div class="about-buttons">
-      <a href="/David_Wagner_Resume_NEQ_Statistical_mechanics.pdf" class="btn-primary"   target="_blank" 
-  rel="noopener noreferrer">Télécharger mon CV</a>
+    <h2>Contact</h2>
+     <p>Je serais ravi de collaborer avec vous pour tout projet aussi inventif soit-il. Contactez-moi je suis toujours partant pour discuter!</p>
+  <Social />
     </div>
-  </div>
-  <div class="about-image">
-    <img src="/photo_about.jpeg" alt="Photo de moi" width="400" height="300" />
-  </div>
 </section>
+
 
 
 <section class="parallax-section">
   <img class="image_parallax" src="/photo_parallax.jpg" alt="Image Parallax" />
 </section>
 
-<section id="contact" class="about">
-    <div class="about-image">
+
+<!-- 2. A PROPOS -->
+<section id="about" class="about">
+  <div class="about-text">
+    <h2>A propos</h2>
+    <p>J'ai commencé à m'intéresser au graffitti suite à une visite du Street Art Parc de Candes-Saint-Martin. </br> Avec une formation d'ingénieur et de physicien théorique, j'ai eu l'occasion de découvrir le design de décors au sein de la comédie musicale de l'école. J'ai depuis continué d'explorer le domaine du bricolage en essayant sans cesse de nouvelles techniques.</p>
+    <div class="about-buttons">
+      <a href="/David_Wagner_Resume_NEQ_Statistical_mechanics.pdf" class="btn-primary"   target="_blank" 
+  rel="noopener noreferrer">Mon CV</a>
+    </div>
+  </div>
+  <div class="about-image">
     <img src="/photo_about.jpeg" alt="Photo de moi" width="400" height="300" />
   </div>
-  <div class="about-text">
-    <h2>Contact</h2>
-     <p>Je serais ravi de collaborer avec vous pour tout projet aussi inventif soit-il. Je suis actif sur toutes les plateformes ci-dessous.</p>
-  <Social />
-    </div>
 </section>
 
 
@@ -83,14 +86,15 @@ const pageTitle = "Home Page";
   color: var(--white);
 }
 
-.hero-content h1{
-  background-color: var(--secondary-color);
-  opacity: 0.8;
-}
-
-.hero-content p{
-  background-color: var(--secondary-color);
-  opacity: 0.8;
+.hero-content h1,
+.hero-content p {
+  color: var(--primary-color);
+  background-color: color-mix(in srgb, var(--tertiary-color) 80%, transparent);
+  padding: 0.3em 0.8em;
+  border-radius: 8px;
+  display: inline-block;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 /* A PROPOS */
@@ -142,6 +146,18 @@ color: var(--secondary-color);
   padding: 80px 10%;
   text-align: center;
   color: var(--secondary-color);
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: var(--tertiary-color);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  font-family: 'MaPolice', sans-serif;
+  font-size: 1.5em;
 }
 
 </style>

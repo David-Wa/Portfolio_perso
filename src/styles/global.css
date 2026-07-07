@@ -5,9 +5,9 @@
   --white: #fff;
   --primary-color:  #DBDFAC;
   --secondary-color: #DB162F;
-  --tertiary-color: #3B1F2B;
-  --border-radius: 25px;
-  --primary-font: 'Poppins', sans-serif;
+  --tertiary-color: #250902; /* #3B1F2B */ 
+  /*#a0b4cc; bleu-gris*/
+  --border-radius: 15px;
     --navbar-height: 60px;
 }
 
@@ -16,18 +16,44 @@
   font-family: 'MaPolice';
   src: url('/fonts/Brick.woff') format('woff');
   font-style: normal;
+    font-weight: normal;
 }
+
+@font-face {
+  font-family: 'SecondaryFont';
+  src: url('/fonts/IP.ttf') format('truetype');
+  font-style: normal;
+}
+
+
 
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
 html {
-  font-family: var(--primary-font);
   overflow-x: hidden
 }
 
+h1, h2{
+  font-family: 'MaPolice', sans-serif;
+    font-weight: normal; /* annule le bold par défaut du navigateur */
+}
 
+
+h1{
+  font-size: 3rem;
+}
+
+h2{
+  font-size: 2rem;
+}
+
+
+p{
+    font-family: 'SecondaryFont', sans-serif;
+      color: var(--tertiary-color);
+}
 
  .nav-item {
     color: var(--primary-color);
@@ -55,14 +81,6 @@ html {
 }
 
 
-  .logo {
-    font-family: var(--primary-font);
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--secondary-color);
-    text-decoration: none;
-    letter-spacing: -0.02em;
-  }
 
   body {
     text-align: justify;

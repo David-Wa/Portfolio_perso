@@ -2,7 +2,16 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
-const { pageTitle } = Astro.props;
+import Image from '../assets/pictures/conception/bricolage/hobbit/main.jpg';
+
+
+const {pageTitle,
+  title = "Portfolio - David WAGNER",
+  description = "Site Web",
+  image = new URL(Image.src, Astro.site),
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 <html lang="en">
   <head>
@@ -11,6 +20,14 @@ const { pageTitle } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
+
+      <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+
   </head>
   <body>
     <Header />

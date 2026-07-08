@@ -3,7 +3,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import Image from '../assets/pictures/conception/bricolage/hobbit/main.jpg';
-
+import { ClientRouter } from 'astro:transitions';
 
 const {pageTitle,
   title = "Portfolio - David WAGNER",
@@ -28,14 +28,126 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
 
+<ClientRouter /> <!--  fadeIn pour les transitions -->
+
   </head>
   <body>
+    <!-- Filtre SVG pour la texture granuleuse du spray -->
+    <svg width="0" height="0" style="position:absolute">
+      <filter id="spray-noise">
+  <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" result="noise" seed="7"/>
+  <feColorMatrix in="noise" type="matrix"
+    values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 9 -4"
+    result="noiseAlpha"/>
+  <feComposite operator="in" in="SourceGraphic" in2="noiseAlpha"/>
+</filter>
+    </svg>
+
+    <div id="paint-container" transition:persist></div>
     <Header />
     <slot />
     <Footer />
-    <script>
-      import "../scripts/menu.js";
-    </script>
+
+<script is:inline>
+  if (!window.__paintCursorInitialized) {
+    window.__paintCursorInitialized = true;
+    let lastTime = 0;
+    let lastX = null;
+    let lastY = null;
+
+    function randomBlobRadius() {
+      const r = () => 40 + Math.random() * 60;
+      return `${r()}% ${r()}% ${r()}% ${r()}% / ${r()}% ${r()}% ${r()}% ${r()}%`;
+    }
+
+    function spawnDrop(cx, cy) {
+      const currentContainer = document.querySelector("#paint-container");
+      if (!currentContainer) return;
+
+      const drop = document.createElement("div");
+      drop.className = "paint";
+
+      const angle = Math.random() * Math.PI * 2;
+      const radius = Math.random() * Math.random() * 40;
+      const x = cx + Math.cos(angle) * radius;
+      const y = cy + Math.sin(angle) * radius;
+      const size = Math.random() * 10 + 3;
+
+      drop.style.width = size + "px";
+      drop.style.height = size + "px";
+      drop.style.left = x + "px";
+      drop.style.top = y + "px";
+      drop.style.borderRadius = randomBlobRadius();
+      drop.style.opacity = (Math.random() * 0.4 + 0.5).toString();
+
+      const hue = Math.random() * 20 - 10;
+      const bright = 0.9 + Math.random() * 0.25;
+      drop.style.filter = `url(#spray-noise) hue-rotate(${hue}deg) brightness(${bright})`;
+
+      currentContainer.appendChild(drop);
+
+      const lifetime = 500 + Math.random() * 400;
+      drop.style.animationDuration = lifetime + "ms";
+      setTimeout(() => drop.remove(), lifetime);
+    }
+
+    window.addEventListener("mousemove", (e) => {
+      const now = Date.now();
+      const dt = now - lastTime;
+      if (dt < 20) return;
+
+      let speed = 4;
+      if (lastX !== null) {
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        speed = Math.sqrt(dx * dx + dy * dy) / dt;
+      }
+
+      lastTime = now;
+      lastX = e.clientX;
+      lastY = e.clientY;
+
+      const count = Math.min(10, Math.max(3, Math.round(speed * 3)));
+      for (let i = 0; i < count; i++) {
+        spawnDrop(e.clientX, e.clientY);
+      }
+    });
+  }
+</script>
   </body>
 </html>
 
+<style is:global>
+#paint-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 999999;
+}
+
+.paint {
+  position: fixed;
+  display: block;
+  pointer-events: none;
+  background: var(--secondary-color);
+  animation-name: paintFade;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes paintFade {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.8);
+  }
+  20% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+</style>

@@ -44,7 +44,7 @@ const projects = Object.entries(allImages)
     <h1>{pageTitle}</h1>
   </section>
 <Divider />
-   <section class:list={["project", { "few-projects": projects.length <= 2 }]}>
+   <section class:list={["project", { "few-projects": projects.length <= 3 && projects.length >=2 }]}>
   {projects.map((project) => (
     <Project_img 
       href={project.href} 
@@ -84,6 +84,17 @@ const projects = Object.entries(allImages)
   column-gap: 12px;
   padding: 20px;
   background-color: var(--primary-color);
+  position: relative;
+  background-image: 
+    linear-gradient(
+      color-mix(in srgb, var(--primary-color) 50%, transparent),
+      color-mix(in srgb, var(--primary-color) 50%, transparent)
+    ),
+    url('/texture-brique.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
 }
 
 .project > * {

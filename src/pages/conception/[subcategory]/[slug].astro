@@ -111,7 +111,18 @@ h2 {font-size:2.5em
   gap: 48px;
   padding: 80px 10%;
       background-color: var(--primary-color);
+  position: relative;
+  background-image: 
+    linear-gradient(
+      color-mix(in srgb, var(--primary-color) 50%, transparent),
+      color-mix(in srgb, var(--primary-color) 50%, transparent)
+    ),
+    url('/texture-brique.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 
 .about-text { flex: 1; 
 color: var(--secondary-color);

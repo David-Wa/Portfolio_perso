@@ -63,7 +63,17 @@ const projects = Object.entries(allImages)
   position: relative;
   color: var(--secondary-color);
   background-color: var(--primary-color);
+  background-image: 
+    linear-gradient(
+      color-mix(in srgb, var(--primary-color) 50%, transparent),
+      color-mix(in srgb, var(--primary-color) 50%, transparent)
+    ),
+    url('/texture-brique.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 
 
   .project-grid {

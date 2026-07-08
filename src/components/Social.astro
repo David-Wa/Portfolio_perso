@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-
+const { color = 'var(--primary-color)', colorHover = 'var(--secondary-color)' } = Astro.props;
 ---
  <div class="contact-buttons">
    <a href="https://www.instagram.com/davzzzd/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
@@ -16,7 +16,9 @@ import { Icon } from 'astro-icon/components';
       <Icon name="simple-icons:github" width="28" height="28" />
     </a>
   </div>
-<style>
+
+
+  <style define:vars={{ color, colorHover }}>
 
   .contact-buttons {
     display: flex;
@@ -25,13 +27,13 @@ import { Icon } from 'astro-icon/components';
   }
 
   .contact-buttons a {
-    color: var(--primary-color);
+    color: var(--color);
     display: inline-flex;
     transition: color 0.2s, transform 0.2s;
   }
 
   .contact-buttons a:hover {
-    color: var(--secondary-color);
+    color: var(--colorHover);
     transform: translateY(-3px);
   }
 

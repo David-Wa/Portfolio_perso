@@ -6,40 +6,41 @@ import RelatedProjects from '../../../components/RelatedProjects.astro';
 import { Image } from 'astro:assets';
 
 export async function getStaticPaths() {
-  const projects = await getCollection('bricolage');
-  return projects.map((project: any) => ({
-    params: { slug: project.id },
-    props: { project },
-  }));
+  const projects = await getCollection('graphisme');
+
+    console.log('IDs trouvés:', projects.map(p => p.id));
+
+  return projects.map((project) => {
+    const [subcategory, slug] = project.id.split('/');
+    return {
+      params: { subcategory, slug },
+      props: { project, slug },
+    };
+  });
 }
 
-const { project } = (Astro.props as any);
+
+const { project, slug } = Astro.props;
 const { Content } = await render(project);
 
-// Glob statique et large (Vite peut l'analyser)
-const allMakingOfImages = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/pictures/conception/bricolage/**/making-of/*',
+const allMainImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/pictures/graphisme/**/main.{jpg,jpeg,png,webp}',
   { eager: true }
 );
+const mainImageEntry = Object.entries(allMainImages).find(([filePath]) =>
+  filePath.includes(`/graphisme/${project.id}/main.`)
+);
+const mainImage = mainImageEntry?.[1];
 
-// Filtrage en JS pour ne garder que les images du projet actuel
+const allMakingOfImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/pictures/graphisme/**/making-of/*',
+  { eager: true }
+);
 const images = Object.entries(allMakingOfImages)
-  .filter(([filePath]) => filePath.includes(`/bricolage/${project.id}/making-of/`))
+  .filter(([filePath]) => filePath.includes(`/graphisme/${project.id}/making-of/`))
   .map(([, img]) => img);
 
 
-// Glob statique et large
-const allMainImages = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/pictures/conception/bricolage/**/main.{jpg,jpeg,png,webp}',
-  { eager: true }
-);
-
-// Filtrage pour le projet actuel
-const mainImageEntry = Object.entries(allMainImages).find(([filePath]) =>
-  filePath.includes(`/bricolage/${project.id}/main.`)
-);
-
-const mainImage = mainImageEntry?.[1];
 
 ---
 
@@ -55,9 +56,9 @@ const mainImage = mainImageEntry?.[1];
       <ButtonShare />
     </div>
     <div class="about-image">
-       {mainImage && (
-    <Image src={mainImage.default} alt={project.data.title} width={400} height={500} />
-  )}
+      {mainImage && (
+        <Image src={mainImage.default} alt={project.data.title} width={400} height={500} />
+      )}
     </div>
   </section>
 
@@ -76,7 +77,7 @@ const mainImage = mainImageEntry?.[1];
   </section>
 
   <hr class="section-divider" />
-  <RelatedProjects path="conception/bricolage" currentSlug={project.id} />
+  <RelatedProjects path={`graphisme/${project.id.split('/')[0]}`} currentSlug={slug} />
 </BaseLayout>
 
 <style>

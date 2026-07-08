@@ -2,7 +2,7 @@ export const navItems = [
   {
     label: "Conception",
     dropdown: [
-      { label: "3D",        href: "/conception/3D/" },
+      { label: "3D",        href: "/conception/3d/" },
       { label: "Bricolage", href: "/conception/bricolage/" },
     ]
   },

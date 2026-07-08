@@ -1,24 +1,40 @@
 ---
-const {href} = Astro.props;
+const { href } = Astro.props;
 ---
 
-      <a href={href} class="btn-primary"   target="_blank" 
-  rel="noopener noreferrer">
-<slot />
+<a href={href} class="btn-primary" target="_blank" rel="noopener noreferrer">
+  <slot />
 </a>
 
-  <style>
+<style>
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 28px;
 
-.btn-primary {
-  display: inline-block;
-  padding: 12px 24px;
-  background-color: var(--primary-color);
-  color: var(--tertiary-color);
-  text-decoration: none;
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
-  font-family: 'SecondaryFont', sans-serif;
-  font-size: 1em;
-}
+        color: var(--white);
+    background-color: var(--secondary-color);
+    text-decoration: none;
+    border-radius: 10px;
+    font-family: 'SecondaryFont', sans-serif;
+    font-size: 1em;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  }
 
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+    background-color: var(--tertiary-color);
+    color: var(--primary-color);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
 </style>

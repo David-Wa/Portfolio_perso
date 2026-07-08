@@ -1,5 +1,5 @@
 ---
-title: "Cadre photos F.R.I.E.N.D.S. - Door frame"
+title: "Cadre photos - F.R.I.E.N.D.S. door frame"
 description: "Gourmand"
 ---
 

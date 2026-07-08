@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import Project_img from '../components/Project_image.astro';
-
+import Divider from '../components/Divider.astro';
 const { pageTitle, path } = Astro.props;
 
 // static, broad glob — covers every category/project folder
@@ -43,13 +43,18 @@ const projects = Object.entries(allImages)
   <section class="page-title">
     <h1>{pageTitle}</h1>
   </section>
-
-    <section class="project">
-          {projects.map((project) => (
-    <Project_img href={project.href} src={project.src} alt={project.alt} title={project.title} makingOf={project.makingOf} />
+<Divider />
+   <section class:list={["project", { "few-projects": projects.length <= 2 }]}>
+  {projects.map((project) => (
+    <Project_img 
+      href={project.href} 
+      src={project.src} 
+      alt={project.alt} 
+      title={project.title} 
+      makingOf={project.makingOf} 
+    />
   ))}
-    </section>
-
+</section>
   </BaseLayout>
 
 <style>
@@ -75,10 +80,25 @@ const projects = Object.entries(allImages)
 
 
 .project {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  padding: 20px 20px;
+  columns: 3;
+  column-gap: 12px;
+  padding: 20px;
   background-color: var(--primary-color);
+}
+
+.project > * {
+  break-inside: avoid;
+  margin-bottom: 12px;
+}
+
+/* Cas avec 1 ou 2 images */
+.project.few-projects {
+  columns: unset;
+  display: flex;
+  gap: 12px;
+}
+
+.project.few-projects > * {
+  flex: 1;
 }
 </style>

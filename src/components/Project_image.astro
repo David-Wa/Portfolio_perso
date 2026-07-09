@@ -1,4 +1,3 @@
-
 ---
 const { href, src, alt, title, makingOf } = Astro.props;
 const Tag = makingOf ? 'a' : 'div';
@@ -8,7 +7,7 @@ const Tag = makingOf ? 'a' : 'div';
     <img
       src={src.src}
       alt={alt}
-      class="project-image"
+      class:list={["project-image", { "gallery-img": !makingOf }]}
     />
     <div class="overlay">
       <h1>{title}</h1>
@@ -21,26 +20,26 @@ const Tag = makingOf ? 'a' : 'div';
   position: relative;
   display: inline-block;
   overflow: hidden;
-    width: 100%;
+  width: 100%;
   cursor: default;
-    height: fit-content;
+  height: fit-content;
 }
 
 a.project-link {
   cursor: pointer;
 }
 
+.gallery-img {
+  cursor: zoom-in;
+}
+
 .project-image {
   display: block;
   transition: filter 0.3s ease;
-    object-fit: cover;
-    position: relative;
-    width: 100%;
-  }
-
-
-
-
+  object-fit: cover;
+  position: relative;
+  width: 100%;
+}
 
 .overlay {
   position: absolute;
@@ -71,6 +70,7 @@ a.project-link {
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 1;
+  pointer-events: none; /* ← ajouté */
 }
 
 .project-link:hover::before {
@@ -78,7 +78,19 @@ a.project-link {
 }
 
 .overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: var(--tertiary-color);
+  text-align: center;
+  pointer-events: none; /* ← ajouté */
   z-index: 2;
 }
+
+
 </style>
-  

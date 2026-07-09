@@ -5,6 +5,7 @@ import ButtonShare from '../../../components/ButtonShare.astro';
 import RelatedProjects from '../../../components/RelatedProjects.astro';
 import { Image } from 'astro:assets';
 import Divider from '../../../components/Divider.astro';
+import BackgroundPrimaryColor from '../../../components/BackgroundPrimaryColor.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('conception');
@@ -50,7 +51,7 @@ const images = Object.entries(allMakingOfImages)
     <h1>{project.data.title}</h1>
   </section>
 <Divider />
-
+  <BackgroundPrimaryColor>
   <section class="about">
     <div class="about-text">
       <h2>Histoire</h2>
@@ -63,7 +64,7 @@ const images = Object.entries(allMakingOfImages)
       )}
     </div>
   </section>
-
+  </BackgroundPrimaryColor>
   <section class="project-gallery">
     <h2>Making of</h2>
     <div class="gallery-viewport">
@@ -110,17 +111,8 @@ h2 {font-size:2.5em
   align-items: center;
   gap: 48px;
   padding: 80px 10%;
-      background-color: var(--primary-color);
   position: relative;
-  background-image: 
-    linear-gradient(
-      color-mix(in srgb, var(--primary-color) 50%, transparent),
-      color-mix(in srgb, var(--primary-color) 50%, transparent)
-    ),
-    url('/texture-brique.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+
 }
 
 

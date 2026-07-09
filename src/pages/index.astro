@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Social from '../components/Social.astro';
 import Button from '../components/Button.astro';
+import BackgroundPrimaryColor from '../components/BackgroundPrimaryColor.astro';
 
 const pageTitle = "Home Page";
 ---
@@ -39,7 +40,9 @@ const pageTitle = "Home Page";
 
 
 <!-- 2. A PROPOS -->
+   <BackgroundPrimaryColor>
 <section id="about" class="about">
+
   <div class="about-text">
     <h2>A propos</h2>
     <p>J'ai commencé à m'intéresser au graffitti suite à une visite du Street Art Parc de Candes-Saint-Martin. </br> Avec une formation d'ingénieur et de physicien théorique, j'ai eu l'occasion de découvrir le design de décors au sein de la comédie musicale de l'école. J'ai depuis continué d'explorer le domaine du bricolage en essayant sans cesse de nouvelles techniques.</p>
@@ -50,8 +53,9 @@ const pageTitle = "Home Page";
   <div class="about-image">
     <img src="/photo_about.jpeg" alt="Photo de moi" width="400" height="300" />
   </div>
-</section>
 
+</section>
+  </BackgroundPrimaryColor>
 
 </BaseLayout>
 
@@ -95,18 +99,6 @@ const pageTitle = "Home Page";
   z-index: 0;
 }
 
-#about {
-  position: relative;
-  background-image: 
-    linear-gradient(
-      color-mix(in srgb, var(--primary-color) 50%, transparent),
-      color-mix(in srgb, var(--primary-color) 50%, transparent)
-    ),
-    url('/texture-brique.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
 
 .hero-content {
   position: relative;
@@ -158,10 +150,10 @@ color: var(--secondary-color);
 
 .image_parallax {
   width: 100%;
-  height: 170%;           /* plus grand que le conteneur pour laisser de la marge au décalage */
+  height: 300%;           /* plus grand que le conteneur pour laisser de la marge au décalage */
   object-fit: cover;
   position: absolute;
-  top: -15%;
+  top: -55%;
   left: 0;
   will-change: transform;
     z-index: -100;

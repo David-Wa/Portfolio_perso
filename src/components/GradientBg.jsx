@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import { ShaderGradientCanvas, ShaderGradient } from '@shadergradient/react'
 
 
-export default function GradientBg() {
+export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="#DBDFAC"}) {
 
   return (
     <div
@@ -14,7 +13,7 @@ export default function GradientBg() {
         zIndex: 0,
       }}
     >
-      <ShaderGradientCanvas>
+      <ShaderGradientCanvas lazyLoad={false}>
 <ShaderGradient
   animate="on"
   axesHelper="off"
@@ -23,13 +22,12 @@ export default function GradientBg() {
   cDistance={1.5}
   cPolarAngle={140}
   cameraZoom={16.51}
-  color1="#DBDFAC"
-  color2="#DB162F"
-  color3="#DBDFAC"
+  color1={color1}
+  color2={color2}
+  color3={color3}
   destination="onCanvas"
   embedMode="off"
-  envPreset="city"
-  format="gif"
+  //format="gif"
   fov={45}
   frameRate={10}
   gizmoHelper="hide"

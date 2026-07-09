@@ -20,7 +20,7 @@ const pageTitle = "Home Page";
   </div>
 </section>
 
-
+<BackgroundPrimaryColor>
 <section id="contact" class="about">
     <div class="about-image">
     <img src="/photo_contact.jpg" alt="Photo de moi" width="400" height="300" />
@@ -31,10 +31,13 @@ const pageTitle = "Home Page";
   <Social color="var(--secondary-color)" colorHover="var(--tertiary-color)"/>
     </div>
 </section>
-
+</BackgroundPrimaryColor>
 
 
 <section class="parallax-section">
+    <div class="hero-content">
+    <h1>Life is good</h1>
+  </div>
   <img class="image_parallax" src="/photo_parallax.jpg" alt="Image Parallax" />
 </section>
 
@@ -126,7 +129,7 @@ const pageTitle = "Home Page";
 
 .about-text { flex: 1; 
 color: var(--secondary-color);
-mix-blend-mode: multiply;
+/*mix-blend-mode: multiply;*/
 }
 
 .about-image {

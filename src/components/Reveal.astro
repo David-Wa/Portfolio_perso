@@ -2,7 +2,7 @@
 // src/scripts/reveal.js
 let observer: IntersectionObserver | null = null;
 
-const SELECTOR = "main > *:not([data-no-reveal])";
+const SELECTOR = "body > *:not([data-no-reveal])";
 
 function initReveal() {
   if (observer) observer.disconnect();

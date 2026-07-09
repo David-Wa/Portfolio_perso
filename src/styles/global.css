@@ -21,7 +21,7 @@
 
 @font-face {
   font-family: 'SecondaryFont';
-  src: url('/fonts/NetworkFreeVersion.ttf') format('truetype');
+  src: url('/fonts/PermanentMarker.ttf') format('truetype');
   font-style: normal;
 }
 
@@ -55,90 +55,10 @@ h2{
 p{
     font-family: 'SecondaryFont', sans-serif;
       color: var(--tertiary-color);
-      font-size: 1.6rem;
+      font-size: 1.2rem;
 }
 
 
-
-
-.project-wrapper {
-  position: relative;
-  background-color: var(--primary-color);
-  background-image: 
-    linear-gradient(
-      color-mix(in srgb, var(--primary-color) 50%, transparent),
-      color-mix(in srgb, var(--primary-color) 50%, transparent)
-    ),
-    url('/texture-brique.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-
-.light-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.light-circle {
-  position: absolute;
-  border-radius: 50%;
-  mix-blend-mode: color;
-}
-
-.light-circle--1 {
-  width: 140%;
-  height: 140%;
-  top: -50%;
-  left: -50%;
-  background: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--tertiary-color) 100%, transparent) 0%,
-    transparent 60%
-  );
-  animation: drift-1 22s ease-in-out infinite;
-
-}
-
-.light-circle--2 {
-  width: 90%;
-  height: 90%;
-  bottom: -40%;
-  right: -40%;
-  background: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--secondary-color, var(--tertiary-color)) 75%, transparent) 0%,
-    transparent 60%
-  );
-  animation: drift-2 17s ease-in-out infinite;
-}
-
-
-
-@keyframes drift-1 {
-  0%   { transform: translate(-15%, -10%); }
-  25%  { transform: translate(10%, 15%); }
-  50%  { transform: translate(20%, -5%); }
-  75%  { transform: translate(-10%, 10%); }
-  100% { transform: translate(-15%, -10%); }
-}
-
-@keyframes drift-2 {
-  0%   { transform: translate(10%, 10%); }
-  30%  { transform: translate(-15%, -15%); }
-  60%  { transform: translate(5%, -20%); }
-  100% { transform: translate(10%, 10%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .light-overlay::before,
-  .light-overlay::after {
-    animation: none;
-  }
-}
 
  .nav-item {
     color: var(--primary-color);

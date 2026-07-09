@@ -1,8 +1,17 @@
-<div class="project-wrapper">
-  <slot />
+---
+import GradientBg from "./GradientBg.jsx"
+---
 
-<div class="light-overlay">
-      <div class="light-circle light-circle--1"></div>
-      <div class="light-circle light-circle--2"></div>
-    </div>
+<div class="project-wrapper">
+    <GradientBg client:load/> 
+  <slot />
 </div>
+
+<style>
+.project-wrapper {
+  position: relative;
+}
+
+
+
+</style>

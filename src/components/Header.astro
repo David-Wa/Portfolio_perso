@@ -1,17 +1,40 @@
 ---
 import Navigation from './Navigation.astro';
+import Language from './Language.astro'
 ---
-<header class="navbar">
+
+<head>
+<header class="navbar navigation">
     <a href="/" class="logo"><img src="/tag.svg" alt="Logo" width="100px"/></a>
     <Navigation />
 </header>
 
+<header class="navbar language">
+      <Language />
+</header>
+</head>
 
 <style>
+
+head{
+    position: relative;
+    width:100%;
+}
+
+.navigation{
+    align-self: center;
+}
+
+.language {
+    position: absolute;
+    right: 20px;
+    margin: 0;
+    align-self: center;
+}
+
   .navbar {
-margin-top: calc(var(--navbar-height)/10);
+    margin-top: calc(var(--navbar-height)/10);
     display: flex;
-    align-items: center;
     justify-content: space-between;
     padding: 0 2rem;
     height: 64px;

@@ -1,10 +1,16 @@
 ---
+import { Icon } from 'astro-icon/components'
 const { elements = [] } = Astro.props;
 ---
 
 <ul class="dropdown-menu">
-  {elements.map((element: {label: string, href: string}) => (
-    <li><a href={element.href}>{element.label}</a></li>
+  {elements.map((element: {label: string, href: string, icon: string}) => (
+    <li><a href={element.href}>  {element.icon ? (
+    <Icon name={element.icon} width="20" height="20" />
+  ) : (
+    element.label
+  )}
+    </a></li>
   ))}
 </ul>
 

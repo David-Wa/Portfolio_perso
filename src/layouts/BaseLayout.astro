@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import Image from '../assets/pictures/conception/bricolage/hobbit/main.jpg';
 import { ClientRouter } from 'astro:transitions';
+import Reveal from '../components/Reveal.astro';
 
 const {pageTitle,
   title = "Portfolio - David WAGNER",
@@ -30,6 +31,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 <ClientRouter /> <!--  fadeIn pour les transitions -->
 
+<Reveal />
+
   </head>
   <body>
     <!-- Filtre SVG pour la texture granuleuse du spray -->
@@ -45,7 +48,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <div id="paint-container" transition:persist></div>
     <Header />
+    <main>
     <slot />
+    </main>
     <Footer />
 
 <script is:inline>

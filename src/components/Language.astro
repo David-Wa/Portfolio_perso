@@ -1,0 +1,80 @@
+---
+import DropdownMenu from "./Dropdown_menu.astro";
+import { Icon } from 'astro-icon/components';
+---
+
+
+<nav class="nav-links">
+<div class="dropdown">
+        <a href="/" class="nav-item">
+          <Icon name="circle-flags:fr" width="24" height="24" />
+           <span class="arrow">▼</span>
+        </a>
+        <DropdownMenu elements={[ { label: "EN", href: "/", icon: "circle-flags:en" } ]} />
+      </div>
+</nav>
+
+
+<style>
+
+
+head{
+
+}
+    .nav-links {
+    position: relative;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-family: 'MaPolice', sans-serif;
+  width: 100%;
+  margin: 0;
+}
+
+  .nav-links a {
+    display: inline-block;
+    padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+
+.nav-links a:hover,
+.nav-links a:focus{
+  background-color: var(--primary-color);
+  color: var(--tertiary-color);
+}
+
+
+
+@media screen and (min-width: 636px) {
+  .nav-links {
+    margin-left: 5em;
+    display: flex;
+    position: static;
+    width: auto;
+    background: none;
+  }
+
+
+
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown:hover .arrow {
+  transform: rotate(180deg);
+}
+
+ :global(.dropdown:hover .dropdown-menu) {
+    display: block;
+  }
+</style>

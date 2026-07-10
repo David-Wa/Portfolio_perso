@@ -3,8 +3,9 @@ import BaseLayout from './BaseLayout.astro';
 import Project_img from '../components/Project_image.astro';
 import Divider from '../components/Divider.astro';
 import BackgroundPrimaryColor from '../components/BackgroundPrimaryColor.astro';
+import { getLocalizedPath } from '../data/nav';
 
-const { pageTitle, path } = Astro.props;
+const { pageTitle, path, locale = 'fr' } = Astro.props;
 
 const allImages = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/pictures/**/main.{jpg,jpeg,png,webp}',
@@ -24,19 +25,23 @@ const projects = Object.entries(allImages)
       p.includes(`/pictures/${path}/${slug}/making-of/`)
     );
     return {
-      href: `/${path}/${slug}/`,
+      href: getLocalizedPath(`/${path}/${slug}/`, locale),
       src: img.default,
       alt: slug,
       title: slug,
       makingOf: hasMakingOf,
     };
   });
+
+const introText = locale === 'en'
+  ? 'Click on the images to zoom / see the making-of'
+  : 'Cliquez sur les images pour zoomer/voir le making-of';
 ---
 //commentaire
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} locale={locale}>
   <section class="page-title">
     <h1>{pageTitle}</h1>
-    <p> Cliquez sur les images pour </br> zoomer/voir le making-of</p>
+    <p>{introText}</p>
   </section>
   <Divider />
   <BackgroundPrimaryColor>
@@ -46,11 +51,12 @@ const projects = Object.entries(allImages)
           <Project_img
             href={project.href}
             src={project.src}
-        alt={project.alt}
-        title={project.title}
-        makingOf={project.makingOf}
-      />
-    ))}
+            alt={project.alt}
+            title={project.title}
+            makingOf={project.makingOf}
+            locale={locale}
+          />
+        ))}
   </section>    
   </BackgroundPrimaryColor>
   <!-- LIGHTBOX -->

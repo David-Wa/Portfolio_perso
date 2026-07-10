@@ -4,7 +4,11 @@ import { glob } from 'astro/loaders';
 
 const projectSchema = z.object({
   title: z.string(),
-description: z.string().optional(), // ajoute ce champ
+  titleEn: z.string().optional(),
+  description: z.string().optional(),
+  descriptionEn: z.string().optional(),
+  content: z.string().optional(),
+  contentEn: z.string().optional(),
 });
 
 const conception = defineCollection({
@@ -17,7 +21,13 @@ const graphisme = defineCollection({
   schema: projectSchema,
 });
 
+const projects = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content' }),
+  schema: projectSchema,
+});
+
 export const collections = {
   conception,
   graphisme,
+  projects,
 };

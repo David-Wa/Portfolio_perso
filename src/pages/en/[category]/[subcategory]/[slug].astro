@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectDetail from '../../../../components/ProjectDetail.astro';
+
+export async function getStaticPaths() {
+  const categories = ['conception', 'graphisme'] as const;
+  const collections = {
+    conception: await getCollection('conception'),
+    graphisme: await getCollection('graphisme'),
+  };
+
+  return categories.flatMap((category) =>
+    collections[category].map((project) => {
+      const [subcategory, slug] = project.id.split('/');
+      return {
+        params: { category, subcategory, slug },
+        props: { category, project, slug, locale: 'en' },
+      };
+    })
+  );
+}
+
+const { category, project, slug, locale } = Astro.props;
+---
+
+<ProjectDetail category={category} project={project} slug={slug} locale={locale} />

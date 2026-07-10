@@ -2,6 +2,7 @@
 // src/components/RelatedProjects.astro
 import Project_img from './Project_image.astro';
 import BackgroundPrimaryColor from './BackgroundPrimaryColor.astro';
+import { getLocalizedPath } from '../data/nav';
 interface Props {
   path: string;        // ex: "conception/bricolage"
   currentSlug: string; // ex: "hobbit" (pour l'exclure de la liste)
@@ -28,7 +29,7 @@ const projects = Object.entries(allImages)
       p.includes(`/pictures/${path}/${slug}/making-of/`)
     );
     return {
-      href: `/${path}/${slug}/`,
+      href: getLocalizedPath(`/${path}/${slug}/`, Astro.url.pathname.startsWith('/en') ? 'en' : 'fr'),
       src: img.default,
       alt: slug,
       title: slug,

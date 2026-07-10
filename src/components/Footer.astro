@@ -1,20 +1,22 @@
 ---
 
 import Social from './Social.astro';
+import { siteContent } from '../data/site';
+
+const { locale = 'fr' } = Astro.props;
+const content = locale === 'en' ? siteContent.en : siteContent.fr;
 ---
-
-
 
 <footer class="footer">
   <a class="footer-brand" href="#">
     <!-- icône STOY -->
-    STOY
+    {content.footerBrand}
   </a>
   <nav>
     <ul class="footer-nav">
-      <li><a href="#">Features</a></li>
-      <li><a href="#">Learn more</a></li>
-      <li><a href="#">Support</a></li>
+      {content.footerLinks.map((link) => (
+        <li><a href={link.href}>{link.label}</a></li>
+      ))}
     </ul>
   </nav>
   <div class="footer-socials">

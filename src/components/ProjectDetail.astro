@@ -1,0 +1,177 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ButtonShare from './ButtonShare.astro';
+import RelatedProjects from './RelatedProjects.astro';
+import { Image } from 'astro:assets';
+import Divider from './Divider.astro';
+import BackgroundPrimaryColor from './BackgroundPrimaryColor.astro';
+
+interface Props {
+  category: 'conception' | 'graphisme';
+  project: any;
+  slug: string;
+  locale?: 'fr' | 'en';
+}
+
+const { category, project, slug, locale = Astro.url.pathname.startsWith('/en') ? 'en' : 'fr' } = Astro.props;
+const { Content } = await render(project);
+const useTint = category === 'conception';
+const isEnglish = locale === 'en';
+const title = isEnglish ? project.data.titleEn || project.data.title : project.data.title;
+const description = isEnglish ? project.data.descriptionEn || project.data.description : project.data.description;
+const contentSource = isEnglish ? project.data.contentEn || project.data.content : project.data.content;
+
+const allMainImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/pictures/**/main.{jpg,jpeg,png,webp}',
+  { eager: true }
+);
+const mainImageEntry = Object.entries(allMainImages).find(([filePath]) =>
+  filePath.includes(`/pictures/${category}/${project.id}/main.`)
+);
+const mainImage = mainImageEntry?.[1];
+
+const allMakingOfImages = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/pictures/**/making-of/*',
+  { eager: true }
+);
+const images = Object.entries(allMakingOfImages)
+  .filter(([filePath]) => filePath.includes(`/pictures/${category}/${project.id}/making-of/`))
+  .map(([, img]) => img);
+
+const relatedPath = `${category}/${project.id.split('/')[0]}`;
+---
+
+<BaseLayout pageTitle={title} title={title} description={description} image={mainImage ? new URL(mainImage.default.src, Astro.site) : undefined} locale={locale}>
+  <section class="project-title">
+    <h1>{title}</h1>
+  </section>
+  <Divider />
+
+  {useTint ? (
+    <BackgroundPrimaryColor>
+      <section class="about">
+        <div class="about-text">
+          <h2>{isEnglish ? 'Story' : 'Histoire'}</h2>
+          {contentSource ? <p>{contentSource}</p> : <Content />}
+          <ButtonShare />
+        </div>
+        <div class="about-image">
+          {mainImage && (
+            <Image src={mainImage.default} alt={project.data.title} width={400} height={500} />
+          )}
+        </div>
+      </section>
+    </BackgroundPrimaryColor>
+  ) : (
+    <section class="about graphisme">
+      <div class="about-text">
+        <h2>{isEnglish ? 'Story' : 'Histoire'}</h2>
+        {contentSource ? <p>{contentSource}</p> : <Content />}
+        <ButtonShare />
+      </div>
+      <div class="about-image">
+        {mainImage && (
+          <Image src={mainImage.default} alt={project.data.title} width={400} height={500} />
+        )}
+      </div>
+    </section>
+  )}
+
+  <section class="project-gallery">
+    <h2>{isEnglish ? 'Making of' : 'Making of'}</h2>
+    <div class="gallery-viewport">
+      <div class="gallery-track">
+        {images.map((img: any) => (
+          <Image src={img.default} alt="photo galerie" width={300} height={400} />
+        ))}
+        {images.map((img: any) => (
+          <Image src={img.default} alt="photo galerie" width={300} height={400} />
+        ))}
+      </div>
+    </div>
+  </section>
+  <Divider />
+  <RelatedProjects path={relatedPath} currentSlug={slug} />
+</BaseLayout>
+
+<style>
+  h2 {
+    font-size: 2.5em;
+  }
+
+  .project-title {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    padding-top: 120px;
+    width: 100%;
+    text-align: center;
+    color: var(--tertiary-color);
+  }
+
+  .about {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    padding: 80px 10%;
+    position: relative;
+  }
+
+  .about.graphisme {
+    background-color: var(--primary-color);
+  }
+
+  .about-text {
+    flex: 1;
+    color: var(--secondary-color);
+    font-size: 1.2em;
+  }
+
+  .about-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .about-image img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: var(--border-radius);
+    object-fit: cover;
+  }
+
+  .project-gallery {
+    padding: 40px 0;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: calc(var(--navbar-height) / 10);
+    color: var(--secondary-color);
+  }
+
+  .project-gallery h2 {
+    padding-left: 10%;
+    font-size: 2.5em;
+  }
+
+  .gallery-track {
+    display: flex;
+    gap: 8px;
+    width: max-content;
+    animation: scroll 20s linear infinite;
+    will-change: transform;
+  }
+
+  .gallery-track img {
+    width: 300px;
+    height: 400px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+</style>

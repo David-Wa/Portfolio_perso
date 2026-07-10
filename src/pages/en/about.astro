@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const pageTitle = 'About';
+---
+
+<BaseLayout pageTitle={pageTitle} locale="en">
+  <section class="page-content">
+    <h1>About</h1>
+    <p>This portfolio brings together my work around design, graffiti, drawing, and hands-on construction.</p>
+    <p>I discovered graffiti after visiting the Street Art Park in Candes-Saint-Martin. With a background in engineering and theoretical physics, I also explored set design in my school’s musical theatre program. Since then, I have continued to experiment with new techniques and materials.</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-content {
+    padding: 120px 10% 80px;
+    color: var(--secondary-color);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    margin-bottom: 1rem;
+    color: var(--tertiary-color);
+  }
+</style>

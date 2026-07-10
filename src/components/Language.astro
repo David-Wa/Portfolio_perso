@@ -1,16 +1,27 @@
 ---
 import DropdownMenu from "./Dropdown_menu.astro";
 import { Icon } from 'astro-icon/components';
+
+const { locale = 'fr' } = Astro.props;
+const isEnglish = locale === 'en';
+const currentPath = Astro.url.pathname.replace(/^\/en/, '') || '/';
+const currentSuffix = `${Astro.url.search}${Astro.url.hash}`;
+const switchHref = isEnglish
+  ? `${currentPath}${currentSuffix}`
+  : `/en${currentPath === '/' ? '' : currentPath}${currentSuffix}`;
+const currentFlag = isEnglish ? 'circle-flags:en' : 'circle-flags:fr';
+const targetFlag = isEnglish ? 'circle-flags:fr' : 'circle-flags:en';
+const targetLabel = isEnglish ? 'FR' : 'EN';
 ---
 
 
 <nav class="nav-links">
 <div class="dropdown">
-        <a href="/" class="nav-item">
-          <Icon name="circle-flags:fr" width="24" height="24" />
+        <a href={switchHref} class="nav-item">
+          <Icon name={currentFlag} width="24" height="24" />
            <span class="arrow">▼</span>
         </a>
-        <DropdownMenu elements={[ { label: "EN", href: "/", icon: "circle-flags:en" } ]} />
+        <DropdownMenu elements={[ { label: targetLabel, href: switchHref, icon: targetFlag } ]} />
       </div>
 </nav>
 

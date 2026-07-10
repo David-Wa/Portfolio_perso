@@ -1,6 +1,9 @@
 ---
-import { navItems } from '../data/nav.ts';
+import { getNavItems } from '../data/nav.ts';
 import DropdownMenu from './Dropdown_menu.astro';
+
+const { locale = 'fr' } = Astro.props;
+const navItems = getNavItems(locale);
 ---
 
 

@@ -3,10 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Social from '../components/Social.astro';
 import Button from '../components/Button.astro';
 import BackgroundPrimaryColor from '../components/BackgroundPrimaryColor.astro';
+import { homeContent } from '../data/home';
 
 const pageTitle = "Home Page";
+const content = homeContent.fr;
 ---
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} locale="fr">
 
 
 <!-- 1. HERO -->
@@ -15,8 +17,8 @@ const pageTitle = "Home Page";
     <source src="/videos/hero1.mp4" type="video/mp4" />
   </video>
   <div class="hero-content">
-    <h1>Portfolio - David Wagner</h1>
-    <p>Cultives le love man</p>
+    <h1>{content.heroTitle}</h1>
+    <p>{content.heroSubtitle}</p>
   </div>
 </section>
 
@@ -26,8 +28,8 @@ const pageTitle = "Home Page";
     <img src="/photo_contact.jpg" alt="Photo de moi" width="400" height="300" />
   </div>
   <div class="about-text">
-    <h2>Contact</h2>
-     <p>Je serais ravi de collaborer avec vous pour tout projet aussi inventif soit-il. Contactez-moi je suis toujours partant pour discuter!</p>
+    <h2>{content.contactTitle}</h2>
+     <p>{content.contactText}</p>
   <Social color="var(--secondary-color)" colorHover="var(--tertiary-color)"/>
     </div>
 </section>
@@ -47,10 +49,10 @@ const pageTitle = "Home Page";
 <section id="about" class="about">
 
   <div class="about-text">
-    <h2>A propos</h2>
-    <p>J'ai commencé à m'intéresser au graffitti suite à une visite du Street Art Parc de Candes-Saint-Martin. </br> Avec une formation d'ingénieur et de physicien théorique, j'ai eu l'occasion de découvrir le design de décors au sein de la comédie musicale de l'école. J'ai depuis continué d'explorer le domaine du bricolage en essayant sans cesse de nouvelles techniques.</p>
+    <h2>{content.aboutTitle}</h2>
+    <p>{content.aboutText}</p>
     <div class="about-buttons">
-      <Button href="/David_Wagner_Resume_NEQ_Statistical_mechanics.pdf">Mon CV </Button>
+      <Button href="/David_Wagner_Resume_NEQ_Statistical_mechanics.pdf">{content.cvLabel}</Button>
     </div>
   </div>
   <div class="about-image">

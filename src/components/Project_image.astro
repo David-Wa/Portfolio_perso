@@ -1,6 +1,7 @@
 ---
-const { href, src, alt, title, makingOf } = Astro.props;
+const { href, src, alt, title, makingOf, locale = 'fr' } = Astro.props;
 const Tag = makingOf ? 'a' : 'div';
+const overlayLabel = locale === 'en' ? 'See the making-of' : 'Voir le making-of';
 ---
 
 <Tag href={makingOf ? href : undefined} class="project-link">
@@ -11,7 +12,7 @@ const Tag = makingOf ? 'a' : 'div';
     />
     <div class="overlay">
       <h1>{title}</h1>
-      {makingOf && <p>Voir le making-of</p>}
+      {makingOf && <p>{overlayLabel}</p>}
     </div>
   </Tag>
 

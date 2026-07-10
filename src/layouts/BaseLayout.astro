@@ -6,15 +6,17 @@ import Image from '../assets/pictures/conception/bricolage/hobbit/main.jpg';
 import { ClientRouter } from 'astro:transitions';
 import Reveal from '../components/Reveal.astro';
 
+const inferredLocale = Astro.url.pathname.startsWith('/en') ? 'en' : 'fr';
 const {pageTitle,
   title = "Portfolio - David WAGNER",
   description = "Bricolage, Graffitis, Dessins et autres conceptions!",
   image = new URL(Image.src, Astro.site),
+  locale = inferredLocale,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -47,9 +49,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     </svg>
 
     <div id="paint-container" transition:persist></div>
-    <Header />
+    <Header locale={locale} />
     <slot />
-    <Footer />
+    <Footer locale={locale} />
 
 <script is:inline>
   if (!window.__paintCursorInitialized) {

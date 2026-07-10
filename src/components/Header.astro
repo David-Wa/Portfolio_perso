@@ -1,16 +1,18 @@
 ---
 import Navigation from './Navigation.astro';
 import Language from './Language.astro'
+
+const { locale = 'fr' } = Astro.props;
 ---
 
 <head>
 <header class="navbar navigation">
-    <a href="/" class="logo"><img src="/tag.svg" alt="Logo" width="100px"/></a>
-    <Navigation />
+    <a href={locale === 'en' ? '/en' : '/'} class="logo"><img src="/tag.svg" alt="Logo" width="100px"/></a>
+    <Navigation locale={locale} />
 </header>
 
 <header class="navbar language">
-      <Language />
+      <Language locale={locale} />
 </header>
 </head>
 

@@ -1,0 +1,12 @@
+---
+// src/pages/[category]/[subcategory]/[slug].astro
+import ProjectPage from '../../../components/ProjectPage.astro'; // à créer, même logique
+import { categories } from '../../../i18n/categories';
+
+export function getStaticPaths() {
+  // idem : itère sur toutes les combinaisons possibles
+  // en scannant tes dossiers d'assets pour connaître les slugs existants
+}
+---
+
+<ProjectPage {...Astro.params} lang="en" />

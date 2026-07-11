@@ -35,13 +35,17 @@ const navItems = getNavItems(locale);
 <style>
 
 .nav-links {
-    position: relative;
+  position: relative;
   display: flex;
   align-items: center;
   gap: 24px;
   font-family: 'MaPolice', sans-serif;
-  width: 100%;
-  margin: 0;
+}
+
+@media screen and (min-width: 636px) {
+  .nav-links {
+    margin-left: 5em;
+  }
 }
 
   .nav-links a {
@@ -61,18 +65,7 @@ const navItems = getNavItems(locale);
 
 
 
-@media screen and (min-width: 636px) {
-  .nav-links {
-    margin-left: 5em;
-    display: flex;
-    position: static;
-    width: auto;
-    background: none;
-  }
 
-
-
-}
 
 .arrow {
   display: inline-block;

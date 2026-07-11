@@ -1,5 +1,5 @@
 ﻿<script>
-let observer : IntersectionObserver | null = null;;
+let observer: IntersectionObserver | null = null;
 
 // Sections qui contiennent les backgrounds
 const SECTION_SELECTOR = `
@@ -9,26 +9,22 @@ const SECTION_SELECTOR = `
 `;
 
 // Éléments qui doivent réapparaître au scroll
-const CONTENT_SELECTOR = `
-div,
-  .reveal-item
-`;
-
+// IMPORTANT : opt-in explicite via classe, jamais un sélecteur générique
+// comme "div" (attraperait le header fixed, les wrappers structurels, etc.)
+const CONTENT_SELECTOR = "div:not([data-no-reveal]):not([data-no-reveal] *)";
+const MAX_STAGGER_DELAY_MS = 300;
+const STAGGER_STEP_MS = 50;
 
 function initReveal() {
   if (observer) observer.disconnect();
-
 
   /*
     Création de l'observer
   */
   observer = new IntersectionObserver(
     (entries) => {
-
       entries.forEach((entry) => {
-
         const element = entry.target;
-
 
         /*
           Les backgrounds :
@@ -36,15 +32,13 @@ function initReveal() {
           - restent visibles
         */
         if (element.classList.contains("reveal-section")) {
-
           if (entry.isIntersecting) {
             element.classList.add("is-visible");
+            // plus besoin de la surveiller, elle ne redisparaîtra jamais
+            observer?.unobserve(element);
           }
-
           return;
         }
-
-
 
         /*
           Les contenus :
@@ -53,135 +47,118 @@ function initReveal() {
           - rejouent l'animation
         */
         if (element.classList.contains("reveal-content")) {
-
           if (entry.isIntersecting) {
             element.classList.add("is-visible");
-          } 
-          else {
+          } else {
             element.classList.remove("is-visible");
           }
-
         }
-
       });
-
     },
     {
       threshold: 0.15,
-      rootMargin: "0px 0px -50px 0px"
+      rootMargin: "0px 0px -50px 0px",
     }
   );
-
-
 
   /*
     Ajout des classes aux sections
   */
-  document
-    .querySelectorAll(SECTION_SELECTOR)
-    .forEach((el) => {
-
-      if (!el.hasAttribute("data-no-reveal")) {
-        el.classList.add("reveal-section");
-        observer?.observe(el);
-      }
-
-    });
-
-
+  document.querySelectorAll(SECTION_SELECTOR).forEach((el) => {
+    if (!el.hasAttribute("data-no-reveal")) {
+      el.classList.add("reveal-section");
+      observer?.observe(el);
+    }
+  });
 
   /*
-    Ajout des classes aux contenus
+    Ajout des classes aux contenus, avec un délai en cascade
+    calculé PAR SECTION (et non sur l'index global de la page),
+    pour éviter des délais de plusieurs secondes sur les éléments
+    situés loin dans le DOM.
   */
-  document
-    .querySelectorAll(CONTENT_SELECTOR)
-    .forEach((el, index) => {
+  document.querySelectorAll(SECTION_SELECTOR).forEach((section) => {
+    const items = section.querySelectorAll(CONTENT_SELECTOR);
 
-      if (!el.hasAttribute("data-no-reveal")) {
+    items.forEach((el, index) => {
+      if (el.hasAttribute("data-no-reveal")) return;
 
-        const element = el as HTMLElement;
+      const element = el as HTMLElement;
 
-        element.classList.add("reveal-content");
+      element.classList.add("reveal-content");
+      element.style.transitionDelay = `${Math.min(
+        index * STAGGER_STEP_MS,
+        MAX_STAGGER_DELAY_MS
+      )}ms`;
 
-        // petit décalage en cascade
-        element.style.transitionDelay = `${index * 50}ms`;
-
-        observer?.observe(element);
-
-      }
-
+      observer?.observe(element);
     });
+  });
 
+  // Éléments .reveal-item situés hors de toute section (rare, mais on les couvre)
+  document
+    .querySelectorAll(`${CONTENT_SELECTOR}:not(${SECTION_SELECTOR} ${CONTENT_SELECTOR})`)
+    .forEach((el) => {
+      if (el.hasAttribute("data-no-reveal")) return;
+
+      const element = el as HTMLElement;
+      element.classList.add("reveal-content");
+      observer?.observe(element);
+    });
 }
 
-
-
 function cleanupReveal() {
-
   if (observer) {
     observer.disconnect();
     observer = null;
   }
-
 }
 
+// Marque le document comme "JS actif" : le CSS n'applique l'opacité
+// de départ que dans ce cas, pour ne jamais laisser du contenu
+// invisible si le script échoue à charger ou à s'exécuter.
+document.documentElement.classList.add("js-reveal-ready");
 
-
-document.addEventListener(
-  "astro:page-load",
-  initReveal
-);
-
-
-document.addEventListener(
-  "astro:before-swap",
-  cleanupReveal
-);
+document.addEventListener("astro:page-load", initReveal);
+document.addEventListener("astro:before-swap", cleanupReveal);
 </script>
 
-
 <style is:global>
-/* Background / sections */
-.reveal-section {
-  opacity: 0;
-  transition: opacity 0.8s ease;
-}
-
-
-.reveal-section.is-visible {
+/* Par défaut (sans JS ou avant exécution) : tout est visible */
+.reveal-section,
+.reveal-content {
   opacity: 1;
 }
 
-
-
-/* Contenu texte */
-.reveal-content {
+/* Uniquement si le script a pu s'exécuter */
+.js-reveal-ready .reveal-section {
   opacity: 0;
-  transform: translateY(20px);
-
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
+  transition: opacity 0.3s ease;
 }
 
+.js-reveal-ready .reveal-section.is-visible {
+  opacity: 1;
+}
 
-.reveal-content.is-visible {
+.js-reveal-ready .reveal-content {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.js-reveal-ready .reveal-content.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-
-
 @media (prefers-reduced-motion: reduce) {
-
   .reveal-section,
   .reveal-content {
-
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
-
   }
-
 }
 </style>

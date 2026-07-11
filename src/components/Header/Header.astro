@@ -5,45 +5,44 @@ import Language from './Language.astro'
 const { locale = 'fr' } = Astro.props;
 ---
 
-<head>
-<header class="navbar navigation">
-    <a href={locale === 'en' ? '/en' : '/'} class="logo"><img src="/tag.svg" alt="Logo" width="100px"/></a>
-    <Navigation locale={locale} />
-</header>
+<header>
+    <div class="navbar navigation">
+        <a href={locale === 'en' ? '/en' : '/'} class="logo">
+            <img src="/tag.svg" alt="Logo" width="100"/>
+        </a>
+        <Navigation locale={locale} />
+    </div>
 
-<header class="navbar language">
-      <Language locale={locale} />
+    <div class="navbar language">
+        <Language locale={locale} />
+    </div>
 </header>
-</head>
 
 <style>
-
-head{
-    position: relative;
-    width:100%;
+header {
+  width: 100%;
 }
 
-.navigation{
-    align-self: center;
+.navbar {
+  margin-top: calc(var(--navbar-height) / 10);
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  height: 64px;
+  border-radius: var(--border-radius);
+  background-color: var(--tertiary-color);
+  position: fixed;
+  top: 0;
+  z-index: 100;
+}
+
+.navigation {
+  justify-self: center;
 }
 
 .language {
-    position: absolute;
-    right: 20px;
-    margin: 0;
-    align-self: center;
+  right: 20px;
 }
-
-  .navbar {
-    margin-top: calc(var(--navbar-height)/10);
-    display: flex;
-    justify-content: space-between;
-    padding: 0 2rem;
-    height: 64px;
-    border-radius: var(--border-radius);
-    background-color: var(--tertiary-color);
-    position: fixed;
-    z-index: 100;
-  }
+  
 
 </style>

@@ -60,27 +60,6 @@ p{
 
 
 
- .nav-item {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 1.4rem;
-    transition: color 200ms ease;
-    border-radius: var(--border-radius);
-  }
-
-  .nav-item:hover {
-    color: var(--tertiary-color);
-  }
-
-    .arrow {
-    font-size: 0.6rem;
-    vertical-align: middle;
-    margin-left: 0.3rem;
-    opacity: 0.7;
-  }
-
-  
-
 .hero {
   padding-top: var(--navbar-height);
 }

@@ -24,33 +24,35 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
 
 
 <style>
-
 .dropdown {
+  position: relative;
   display: inline-flex;
   align-items: center;
   width: fit-content;
 }
 
+.dropdown:hover .arrow {
+  transform: rotate(180deg);
+}
+
+:global(.dropdown:hover .dropdown-menu) {
+  display: block;
+}
+
 .nav-item {
-  width: auto !important;
-  display: inline-flex !important;
+  width: fit-content;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0 !important;
-  padding: 6px 6px !important;
-  min-width: 0;
-  white-space: nowrap;
-  font-size: 0 !important;
+  gap: 0;
+  padding: 6px 6px;
 }
 
 .flag-icon {
-  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 24px;
   height: 24px;
-  margin: 0;
-  padding: 0;
 }
 
 .flag-icon svg {
@@ -59,62 +61,22 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
   height: 100%;
 }
 
-.nav-item .arrow {
-  font-size: 0.6rem;
-  margin-left: 0 !important;
-}
-
-    .nav-links {
-    position: relative;
-  display: flex;
-  align-items: center;
-  font-family: 'MaPolice', sans-serif;
-  width: 100%;
-}
-
-  .nav-links a {
-    display: inline-flex !important;
-    padding: 0 !important;
-    text-decoration: none;
-    font-size: 2rem;
-    text-transform: uppercase;
-}
-
-.nav-links a:hover,
-.nav-links a:focus{
-  background-color: var(--primary-color);
-  color: var(--tertiary-color);
-}
-
-
-
-@media screen and (min-width: 636px) {
-  .nav-links {
-    margin-left: 5em;
-    display: flex;
-    position: static;
-    width: auto;
-    background: none;
-  }
-
-
-
-}
 
 .arrow {
   display: inline-block;
+  font-size: 0.6rem;
+  margin-left: 0;
   transition: transform 0.2s;
 }
 
-.dropdown {
-  position: relative;
-}
 
-.dropdown:hover .arrow {
-  transform: rotate(180deg);
-}
 
- :global(.dropdown:hover .dropdown-menu) {
-    display: block;
-  }
+
+
+.nav-links a:hover,
+.nav-links a:focus {
+  background-color: var(--primary-color);
+  color: var(--tertiary-color);
+}
+}
 </style>

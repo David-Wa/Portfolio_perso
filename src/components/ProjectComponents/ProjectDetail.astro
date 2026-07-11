@@ -1,11 +1,11 @@
 ---
 import { render } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import ButtonShare from './ButtonShare.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ButtonShare from '../Buttons/ButtonShare.astro';
 import RelatedProjects from './RelatedProjects.astro';
 import { Image } from 'astro:assets';
-import Divider from './Divider.astro';
-import BackgroundPrimaryColor from './BackgroundPrimaryColor.astro';
+import Divider from '../Divider.astro';
+import BackgroundPrimaryColor from '../DynamicBackground/BackgroundPrimaryColor.astro';
 
 interface Props {
   category: 'conception' | 'graphisme';

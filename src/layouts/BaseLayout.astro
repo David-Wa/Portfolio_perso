@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import Image from '../assets/pictures/conception/bricolage/hobbit/main.jpg';
 import { ClientRouter } from 'astro:transitions';
-import Reveal from '../components/Reveal.astro';
+import Reveal from './Reveal.astro';
 
 const inferredLocale = Astro.url.pathname.startsWith('/en') ? 'en' : 'fr';
 const {pageTitle,
@@ -32,9 +32,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:type" content="website" />
 
 <ClientRouter /> <!--  fadeIn pour les transitions -->
-
-<Reveal />
-
   </head>
   <body>
     <!-- Filtre SVG pour la texture granuleuse du spray -->
@@ -52,7 +49,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <Header locale={locale} />
     <slot />
     <Footer locale={locale} />
-
 <script is:inline>
   if (!window.__paintCursorInitialized) {
     window.__paintCursorInitialized = true;
@@ -119,6 +115,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     });
   }
 </script>
+<!-- <Reveal /> -->
   </body>
 </html>
 

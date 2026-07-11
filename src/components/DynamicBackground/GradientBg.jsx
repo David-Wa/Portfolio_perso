@@ -52,7 +52,7 @@ export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="
   uAmplitude={7}
   uDensity={4.4}
   uFrequency={5.5}
-  uSpeed={0.01}
+  uSpeed={0.03}
   uStrength={0.3}
   uTime={0}
   wireframe={false}

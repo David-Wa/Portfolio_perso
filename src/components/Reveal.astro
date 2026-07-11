@@ -19,6 +19,10 @@ const MAX_STAGGER_DELAY_MS = 300;
 const STAGGER_STEP_MS = 50;
 
 function initReveal() {
+  
+  console.log('[reveal] initReveal appelé, sections trouvées:', 
+    document.querySelectorAll(SECTION_SELECTOR).length);
+
   if (observer) observer.disconnect();
 
   /*
@@ -119,7 +123,15 @@ function cleanupReveal() {
 // invisible si le script échoue à charger ou à s'exécuter.
 document.documentElement.classList.add("js-reveal-ready");
 
-document.addEventListener("astro:page-load", initReveal);
+document.addEventListener("astro:page-load", () => {
+  // laisse le temps aux islands client:load de s'hydrater avant de scanner
+  setTimeout(initReveal, 50);
+});
+document.addEventListener("astro:after-swap", () => {
+  // nettoie l'observer précédent puis réinitialise les reveals
+  cleanupReveal();
+  setTimeout(initReveal, 50);
+});
 document.addEventListener("astro:before-swap", cleanupReveal);
 </script>
 

@@ -3,7 +3,7 @@ import GradientBg from "./GradientBg.jsx"
 const {color1, color2, color3} = Astro.props
 ---
 
-<section class="project-wrapper" data-no-reveal>
+<section class="project-wrapper">
   <div class="bg-layer" data-no-reveal>
     <GradientBg client:load color1={color1} color2={color2} color3={color3}/>
   </div>

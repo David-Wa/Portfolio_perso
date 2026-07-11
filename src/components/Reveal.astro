@@ -8,10 +8,14 @@ const SECTION_SELECTOR = `
   footer:not([data-no-reveal])
 `;
 
-// Éléments qui doivent réapparaître au scroll
-// IMPORTANT : opt-in explicite via classe, jamais un sélecteur générique
-// comme "div" (attraperait le header fixed, les wrappers structurels, etc.)
+// Éléments qui doivent réapparaître au scroll.
+// - div:not([data-no-reveal])   → exclut le div s'il porte lui-même l'attribut
+// - :not([data-no-reveal] *)    → exclut le div s'il est DESCENDANT d'un élément
+//                                  qui porte l'attribut (ex: un fond GradientBg
+//                                  monté en client:load, qui génère ses propres
+//                                  <div> internes qu'on ne veut jamais animer)
 const CONTENT_SELECTOR = "div:not([data-no-reveal]):not([data-no-reveal] *)";
+
 const MAX_STAGGER_DELAY_MS = 300;
 const STAGGER_STEP_MS = 50;
 
@@ -63,12 +67,11 @@ function initReveal() {
 
   /*
     Ajout des classes aux sections
+    (le :not([data-no-reveal]) est déjà dans SECTION_SELECTOR)
   */
   document.querySelectorAll(SECTION_SELECTOR).forEach((el) => {
-    if (!el.hasAttribute("data-no-reveal")) {
-      el.classList.add("reveal-section");
-      observer?.observe(el);
-    }
+    el.classList.add("reveal-section");
+    observer?.observe(el);
   });
 
   /*
@@ -76,13 +79,13 @@ function initReveal() {
     calculé PAR SECTION (et non sur l'index global de la page),
     pour éviter des délais de plusieurs secondes sur les éléments
     situés loin dans le DOM.
+    (l'exclusion des descendants de [data-no-reveal] est déjà
+    gérée dans CONTENT_SELECTOR lui-même)
   */
   document.querySelectorAll(SECTION_SELECTOR).forEach((section) => {
     const items = section.querySelectorAll(CONTENT_SELECTOR);
 
     items.forEach((el, index) => {
-      if (el.hasAttribute("data-no-reveal")) return;
-
       const element = el as HTMLElement;
 
       element.classList.add("reveal-content");
@@ -95,12 +98,10 @@ function initReveal() {
     });
   });
 
-  // Éléments .reveal-item situés hors de toute section (rare, mais on les couvre)
+  // Divs situées hors de toute section/header/footer (rare, mais couvert)
   document
     .querySelectorAll(`${CONTENT_SELECTOR}:not(${SECTION_SELECTOR} ${CONTENT_SELECTOR})`)
     .forEach((el) => {
-      if (el.hasAttribute("data-no-reveal")) return;
-
       const element = el as HTMLElement;
       element.classList.add("reveal-content");
       observer?.observe(element);

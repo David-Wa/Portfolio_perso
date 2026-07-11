@@ -5,11 +5,11 @@ const { elements = [] } = Astro.props;
 
 <ul class="dropdown-menu">
   {elements.map((element: {label: string, href: string, icon: string}) => (
-    <li><a href={element.href}>  {element.icon ? (
-    <Icon name={element.icon} width="20" height="20" />
-  ) : (
-    element.label
-  )}
+    <li><a href={element.href}>{element.icon ? (
+      <Icon name={element.icon} width="20" height="20" />
+    ) : (
+      element.label
+    )}
     </a></li>
   ))}
 </ul>
@@ -41,6 +41,8 @@ const { elements = [] } = Astro.props;
   height: 16px;
 }
 
+
+
 .dropdown-menu li a {
   font-family: 'SecondaryFont', sans-serif;
   display: block;
@@ -48,7 +50,7 @@ const { elements = [] } = Astro.props;
   color: var(--primary-color);
   font-size: 13px;
   text-decoration: none;
-  white-space: nowrap;
+  white-space: nowrap;  
 }
 
 .dropdown-menu li a:hover {

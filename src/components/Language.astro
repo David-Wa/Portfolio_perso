@@ -17,10 +17,7 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
 
 <nav class="nav-links">
 <div class="dropdown">
-        <a href={switchHref} class="nav-item">
-          <Icon name={currentFlag} width="24" height="24" />
-           <span class="arrow">▼</span>
-        </a>
+        <a href={switchHref} class="nav-item"><span class="flag-icon"><Icon name={currentFlag} width="24" height="24" /></span><span class="arrow">▼</span></a>
         <DropdownMenu elements={[ { label: targetLabel, href: switchHref, icon: targetFlag } ]} />
       </div>
 </nav>
@@ -28,27 +25,59 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
 
 <style>
 
-
-head{
-
+.dropdown {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
 }
+
+.nav-item {
+  width: auto !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0 !important;
+  padding: 6px 6px !important;
+  min-width: 0;
+  white-space: nowrap;
+  font-size: 0 !important;
+}
+
+.flag-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+}
+
+.flag-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.nav-item .arrow {
+  font-size: 0.6rem;
+  margin-left: 0 !important;
+}
+
     .nav-links {
     position: relative;
   display: flex;
   align-items: center;
-  gap: 24px;
   font-family: 'MaPolice', sans-serif;
   width: 100%;
-  margin: 0;
 }
 
   .nav-links a {
-    display: inline-block;
-    padding: 10px 10px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 2rem;
-  text-transform: uppercase;
+    display: inline-flex !important;
+    padding: 0 !important;
+    text-decoration: none;
+    font-size: 2rem;
+    text-transform: uppercase;
 }
 
 .nav-links a:hover,

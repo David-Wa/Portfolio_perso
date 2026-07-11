@@ -3,10 +3,10 @@ import GradientBg from "./GradientBg.jsx"
 const {color1, color2, color3}=Astro.props
 ---
 
-<div class="project-wrapper">
-    <GradientBg client:load color1={color1}, color2={color2}, color3={color3}/> 
+<section class="project-wrapper" data-no-reveal>
+    <GradientBg client:load color1={color1} color2={color2} color3={color3}/> 
   <slot />
-</div>
+</section>
 
 <style>
 .project-wrapper {
@@ -15,6 +15,4 @@ const {color1, color2, color3}=Astro.props
   min-height: 100vh;
   overflow: hidden;
 }
-
-
 </style>

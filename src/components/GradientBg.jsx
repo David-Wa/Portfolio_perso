@@ -4,7 +4,7 @@ import { ShaderGradientCanvas, ShaderGradient } from '@shadergradient/react'
 export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="#DBDFAC"}) {
 
   return (
-    <div
+    <section
       style={{
         position: "absolute",
         inset: 0,
@@ -49,12 +49,12 @@ export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="
   uAmplitude={7}
   uDensity={4.4}
   uFrequency={5.5}
-  uSpeed={0.1}
+  uSpeed={0.01}
   uStrength={0.3}
   uTime={0}
   wireframe={false}
 />
       </ShaderGradientCanvas>
-    </div>
+    </section>
   );
 }

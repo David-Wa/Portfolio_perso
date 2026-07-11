@@ -14,14 +14,14 @@
 
 @font-face {
   font-family: 'MaPolice';
-  src: url('/fonts/Brick.woff') format('woff');
+  src: url('/fonts/Laira-Italic.otf') format('opentype');
   font-style: normal;
     font-weight: normal;
 }
 
 @font-face {
   font-family: 'SecondaryFont';
-  src: url('/fonts/PermanentMarker.ttf') format('truetype');
+  src: url('/fonts/Iceberg-Regular.ttf') format('truetype');
   font-style: normal;
 }
 
@@ -55,7 +55,7 @@ h2{
 p{
     font-family: 'SecondaryFont', sans-serif;
       color: var(--tertiary-color);
-      font-size: 1.2rem;
+      font-size: 1.4rem;
 }
 
 

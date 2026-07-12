@@ -15,18 +15,65 @@ const {
 
 const content = homeContent[locale] ?? homeContent.fr;
 
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Lecture du dossier public/hero au moment du build
+const heroDir = path.join(process.cwd(), 'public', 'hero');
+const allowedExt = ['.jpg', '.jpeg', '.png', '.webp', '.avif'];
+
+const heroImages = fs
+  .readdirSync(heroDir)
+  .filter((file) => allowedExt.includes(path.extname(file).toLowerCase()))
+  .sort()
+  .map((file) => ({
+    src: `/hero/${file}`,
+    name: path.parse(file).name, // nom sans extension
+  }));
 ---
+
+
 
 <BaseLayout pageTitle={pageTitle} locale={locale}>
   <section class="hero">
-    <video autoplay muted loop playsinline class="hero-video">
-      <source src="/videos/hero1.mp4" type="video/mp4" />
-    </video>
-    <div class="hero-content">
-      <h1>{content.heroTitle}</h1>
-      <p>{content.heroSubtitle}</p>
-    </div>
-  </section>
+  <div class="hero-slideshow">
+    {heroImages.map((img, i) => (
+      <div class={`hero-slide ${i === 0 ? 'active' : ''}`} data-index={i}>
+        <img src={img.src} alt={img.name} />
+      </div>
+    ))}
+    <div class="hero-slide-caption">{heroImages[0]?.name}</div>
+  </div>
+
+  <!-- <div class="hero-content">
+    <h1>{content.heroTitle}</h1>
+    <p>{content.heroSubtitle}</p>
+  </div>-->
+</section>
+
+
+<script define:vars={{ heroImages }}>
+  const slides = document.querySelectorAll('.hero-slide');
+  const caption = document.querySelector('.hero-slide-caption');
+  let current = 0;
+  const intervalMs = 5000;
+
+  if (slides.length > 1) {
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      caption.style.opacity = '0';
+
+      current = (current + 1) % slides.length;
+
+      slides[current].classList.add('active');
+
+      setTimeout(() => {
+        caption.textContent = heroImages[current].name;
+        caption.style.opacity = '1';
+      }, 600); // correspond à la moitié du fade CSS
+    }, intervalMs);
+  }
+</script>
 
   <BackgroundPrimaryColor color1="#fcfaff" color2="#DB162F" color3="#DB162F">
     <section id="contact" class="about">
@@ -82,15 +129,6 @@ const content = homeContent[locale] ?? homeContent.fr;
   overflow: hidden;
 }
 
-.hero-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
 
 .hero-content {
   position: relative;
@@ -149,6 +187,50 @@ const content = homeContent[locale] ?? homeContent.fr;
   will-change: transform;
   z-index: -100;
 }
+
+
+
+  .hero-slideshow {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+  }
+
+  .hero-slide.active {
+    opacity: 1;
+  }
+
+  .hero-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-slide-caption {
+    position: absolute;
+    left: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 1;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px var(--tertiary-color);
+    transition: opacity 0.6s ease-in-out;
+    font-family: 'SecondaryFont';
+      color: var(--primary-color);
+  }
+
+
+
+
 </style>
 
 <script>

@@ -1,117 +1,65 @@
-﻿<script is:inline data-astro-rerun>
-let observer: IntersectionObserver | null = null;
+﻿<script>
+  function initReveal() {
+    const SECTION_SELECTOR = `
+      section:not([data-no-reveal]),
+      footer:not([data-no-reveal])
+    `;
 
-// Sections qui contiennent les backgrounds
-const SECTION_SELECTOR = `
-  section:not([data-no-reveal]),
-  footer:not([data-no-reveal])
-`;
+    const sections = document.querySelectorAll<HTMLElement>(SECTION_SELECTOR);
 
-// Éléments qui doivent réapparaître au scroll.
-// - div:not([data-no-reveal])   → exclut le div s'il porte lui-même l'attribut
-// - :not([data-no-reveal] *)    → exclut le div s'il est DESCENDANT d'un élément
-//                                  qui porte l'attribut (ex: un fond GradientBg
-//                                  monté en client:load, qui génère ses propres
-//                                  <div> internes qu'on ne veut jamais animer)
-const CONTENT_SELECTOR = "div:not([data-no-reveal]):not([data-no-reveal] *)";
+    if (!sections.length || !("IntersectionObserver" in window)) return;
 
-const MAX_STAGGER_DELAY_MS = 300;
-const STAGGER_STEP_MS = 50;
-
-function cleanupReveal() {
-  observer?.disconnect();
-  observer = null;
-}
-
-function initReveal() {
-  cleanupReveal();
-
-  observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const element = entry.target as HTMLElement;
-
-        if (element.classList.contains("reveal-section")) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
-            element.classList.add("is-visible");
-            observer?.unobserve(element);
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
           }
-          return;
         }
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -10% 0px",
+      }
+    );
 
-        if (element.classList.contains("reveal-content")) {
-          element.classList.toggle(
-            "is-visible",
-            entry.isIntersecting
-          );
-        }
-      });
-    },
-    {
-      threshold: 0.15,
-      rootMargin: "0px 0px -50px 0px",
-    }
-  );
-
-  document.querySelectorAll(SECTION_SELECTOR).forEach((section) => {
-    section.classList.add("reveal-section");
-    observer?.observe(section);
-
-    section.querySelectorAll(CONTENT_SELECTOR).forEach((el, index) => {
-      const element = el as HTMLElement;
-
-      element.classList.add("reveal-content");
-      element.style.transitionDelay =
-        `${Math.min(index * STAGGER_STEP_MS, MAX_STAGGER_DELAY_MS)}ms`;
-
-      observer?.observe(element);
+    sections.forEach((section) => {
+      section.classList.add("reveal-section");
+      observer.observe(section);
     });
-  });
-}
 
-document.documentElement.classList.add("js-reveal-ready");
+    document.documentElement.classList.add("js-reveal-ready");
+  }
 
-document.addEventListener("astro:page-load", () => {
-  setTimeout(initReveal, 50);
-});
+  // Se déclenche au premier chargement ET à chaque navigation via ClientRouter
+  document.addEventListener("astro:page-load", initReveal);
 </script>
 
 <style is:global>
-/* Par défaut (sans JS ou avant exécution) : tout est visible */
-.reveal-section,
-.reveal-content {
-  opacity: 1;
-}
-
-/* Uniquement si le script a pu s'exécuter */
-.js-reveal-ready .reveal-section {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.js-reveal-ready .reveal-section.is-visible {
-  opacity: 1;
-}
-
-.js-reveal-ready .reveal-content {
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-}
-
-.js-reveal-ready .reveal-content.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
+  /* Par défaut (sans JS ou avant exécution) : tout est visible */
   .reveal-section,
   .reveal-content {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+    opacity: 1;
   }
-}
+
+  /* Uniquement si le script a pu s'exécuter */
+  .js-reveal-ready .reveal-section {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .js-reveal-ready .reveal-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js-reveal-ready .reveal-section {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
 </style>

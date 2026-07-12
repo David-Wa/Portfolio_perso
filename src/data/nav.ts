@@ -32,7 +32,7 @@ export function getNavItems(locale: 'fr' | 'en' = 'fr'): NavItem[] {
         { label: isEnglish ? 'Stencils' : 'Pochoirs', href: getLocalizedPath('/graphisme/pochoirs/', locale) },
       ],
     },
-    { label: isEnglish ? 'About' : 'A Propos', href: getLocalizedPath('/about', locale) },
+    { label: isEnglish ? 'About' : 'A Propos', href: getLocalizedPath('/#about', locale) },
     { label: isEnglish ? 'Contact' : 'Contact', href: getLocalizedPath('/#contact', locale), class: 'btn-contact' },
   ];
 }

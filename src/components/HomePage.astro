@@ -22,14 +22,24 @@ import path from 'node:path';
 const heroDir = path.join(process.cwd(), 'public', 'hero');
 const allowedExt = ['.jpg', '.jpeg', '.png', '.webp', '.avif'];
 
-const heroImages = fs
-  .readdirSync(heroDir)
-  .filter((file) => allowedExt.includes(path.extname(file).toLowerCase()))
-  .sort()
-  .map((file) => ({
-    src: `/hero/${file}`,
-    name: path.parse(file).name, // nom sans extension
-  }));
+function shuffle<T>(array: T[]): T[] {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+const heroImages = shuffle(
+  fs
+    .readdirSync(heroDir)
+    .filter((file) => allowedExt.includes(path.extname(file).toLowerCase()))
+    .map((file) => ({
+      src: `/hero/${file}`,
+      name: path.parse(file).name,
+    }))
+);
 ---
 
 

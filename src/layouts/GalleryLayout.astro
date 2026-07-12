@@ -95,12 +95,12 @@ const introText = locale === 'en'
 }
 
 .project {
-  columns: 3;
-  column-gap: 12px;
+  display: grid;
+ gap: 12px;
   padding: 20px;
   position: relative;
   z-index: 2;
-  /* plus de background ici */
+grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
 

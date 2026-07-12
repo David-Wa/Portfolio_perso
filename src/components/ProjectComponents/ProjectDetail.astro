@@ -16,7 +16,6 @@ interface Props {
 
 const { category, project, slug, locale = Astro.url.pathname.startsWith('/en') ? 'en' : 'fr' } = Astro.props;
 const { Content } = await render(project);
-const useTint = category === 'conception';
 const isEnglish = locale === 'en';
 const title = isEnglish ? project.data.titleEn || project.data.title : project.data.title;
 const description = isEnglish ? project.data.descriptionEn || project.data.description : project.data.description;
@@ -48,7 +47,7 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
   </section>
   <Divider />
 
-  {useTint ? (
+  
     <BackgroundPrimaryColor>
       <section class="about">
         <div class="about-text">
@@ -63,21 +62,7 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
         </div>
       </section>
     </BackgroundPrimaryColor>
-  ) : (
-    <section class="about graphisme">
-      <div class="about-text">
-        <h2>{isEnglish ? 'Story' : 'Histoire'}</h2>
-        {contentSource ? <p>{contentSource}</p> : <Content />}
-        <ButtonShare />
-      </div>
-      <div class="about-image">
-        {mainImage && (
-          <Image src={mainImage.default} alt={project.data.title} width={400} height={500} />
-        )}
-      </div>
-    </section>
-  )}
-
+  
   <section class="project-gallery">
     <h2>{isEnglish ? 'Making of' : 'Making of'}</h2>
     <div class="gallery-viewport">
@@ -118,9 +103,7 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
     position: relative;
   }
 
-  .about.graphisme {
-    background-color: var(--primary-color);
-  }
+
 
   .about-text {
     flex: 1;

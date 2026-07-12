@@ -12,12 +12,12 @@ interface Props {
 const { path, currentSlug, title = "Autres créations" } = Astro.props;
 
 const allImages = import.meta.glob<{ default: ImageMetadata }>(
-  '../assets/pictures/**/main.{jpg,jpeg,png,webp}',
+  '/src/assets/pictures/**/main.{jpg,jpeg,png,webp}',
   { eager: true }
 );
 
 const makingOfPaths = import.meta.glob(
-  '../assets/pictures/**/making-of/**',
+  '/src/assets/pictures/**/making-of/**',
   { eager: true }
 );
 

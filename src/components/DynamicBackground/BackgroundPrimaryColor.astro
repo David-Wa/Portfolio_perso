@@ -5,7 +5,7 @@ const {color1, color2, color3} = Astro.props
 
 <section class="project-wrapper">
   <div class="bg-layer" data-no-reveal>
-    <GradientBg client:load color1={color1} color2={color2} color3={color3}/>
+    <GradientBg client:idle color1={color1} color2={color2} color3={color3}/>
   </div>
   <slot />
 </section>

@@ -36,7 +36,7 @@ export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="
   gizmoHelper="hide"
   grain="on"
   lightType="3d"
-  pixelDensity={1}
+  pixelDensity={0.5}
   positionX={0}
   positionY={0}
   positionZ={0}

@@ -20,7 +20,7 @@ export function getNavItems(locale: 'fr' | 'en' = 'fr'): NavItem[] {
     {
       label: isEnglish ? 'Design' : 'Conception',
       dropdown: [
-        { label: '3D', href: getLocalizedPath('/conception/3D/', locale) },
+        { label: '3D', href: getLocalizedPath('/conception/3d/', locale) },
         { label: isEnglish ? 'DIY' : 'Bricolage', href: getLocalizedPath('/conception/bricolage/', locale) },
       ],
     },

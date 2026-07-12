@@ -34,14 +34,13 @@ const projects = Object.entries(allImages)
   });
 
 const introText = locale === 'en'
-  ? 'Click on the images to zoom / see the making-of'
-  : 'Cliquez sur les images pour zoomer/voir le making-of';
----
-//commentaire
+  ? `Click on the images <br /> to zoom / see the making-of`
+  : 'Cliquez sur les images <br /> pour zoomer/voir le making-of';
+--- 
 <BaseLayout pageTitle={pageTitle} locale={locale}>
   <section class="page-title">
     <h1>{pageTitle}</h1>
-    <p>{introText}</p>
+    <p set:html={introText} />
   </section>
   <Divider />
   <BackgroundPrimaryColor>

@@ -8,7 +8,7 @@
   --tertiary-color: #250902; /* #3B1F2B */ 
   /*#a0b4cc; bleu-gris*/
   --border-radius: 15px;
-    --navbar-height: 60px;
+    --navbar-height: 72px;
 }
 
 
@@ -34,7 +34,8 @@
 }
 
 html {
-  overflow-x: hidden
+  overflow-x: hidden;
+  font-size: 16px;
 }
 
 h1, h2{
@@ -67,10 +68,39 @@ p{
 
 
   body {
+    width: 100%;
     text-align: justify;
     align-items: center;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --navbar-height: 96px;
+    --border-radius: 12px;
+  }
+
+  html {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  body {
+    text-align: left;
+  }
 }

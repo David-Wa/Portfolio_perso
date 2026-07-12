@@ -115,6 +115,7 @@ const heroImages = fs
 .hero {
   position: relative;
   height: 100vh;
+  min-height: 100svh;
   overflow: hidden;
   width: 100%;
   align-items: center;
@@ -139,6 +140,7 @@ const heroImages = fs
   justify-content: center;
   height: 100%;
   color: var(--white);
+  padding: 0 1rem;
 }
 
 .hero-content h1,
@@ -228,8 +230,62 @@ const heroImages = fs
       color: var(--primary-color);
   }
 
+@media (max-width: 768px) {
+  .hero {
+    height: 92svh;
+  }
 
+  .about {
+    flex-direction: column;
+    padding: 48px 6%;
+    gap: 24px;
+  }
 
+  .about-text,
+  .about-image {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  .about-image img {
+    max-width: 320px;
+  }
+
+  .parallax-section {
+    height: 140px;
+  }
+
+  .image_parallax {
+    height: 220%;
+    top: -35%;
+  }
+
+  .hero-slide-caption {
+    left: 1rem;
+    bottom: 1rem;
+    font-size: 0.8rem;
+    max-width: calc(100% - 2rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 85svh;
+  }
+
+  .about {
+    padding: 32px 5%;
+  }
+
+  .hero-content h1,
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .about-image img {
+    max-width: 260px;
+  }
+}
 
 </style>
 

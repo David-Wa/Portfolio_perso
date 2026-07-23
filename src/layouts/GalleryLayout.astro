@@ -44,19 +44,29 @@ const introText = locale === 'en'
   </section>
   <Divider />
   <BackgroundPrimaryColor>
-  
-      <section class:list={["project", { "few-projects": projects.length <= 3 && projects.length >= 2 }]}>
-        {projects.map((project) => (
-          <Project_img
-            href={project.href}
-            src={project.src}
-            alt={project.alt}
-            title={project.title}
-            makingOf={project.makingOf}
-            locale={locale}
-          />
-        ))}
-  </section>    
+  {projects.length === 0 ? (
+  <section class="coming-soon">
+    <h1>Coming soon...</h1>
+  </section>
+) : (
+  <section
+    class:list={[
+      "project",
+      { "few-projects": projects.length <= 3 && projects.length >= 2 },
+    ]}
+  >
+    {projects.map((project) => (
+      <Project_img
+        href={project.href}
+        src={project.src}
+        alt={project.alt}
+        title={project.title}
+        makingOf={project.makingOf}
+        locale={locale}
+      />
+    ))}
+  </section>
+)} 
   </BackgroundPrimaryColor>
   <!-- LIGHTBOX -->
   <div class="lightbox-overlay" id="lightbox">
@@ -78,9 +88,19 @@ const introText = locale === 'en'
     width:100%
 }
 
+
 .page-title h1 {
     margin-top:75px;
     text-align: center;
+}
+
+.coming-soon {
+  grid-column: 1 / -1; /* occupe toute la largeur de la grille */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh; /* ajuste selon le rendu souhaité */
+  text-align: center;
 }
 
 .page-title p {

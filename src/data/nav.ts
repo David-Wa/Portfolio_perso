@@ -30,6 +30,7 @@ export function getNavItems(locale: 'fr' | 'en' = 'fr'): NavItem[] {
         { label: isEnglish ? 'Graffiti' : 'Graffs', href: getLocalizedPath('/graphisme/graffs/', locale) },
         { label: isEnglish ? 'Drawings' : 'Dessins', href: getLocalizedPath('/graphisme/dessins/', locale) },
         { label: isEnglish ? 'Stencils' : 'Pochoirs', href: getLocalizedPath('/graphisme/pochoirs/', locale) },
+        { label: isEnglish ? 'Murals' : 'Fresques', href: getLocalizedPath('/graphisme/fresques/', locale) },
       ],
     },
     { label: isEnglish ? 'About' : 'A Propos', href: getLocalizedPath('/#about', locale) },

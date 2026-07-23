@@ -9,7 +9,6 @@ export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="
         position: "absolute",
         inset: 0,
         width: "100%",
-        height: "100%",
         zIndex: 0,
         pointerEvents: 'none'
       }}

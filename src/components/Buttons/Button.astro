@@ -2,18 +2,20 @@
 const { href } = Astro.props;
 ---
 
-<a href={href} class="btn-primary" target="_blank" rel="noopener noreferrer">
-  <slot />
+<a href={href} class="button" target="_blank" rel="noopener noreferrer">
+  <p><slot /></p>
 </a>
 
 <style>
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+
+
+
+  .button {
+  display: flex;
+  align-items: center;
+   position:absolute;
     gap: 8px;
     padding: 12px 28px;
-
         color: var(--white);
     background-color: var(--secondary-color);
     text-decoration: none;
@@ -23,18 +25,62 @@ const { href } = Astro.props;
     font-weight: 500;
     letter-spacing: 0.3px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+     cursor: pointer;
+  overflow: hidden;
+  transition: border 300ms, color 300ms;
+  user-select: none;
+    border: 1px solid var(--tertiary-color);
   }
 
-  .btn-primary:hover {
-    transform: translateY(-2px);
+  .button p{
+    all:unset;
+    z-index:1;
+  }
+
+  .button:hover{
+          transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
-    background-color: var(--tertiary-color);
     color: var(--primary-color);
   }
 
-  .btn-primary:active {
-    transform: translateY(0);
+.button:active {
+  border-color: var(--tertiary-color);
+}
+
+.button::after, .button::before {
+  content: "";
+  position: absolute;
+  width: 9em;
+  aspect-ratio: 1;
+  background: var(--tertiary-color);
+  opacity: 50%;
+  border-radius: 50%;
+  transition: transform 500ms, background 300ms;
+}
+
+.button::before {
+  left: 0;
+  transform: translateX(-8em);
+}
+
+.button::after {
+  right: 0;
+  transform: translateX(8em);
+}
+
+.button:hover:before {
+  transform: translateX(-1em);
+}
+
+.button:hover:after {
+  transform: translateX(1em);
+}
+
+.button:active:before,
+.button:active:after {
+      transform: translateY(0);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  }
+}
+
+
 </style>

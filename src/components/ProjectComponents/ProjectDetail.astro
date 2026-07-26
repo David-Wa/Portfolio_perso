@@ -62,7 +62,7 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
         </div>
       </section>
     </BackgroundPrimaryColor>
-  
+  <Divider />
   <section class="project-gallery">
     <h2>{isEnglish ? 'Making of' : 'Making of'}</h2>
     <div class="gallery-viewport">
@@ -81,9 +81,7 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
 </BaseLayout>
 
 <style>
-  h2 {
-    font-size: 2.5em;
-  }
+
 
   .project-title {
     display: flex;
@@ -93,6 +91,7 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
     width: 100%;
     text-align: center;
     color: var(--tertiary-color);
+    background-color: var(--white);
   }
 
   .about {
@@ -130,6 +129,7 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
     width: 100%;
     margin-bottom: calc(var(--navbar-height) / 10);
     color: var(--secondary-color);
+    background-color: var(--white);
   }
 
   .project-gallery h2 {

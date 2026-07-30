@@ -4,12 +4,12 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import Image from '../assets/pictures/conception/bricolage/hobbit/main.jpg';
 import { ClientRouter } from 'astro:transitions';
-import Reveal from './Reveal.astro';
+
 
 const inferredLocale = Astro.url.pathname.startsWith('/en') ? 'en' : 'fr';
 const {pageTitle,
-  title = "Portfolio - David WAGNER",
-  description = "Bricolage, Graffitis, Dessins et autres conceptions!",
+  title = "Portfolio - STOY",
+  description = "Artiste graffeur, bricoleur",
   image = new URL(Image.src, Astro.site),
   locale = inferredLocale,
 } = Astro.props;

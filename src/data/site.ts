@@ -1,6 +1,6 @@
 export const siteContent = {
   fr: {
-    footerBrand: 'STOY',
+    footerBrand:"/tag.svg",
     footerLinks: [
       { label: 'Fonctionnalités', href: '#' },
       { label: 'En savoir plus', href: '#' },
@@ -8,7 +8,7 @@ export const siteContent = {
     ],
   },
   en: {
-    footerBrand: 'STOY',
+    footerBrand:"/tag.svg",
     footerLinks: [
       { label: 'Features', href: '#' },
       { label: 'Learn more', href: '#' },

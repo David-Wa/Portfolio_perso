@@ -23,6 +23,8 @@ const parentPath =
 ---
 
 
+<div class="menu-overlay" aria-hidden="true"></div>
+
 <header>
 
   {pathname !== "/" && pathname !== "/en" && (
@@ -37,7 +39,12 @@ const parentPath =
         <a href={locale === 'en' ? '/en' : '/'} class="logo">
             <img src="/stoy_navbar.svg" alt="Logo" width="120"/>
         </a>
-        <Navigation locale={locale} />
+        <button class="menu-toggle" type="button" aria-label={locale === 'en' ? 'Open menu' : 'Ouvrir le menu'} aria-expanded="false" aria-controls="site-nav">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <Navigation locale={locale} pathname={pathname} parentPath={parentPath} />
     </div>
 
     <div class="navbar language">
@@ -47,11 +54,110 @@ const parentPath =
 
 
 
+<script>
+  const toggleButton = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  const overlay = document.querySelector('.menu-overlay');
+  const dropdowns = document.querySelectorAll('.dropdown');
+
+  const closeMenu = () => {
+    navLinks?.classList.remove('is-open');
+    overlay?.classList.remove('is-visible');
+    toggleButton?.classList.remove('is-open');
+    toggleButton?.setAttribute('aria-expanded', 'false');
+  };
+
+  const openMenu = () => {
+    navLinks?.classList.add('is-open');
+    overlay?.classList.add('is-visible');
+    toggleButton?.classList.add('is-open');
+    toggleButton?.setAttribute('aria-expanded', 'true');
+  };
+
+  toggleButton?.addEventListener('click', () => {
+    const isOpen = navLinks?.classList.contains('is-open');
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  overlay?.addEventListener('click', closeMenu);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeMenu();
+    }
+  });
+
+  navLinks?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      const isDropdownTrigger = link.closest('.dropdown')?.querySelector('.nav-item') === link;
+      if (window.innerWidth <= 768 && !isDropdownTrigger) {
+        closeMenu();
+      }
+    });
+  });
+
+  dropdowns.forEach((dropdown) => {
+    const trigger = dropdown.querySelector('.nav-item');
+    if (!trigger) return;
+
+    trigger.addEventListener('click', (event) => {
+      if (window.innerWidth > 768) return;
+      event.preventDefault();
+      dropdown.classList.toggle('is-open');
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      closeMenu();
+      dropdowns.forEach((dropdown) => dropdown.classList.remove('is-open'));
+    }
+  });
+</script>
+
 <style>
 
 .logo {
   transform:rotate(-8.8deg);
   margin-top: 2.58rem;
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 999px;
+  background-color: var(--primary-color);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.menu-toggle.is-open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.is-open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 .previous a{
@@ -104,6 +210,21 @@ header {
   padding: 0 0.8rem;
 }
 
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 80;
+}
+
+.menu-overlay.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -117,11 +238,25 @@ header {
   }
 
   .navigation {
-    justify-content: center;
+    justify-content: space-between;
     padding: 0.5rem 0.75rem;
   }
 
+  .logo {
+    transform: none;
+    margin-top: 0;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .previous {
+    display: none;
+  }
+
   .language {
+    display: none;
     justify-content: center;
     margin-left: 0;
   }

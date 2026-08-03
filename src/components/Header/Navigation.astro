@@ -1,13 +1,28 @@
 ---
 import { getNavItems } from '../../data/nav.ts';
 import DropdownMenu from './Dropdown_menu.astro';
+import Language from './Language.astro';
+import { Icon } from 'astro-icon/components';
 
-const { locale = 'fr' } = Astro.props;
+const { locale = 'fr', pathname = '/', parentPath = '/' } = Astro.props;
 const navItems = getNavItems(locale);
+const showBackLink = pathname !== '/' && pathname !== '/en';
 ---
 
 
-<nav class="nav-links">
+<nav class="nav-links" id="site-nav" aria-label="Navigation principale">
+  <div class="mobile-controls">
+    {showBackLink && (
+      <a href={parentPath} class="mobile-previous">
+        <Icon name="mdi:arrow-left" />
+        <span>{locale === 'en' ? 'Back' : 'Retour'}</span>
+      </a>
+    )}
+    <div class="mobile-language">
+      <Language locale={locale} />
+    </div>
+  </div>
+
   {navItems.map(item => (
     item.dropdown ? (
       <div class="dropdown">
@@ -110,15 +125,17 @@ const navItems = getNavItems(locale);
   }
 
   .btn-contact {
-     display: inline-flex;
-     position: relative;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    display: inline-flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 0.4rem;
     color: var(--secondary-color);
-    padding: 2rem 1.2rem;
+    padding: 1.2rem 1rem;
     z-index: 2;
+    min-width: 8rem;
+    align-self: center;
   }
 
 
@@ -156,15 +173,80 @@ const navItems = getNavItems(locale);
 }
 
 @media (max-width: 768px) {
+  .mobile-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .mobile-previous {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--primary-color);
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+
+  .mobile-language {
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-language .nav-links {
+    display: block;
+    position: static;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .mobile-language .dropdown {
+    display: inline-flex;
+  }
+
+  .mobile-language .nav-item {
+    font-size: 1rem;
+    padding: 0.35rem 0.5rem;
+  }
+
   .nav-links {
-    gap: 8px 10px;
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    left: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
     margin-left: 0;
     width: 100%;
+    padding: 0.8rem;
+    background-color: var(--tertiary-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    z-index: 120;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .nav-links.is-open {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 
   .nav-links a {
+    justify-content: flex-start;
     font-size: 1rem;
     padding: 0.45rem 0.6rem;
+    text-align: left;
   }
 
   .btn-contact {
@@ -172,9 +254,11 @@ const navItems = getNavItems(locale);
   }
 
   .btn-contact img {
-    width: 90%;
-    margin-top: -1.2rem;
-    margin-left: -0rem;
+    width: 72px;
+    height: auto;
+    margin-top: -0.6rem;
+    margin-left: 0;
+    max-width: 100%;
   }
 }
 

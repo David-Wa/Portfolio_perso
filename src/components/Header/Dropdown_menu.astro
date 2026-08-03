@@ -76,6 +76,12 @@ const { elements = [] } = Astro.props;
     border-radius: var(--border-radius);
   }
 
+  .dropdown-menu li a svg {
+    display: block;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
   @media (max-width: 768px) {
     .dropdown-menu {
       position: static;

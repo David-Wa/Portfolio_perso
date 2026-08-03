@@ -66,6 +66,10 @@ const showBackLink = pathname !== '/' && pathname !== '/en';
 }
 
 
+  .mobile-controls {
+    display: none;
+  }
+
   .nav-links a {
   position: relative;
   display: inline-flex;
@@ -125,17 +129,15 @@ const showBackLink = pathname !== '/' && pathname !== '/en';
   }
 
   .btn-contact {
-    display: inline-flex;
-    position: relative;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+     display: inline-flex;
+     position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
     gap: 0.4rem;
     color: var(--secondary-color);
-    padding: 1.2rem 1rem;
+    padding: 2rem 1.2rem;
     z-index: 2;
-    min-width: 8rem;
-    align-self: center;
   }
 
 
@@ -254,9 +256,9 @@ const showBackLink = pathname !== '/' && pathname !== '/en';
   }
 
   .btn-contact img {
-    width: 72px;
+    width: 56px;
     height: auto;
-    margin-top: -0.6rem;
+    margin-top: -0.4rem;
     margin-left: 0;
     max-width: 100%;
   }

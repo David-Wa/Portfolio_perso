@@ -11,13 +11,13 @@ const pathname = Astro.url.pathname;
 
 // Remove trailing slash (except for "/")
 const normalized =
-  pathname !== "/" ? pathname.replace(/\/$/, "") : pathname;
+  pathname !== "/" && pathname !== "/en" ? pathname.replace(/\/$/, "") : pathname;
 
 const segments = normalized.split("/").filter(Boolean);
 
 // Parent path
 const parentPath =
-  segments.length > 2
+  (segments.length > 2 || (segments.length > 3 && segments[0] !== "en"))
     ? "/" + segments.slice(0, -1).join("/")
     : (segments.length > 1 ? ("/" + segments.slice(0, -2).join("/")): (""));
 ---
@@ -25,7 +25,7 @@ const parentPath =
 
 <header>
 
-  {pathname !== "/" && (
+  {pathname !== "/" && pathname !== "/en" && (
   <div class="navbar previous">
     <a href={parentPath}>
       <Icon name="mdi:arrow-left" />
@@ -35,7 +35,7 @@ const parentPath =
  
     <div class="navbar navigation">
         <a href={locale === 'en' ? '/en' : '/'} class="logo">
-            <img src="/tag.svg" alt="Logo" width="100"/>
+            <img src="/stoy_navbar.svg" alt="Logo" width="120"/>
         </a>
         <Navigation locale={locale} />
     </div>
@@ -48,6 +48,11 @@ const parentPath =
 
 
 <style>
+
+.logo {
+  transform:rotate(-8.8deg);
+  margin-top: 2.58rem;
+}
 
 .previous a{
   color:var(--primary-color);
@@ -76,6 +81,7 @@ header {
 
 .navbar {
   margin-top: 0;
+  height:56px;
   display: flex;
   align-items: center;
   min-height: 56px;

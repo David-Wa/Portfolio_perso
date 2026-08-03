@@ -2,26 +2,31 @@
 
 import Social from './Buttons/Social.astro';
 import { siteContent } from '../data/site';
+import {Icon} from 'astro-icon/components';
 
 const { locale = 'fr' } = Astro.props;
 const content = locale === 'en' ? siteContent.en : siteContent.fr;
 ---
 
 <footer class="footer">
+  <nav>
+    <ul class="footer-nav">
+      {content.footerLinks.map((link) => (
+        <li><a href={link.href}> <Icon name="mdi:copyright" /> {link.label}</a></li>
+      ))}
+    </ul>  
+  </nav>
+
+ <nav class="footer-socials">
+   <Social color="var(--secondary-color)" colorHover="var(--primary-color)"/>
+  </nav>
+
   <a class="footer-brand" href="#">
     <!-- icône STOY -->
     <img src={content.footerBrand} alt="Logo" width="100"/>
   </a>
-  <nav>
-    <ul class="footer-nav">
-      {content.footerLinks.map((link) => (
-        <li><a href={link.href}>{link.label}</a></li>
-      ))}
-    </ul>
-  </nav>
-  <nav class="footer-socials">
-   <Social color="var(--secondary-color)" colorHover="var(--primary-color)"/>
-  </nav>
+  
+ 
 </footer>
 
 

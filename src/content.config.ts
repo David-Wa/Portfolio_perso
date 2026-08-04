@@ -11,8 +11,8 @@ const projectSchema = z.object({
   contentEn: z.string().optional(),
 });
 
-const conception = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/conception' }),
+const prototypage = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/prototypage' }),
   schema: projectSchema,
 });
 
@@ -27,7 +27,7 @@ const projects = defineCollection({
 });
 
 export const collections = {
-  conception,
+  prototypage,
   graphisme,
   projects,
 };

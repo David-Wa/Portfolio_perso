@@ -6,7 +6,7 @@ type NavItem = {
 };
 
 type CategorySection = {
-  key: 'conception' | 'graphisme';
+  key: 'prototypage' | 'graphisme';
   label: string;
   subcategories: Array<{ key: string; label: string; href: string }>;
 };
@@ -24,11 +24,11 @@ export function getCategorySections(locale: 'fr' | 'en' = 'fr'): CategorySection
 
   return [
     {
-      key: 'conception',
-      label: isEnglish ? 'Design' : 'Conception',
+      key: 'prototypage',
+      label: isEnglish ? 'Design' : 'prototypage',
       subcategories: [
-        { key: '3d', label: '3D', href: getLocalizedPath('/conception/3d/', locale) },
-        { key: 'bricolage', label: isEnglish ? 'DIY' : 'Bricolage', href: getLocalizedPath('/conception/bricolage/', locale) },
+        { key: '3d', label: '3D', href: getLocalizedPath('/prototypage/3d/', locale) },
+        { key: 'bricolage', label: isEnglish ? 'DIY' : 'Bricolage', href: getLocalizedPath('/prototypage/bricolage/', locale) },
       ],
     },
     {

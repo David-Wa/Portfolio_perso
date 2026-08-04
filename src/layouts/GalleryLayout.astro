@@ -6,11 +6,11 @@ import BackgroundPrimaryColor from '../components/DynamicBackground/BackgroundPr
 import { getCategorySections, getLocalizedPath } from '../data/nav';
 
 const { pageTitle, path, locale = 'fr' } = Astro.props;
-const [category, currentSubcategory] = path.split('/').filter(Boolean);
+const [category] = path.split('/').filter(Boolean);
 const categorySections = getCategorySections(locale);
 const currentCategorySection = categorySections.find((section) => section.key === category);
 const tabs = currentCategorySection?.subcategories ?? [];
-const activeTab = currentSubcategory || tabs[0]?.key;
+const currentPagePath = getLocalizedPath(`/${path}/`, locale);
 
 const allImages = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/pictures/**/main.{jpg,jpeg,png,webp}',
@@ -54,7 +54,7 @@ const introText = locale === 'en'
       {tabs.map((tab) => (
         <a
           href={tab.href}
-          class:list={['tab', { active: tab.key === activeTab }]}
+          class:list={['tab', { active: tab.href === currentPagePath }]}
         >
           {tab.label}
         </a>
@@ -114,14 +114,15 @@ const introText = locale === 'en'
     padding: 1rem 0;
     align-items: center;
     justify-content: space-around;
-    font-size: 1rem;
+    font-size: 1.1rem;
     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
 
-  .subcategory-tabs a{
+  .subcategory-tabs .tab{
     color: var(--secondary-color);
     font-family: 'SecondaryFont';
     text-decoration: none;
+    position: relative;
   }
   .subcategory-tabs .tab:hover,
   .subcategory-tabs .tab:focus-visible {
@@ -131,6 +132,16 @@ const introText = locale === 'en'
   .subcategory-tabs .tab.active {
     color: var(--tertiary-color);
   }
+
+  .subcategory-tabs .tab.active::after {
+  content: "•";
+  position: absolute;
+  left: 50%;
+  bottom: -12px; /* ajuste la distance */
+  transform: translateX(-50%);
+  font-size: 14px;
+  color: var(--tertiary-color);
+}
 
   .page-title {
     position: relative;

@@ -30,9 +30,11 @@ const parentPath =
 
   {pathname !== "/" && pathname !== "/en" && (
   <div class="navbar">
-    <Button href={parentPath} color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" fontSize="1.5em" padding="0 0.8rem" display="flex" height="100%" radius="0">
-      <Icon name="mdi:arrow-left" />
-    </Button>
+    <div class="previous">
+      <Button href={parentPath} color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" fontSize="1.5em" padding="0 0.8rem" display="flex" height="100%" radius="12px">
+        <Icon name="mdi:arrow-left" />
+      </Button>
+    </div>
   </div>
 )}
  
@@ -161,18 +163,36 @@ const parentPath =
   transform: translateY(-6px) rotate(-45deg);
 }
 
-.previous a{
-  color:var(--primary-color);
+.previous {
+  display: flex;
   margin-left: auto;
-  padding: 0 0.8rem;
-  font-size: 1.5em;
-  text-align:center;
-  display:flex;
+  height: 100%;
 }
 
-.previous:hover, .previous:hover a{
-  background-color:var(--primary-color);
-    color:var(--tertiary-color);
+.previous .bubble-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.8rem;
+  font-size: 1.5em;
+  color: var(--primary-color);
+  background-color: var(--tertiary-color);
+  box-shadow: none;
+  border-radius: 12px;
+  line-height: 1;
+}
+
+.previous .bubble-btn:hover,
+.previous .bubble-btn:focus-visible {
+  color: var(--tertiary-color);
+  background-color: var(--primary-color);
+  transform: none;
+  box-shadow: none;
+}
+
+.previous .bubble-btn::before,
+.previous .bubble-btn::after {
+  display: none;
 }
 
 header {

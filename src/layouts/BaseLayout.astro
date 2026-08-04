@@ -3,7 +3,7 @@ import Header from '../components/Header/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import Image from '../assets/pictures/prototypage/bricolage/hobbit/main.jpg';
-import { ClientRouter } from 'astro:transitions';
+import { ClientRouter, fade } from 'astro:transitions';
 
 
 const inferredLocale = Astro.url.pathname.startsWith('/en') ? 'en' : 'fr';
@@ -31,7 +31,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:type" content="website" />
     <ClientRouter /> <!--  fadeIn pour les transitions -->
   </head>
-  <body>
+    <body transition:animate={fade({ duration: '1s' })}>
     <!-- Filtre SVG pour la texture granuleuse du spray -->
     <svg width="0" height="0" style="position:absolute">
       <filter id="spray-noise">

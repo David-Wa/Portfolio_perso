@@ -25,10 +25,10 @@ export function getCategorySections(locale: 'fr' | 'en' = 'fr'): CategorySection
   return [
     {
       key: 'prototypage',
-      label: isEnglish ? 'Design' : 'prototypage',
+      label: isEnglish ? 'Prototyping' : 'Prototypage',
       subcategories: [
         { key: '3d', label: '3D', href: getLocalizedPath('/prototypage/3d/', locale) },
-        { key: 'bricolage', label: isEnglish ? 'DIY' : 'Bricolage', href: getLocalizedPath('/prototypage/bricolage/', locale) },
+        { key: 'Woodworking', label: isEnglish ? 'Woodworking' : 'Woodworking', href: getLocalizedPath('/prototypage/bricolage/', locale) },
       ],
     },
     {

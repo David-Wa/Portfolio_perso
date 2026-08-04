@@ -27,13 +27,14 @@ export function getCategorySections(locale: 'fr' | 'en' = 'fr'): CategorySection
       key: 'prototypage',
       label: isEnglish ? 'Prototyping' : 'Prototypage',
       subcategories: [
+          { key: 'Woodworking', label: isEnglish ? 'Woodworking' : 'Woodworking', href: getLocalizedPath('/prototypage/bricolage/', locale) },
         { key: '3d', label: '3D', href: getLocalizedPath('/prototypage/3d/', locale) },
-        { key: 'Woodworking', label: isEnglish ? 'Woodworking' : 'Woodworking', href: getLocalizedPath('/prototypage/bricolage/', locale) },
+      
       ],
     },
     {
       key: 'graphisme',
-      label: isEnglish ? 'Graphics' : 'Graphisme',
+      label: isEnglish ? 'Graphic Design' : 'Graphisme',
       subcategories: [
         { key: 'graffs', label: isEnglish ? 'Graffiti' : 'Graffs', href: getLocalizedPath('/graphisme/graffs/', locale) },
         { key: 'dessins', label: isEnglish ? 'Drawings' : 'Dessins', href: getLocalizedPath('/graphisme/dessins/', locale) },

@@ -39,6 +39,7 @@ html {
 }
 
 h1, h2{
+  color: var(--tertiary-color);
   font-family: 'MaPolice', sans-serif;
     font-weight: normal; /* annule le bold par défaut du navigateur */
 }

@@ -48,6 +48,8 @@ const introText = locale === 'en'
     <p set:html={introText} />
   </section>
   {tabs.length > 0 && (
+  <Divider />
+    <section class="subcategory-tabs-container">
     <nav class="subcategory-tabs" aria-label={locale === 'en' ? 'Subcategories' : 'Sous-catégories'}>
       {tabs.map((tab) => (
         <a
@@ -58,8 +60,8 @@ const introText = locale === 'en'
         </a>
       ))}
     </nav>
+    </section>
   )}
-  <Divider />
   <BackgroundPrimaryColor>
   {projects.length === 0 ? (
   <section class="coming-soon">
@@ -99,37 +101,35 @@ const introText = locale === 'en'
     width: 100%;
   }
 
+
+.subcategory-tabs-container {
+    display: flex;
+    width: 100%;
+    background-color: var(--white);
+}
 .subcategory-tabs {
+  width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-    padding: 0 1rem 1.25rem;
-    margin: 0 0 0.5rem;
-    background-color: var(--white);
-    justify-content: center;
-    padding: 0.6rem 1rem;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 999px;
-    background-color: var(--white);
-    color: var(--secondary-color);
-    text-decoration: none;
-    text-transform: uppercase;
-    font-size: 0.95rem;
+    padding: 1rem 0;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 1rem;
     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
 
+  .subcategory-tabs a{
+    color: var(--secondary-color);
+    font-family: 'SecondaryFont';
+    text-decoration: none;
+  }
   .subcategory-tabs .tab:hover,
   .subcategory-tabs .tab:focus-visible {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: var(--white);
+    color: var(--tertiary-color);
   }
 
   .subcategory-tabs .tab.active {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-    color: var(--white);
+    color: var(--tertiary-color);
   }
 
   .page-title {

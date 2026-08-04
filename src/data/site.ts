@@ -8,7 +8,7 @@ export const siteContent = {
   en: {
     footerBrand:"/tag.svg",
     footerLinks: [
-      { label: 'Features' },
+      { label: 'David Wagner 2026' },
     ],
   },
 };

@@ -31,7 +31,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:type" content="website" />
     <ClientRouter /> <!--  fadeIn pour les transitions -->
   </head>
-    <body transition:animate={fade({ duration: '1s' })}>
+    <body transition:animate={fade({ duration: '1.5s' })}>
     <!-- Filtre SVG pour la texture granuleuse du spray -->
     <svg width="0" height="0" style="position:absolute">
       <filter id="spray-noise">

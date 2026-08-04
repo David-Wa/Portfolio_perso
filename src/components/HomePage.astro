@@ -49,7 +49,7 @@ const heroImages = shuffle(
   <div class="hero-slideshow">
     {heroImages.map((img, i) => (
       <div class={`hero-slide ${i === 0 ? 'active' : ''}`} data-index={i}>
-        <img src={img.src} alt={img.name} />
+        <img src={img.src} alt={img.name} fetchpriority="high" />
       </div>
     ))}
     <div class="hero-slide-caption">{heroImages[0]?.name}</div>

@@ -2,6 +2,7 @@
 import Navigation from './Navigation.astro';
 import Language from './Language.astro';
 import { Icon } from 'astro-icon/components';
+import Button from '../../components/Buttons/Button.astro';
 
 const { locale = 'fr' } = Astro.props;
 
@@ -28,10 +29,10 @@ const parentPath =
 <header>
 
   {pathname !== "/" && pathname !== "/en" && (
-  <div class="navbar previous">
-    <a href={parentPath}>
+  <div class="navbar">
+    <Button href={parentPath} color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" fontSize="1.5em" padding="0 0.8rem" display="flex" height="100%" radius="0">
       <Icon name="mdi:arrow-left" />
-    </a>
+    </Button>
   </div>
 )}
  
@@ -168,7 +169,6 @@ const parentPath =
   text-align:center;
   display:flex;
 }
-
 
 .previous:hover, .previous:hover a{
   background-color:var(--primary-color);

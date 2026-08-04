@@ -1,86 +1,104 @@
 ---
-const { href } = Astro.props;
+interface Props {
+  href: string;
+  color?: string;
+  bg?: string;
+  colorHover?: string;
+  bgHover?: string;
+  fontSize?: string;
+  padding?: string;
+  display?: string;
+  height?: string;
+  radius?: string;
+}
+
+const {
+  href,
+  color = 'var(--white)',
+  bg = 'var(--secondary-color)',
+  colorHover = 'var(--primary-color)',
+  bgHover = 'var(--tertiary-color)',
+  fontSize = '1em',
+  padding = '12px 28px',
+  display = 'inline-flex',
+  height = 'auto',
+  radius = '10px',
+} = Astro.props;
 ---
 
-<a href={href} class="button" target="_blank" rel="noopener noreferrer">
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="bubble-btn"
+  style={`--bubble-color: ${color}; --bubble-bg: ${bg}; --bubble-color-hover: ${colorHover}; --bubble-bg-hover: ${bgHover}; --bubble-radius: ${radius}; --font-size: ${fontSize}; --padding: ${padding}; --height: ${height};`}
+>
   <p><slot /></p>
 </a>
 
 <style>
-
-
-
-  .button {
+.bubble-btn {
+  height: var(--height);
   display: flex;
+  width:fit-content;
   align-items: center;
-   position:absolute;
-    gap: 8px;
-    padding: 12px 28px;
-        color: var(--white);
-    background-color: var(--secondary-color);
-    text-decoration: none;
-    border-radius: 10px;
-    font-family: 'SecondaryFont', sans-serif;
-    font-size: 1em;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-     cursor: pointer;
+  gap: 8px;
+  position: relative;
   overflow: hidden;
-  transition: border 300ms, color 300ms;
+  cursor: pointer;
   user-select: none;
-    border: 1px solid var(--tertiary-color);
-  }
-
-  .button p{
-    all:unset;
-    z-index:1;
-  }
-
-  .button:hover{
-          transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
-    color: var(--primary-color);
-  }
-
-.button:active {
-  border-color: var(--tertiary-color);
+  text-decoration: none;
+  padding: var(--padding);
+  font-family: 'SecondaryFont', sans-serif;
+  font-size: var(--font-size);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: var(--bubble-color);
+  background-color: var(--bubble-bg);
+  border-radius: var(--bubble-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: transform 300ms, box-shadow 300ms, color 300ms;
 }
 
-.button::after, .button::before {
+.bubble-btn p {
+  all: unset;
+  position: relative;
+  z-index: 1;
+}
+
+.bubble-btn::before,
+.bubble-btn::after {
   content: "";
   position: absolute;
   width: 9em;
   aspect-ratio: 1;
-  background: var(--tertiary-color);
+  background: var(--bubble-bg-hover);
   opacity: 50%;
   border-radius: 50%;
   transition: transform 500ms, background 300ms;
 }
 
-.button::before {
+.bubble-btn::before {
   left: 0;
-  transform: translateX(-8em);
+  transform: translateX(-12em);
 }
 
-.button::after {
+.bubble-btn::after {
   right: 0;
-  transform: translateX(8em);
+  transform: translateX(12em);
 }
 
-.button:hover:before {
+.bubble-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  color: var(--bubble-color-hover);
+}
+
+.bubble-btn:hover::before {
   transform: translateX(-1em);
 }
 
-.button:hover:after {
+.bubble-btn:hover::after {
   transform: translateX(1em);
 }
-
-.button:active:before,
-.button:active:after {
-      transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-
 </style>

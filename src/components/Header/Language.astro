@@ -1,6 +1,7 @@
 ---
 import DropdownMenu from "./Dropdown_menu.astro";
 import { Icon } from 'astro-icon/components';
+import Button from '../Buttons/Button.astro';
 
 const { locale = 'fr' } = Astro.props;
 const isEnglish = locale === 'en';
@@ -17,7 +18,15 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
 
 <nav class="nav-links">
 <div class="dropdown">
-        <a href={switchHref} class="nav-item"><span class="flag-icon"><Icon name={currentFlag} width="24" height="24" /></span><span class="arrow">▼</span></a>
+<Button href={switchHref}  color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" height="100%" translateY="0px">
+       <span class="flag-icon">
+        <Icon name={currentFlag} width="24" height="24" />
+      </span>
+      <span class="arrow"> 
+        ▼
+       </span>
+</Button>
+
         <DropdownMenu elements={[ { label: targetLabel, href: switchHref, icon: targetFlag } ]} />
       </div>
 </nav>
@@ -25,11 +34,18 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
 
 <style>
 .dropdown {
+  all:unset;
   position: relative;
   display: inline-flex;
+  width: fit-content;
+  height: 100%;
 }
 
-
+.dropdown :global(.bubble-btn) {
+  height: 100%;
+  box-sizing: border-box;
+  align-items: center;
+}
 
 .dropdown:hover .arrow {
   transform: rotate(180deg);
@@ -39,13 +55,6 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
   display: block;
 }
 
-.nav-item {
-  width: fit-content;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-}
 
 .flag-icon {
   display: inline-flex;
@@ -69,11 +78,9 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
 .arrow {
   display: inline-block;
   font-size: 0.6rem;
-  margin-left: 0;
+  margin-left: 4px;
   transition: transform 0.2s;
 }
-
-
 
 
 

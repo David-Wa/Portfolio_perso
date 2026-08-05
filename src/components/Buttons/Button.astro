@@ -10,6 +10,8 @@ interface Props {
   display?: string;
   height?: string;
   radius?: string;
+  translateY?: string;
+  bubbleWidth?: string;
 }
 
 const {
@@ -23,6 +25,8 @@ const {
   display = 'inline-flex',
   height = 'auto',
   radius = '10px',
+  translateY = '-2px',
+  bubbleWidth = '12em',
 } = Astro.props;
 ---
 
@@ -31,7 +35,7 @@ const {
   target="_blank"
   rel="noopener noreferrer"
   class="bubble-btn"
-  style={`--bubble-color: ${color}; --bubble-bg: ${bg}; --bubble-color-hover: ${colorHover}; --bubble-bg-hover: ${bgHover}; --bubble-radius: ${radius}; --font-size: ${fontSize}; --padding: ${padding}; --height: ${height};`}
+  style={`--bubble-color: ${color}; --bubble-bg: ${bg}; --bubble-color-hover: ${colorHover}; --bubble-bg-hover: ${bgHover}; --bubble-radius: ${radius}; --font-size: ${fontSize}; --padding: ${padding}; --height: ${height}; --translateY: ${translateY}; --bubble-width: ${bubbleWidth}; --display: ${display};`}
 >
   <p><slot /></p>
 </a>
@@ -39,6 +43,7 @@ const {
 <style>
 .bubble-btn {
   height: var(--height);
+  box-sizing: border-box;
   display: flex;
   width:fit-content;
   align-items: center;
@@ -70,7 +75,7 @@ const {
 .bubble-btn::after {
   content: "";
   position: absolute;
-  width: 9em;
+  width: var(--bubble-width);
   aspect-ratio: 1;
   background: var(--bubble-bg-hover);
   opacity: 50%;
@@ -89,7 +94,7 @@ const {
 }
 
 .bubble-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(var(--translateY));
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
   color: var(--bubble-color-hover);
 }

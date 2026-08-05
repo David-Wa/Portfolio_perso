@@ -31,7 +31,7 @@ const parentPath =
   {pathname !== "/" && pathname !== "/en" && (
   <div class="navbar">
     <div class="previous">
-      <Button href={parentPath} color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" fontSize="1.5em" padding="0 0.8rem" display="flex" height="100%" radius="12px">
+      <Button href={parentPath} color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" fontSize="1.5em" padding="0 0.8rem" display="flex" height="100%" radius="var(--border-radius)" aria-label={locale === 'en' ? 'Go back' : 'Retourner'} translateY="0px" bubbleWidth="3.5em">
         <Icon name="mdi:arrow-left" />
       </Button>
     </div>
@@ -169,18 +169,6 @@ const parentPath =
   height: 100%;
 }
 
-.previous .bubble-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 0.8rem;
-  font-size: 1.5em;
-  color: var(--primary-color);
-  background-color: var(--tertiary-color);
-  box-shadow: none;
-  border-radius: 12px;
-  line-height: 1;
-}
 
 .previous .bubble-btn:hover,
 .previous .bubble-btn:focus-visible {
@@ -211,7 +199,6 @@ header {
 }
 
 .navbar {
-  margin-top: 0;
   height:56px;
   display: flex;
   align-items: center;
@@ -230,10 +217,6 @@ header {
   padding: 0 1rem;
 }
 
-.language {
-  margin-left: auto;
-  padding: 0 0.8rem;
-}
 
 .menu-overlay {
   position: fixed;

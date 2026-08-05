@@ -16,7 +16,6 @@ export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="
       <ShaderGradientCanvas lazyLoad={false}>
 <ShaderGradient
   animate="on"
-  frameloop="demand"
   control="props"
   enableCameraUpdate={false}
   axesHelper="off"
@@ -36,7 +35,7 @@ export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="
   gizmoHelper="hide"
   grain="on"
   lightType="3d"
-  pixelDensity={0.3}
+  pixelDensity={0.01}
   positionX={0}
   positionY={0}
   positionZ={0}

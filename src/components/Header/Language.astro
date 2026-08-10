@@ -18,13 +18,11 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
 
 <nav>
 <div class="dropdown">
-<Button href="#"  color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" height="100%" radius="var(--border-radius)" translateY="0px">
+<Button href="#"  color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" height="100%" width="100%" radius="var(--border-radius)" padding="var(--padding-language)" translateY="0px">
        <span class="flag-icon">
         <Icon name={currentFlag} width="24" height="24" />
       </span>
-      <span class="arrow"> 
-        ▼
-       </span>
+      <span class="arrow">▼</span>
 </Button>
 
         <DropdownMenu elements={[ { label: targetLabel, href: switchHref, icon: targetFlag } ]} />
@@ -35,6 +33,8 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
 <style>
 nav {
   height: 100%;
+  width: fit-content;
+  padding:0%;
 }
 
 .dropdown {
@@ -54,8 +54,6 @@ nav {
 .dropdown:hover .arrow {
   transform: rotate(180deg);
 }
-
-
 
 .flag-icon {
   display: inline-flex;
@@ -77,11 +75,10 @@ nav {
 
 
 .arrow {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.6rem;
-  margin-left: 4px;
   transition: transform 0.2s;
 }
-
-
 </style>

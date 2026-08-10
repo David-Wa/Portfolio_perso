@@ -1,10 +1,28 @@
 ---
 import { Icon } from 'astro-icon/components';
+import Button from "./Button.astro"
 
 const pageUrl = Astro.url.href;
 const shareText = "Découvre ce contenu !";
 
+const shareLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + " " + pageUrl)}`
+
 const shareLinks = [
+    {
+    name: "WhatsApp",
+    icon: "mdi:whatsapp",
+    url: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + " " + pageUrl)}`,
+  },
+    {
+    name: "Twitter",
+    icon: "mdi:twitter",
+    url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(shareText)}`,
+  },
+  {
+    name: "Instagram",
+    icon: "mdi:instagram",
+    url: `https://www.instagram.com/`,
+  },
   {
     name: "Pinterest",
     icon: "mdi:pinterest",
@@ -15,34 +33,20 @@ const shareLinks = [
     icon: "mdi:linkedin",
     url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`,
   },
-  {
-    name: "WhatsApp",
-    icon: "mdi:whatsapp",
-    url: `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + " " + pageUrl)}`,
-  },
+
   {
     name: "Facebook",
     icon: "mdi:facebook",
     url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`,
   },
-  {
-    name: "Twitter",
-    icon: "mdi:twitter",
-    url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(shareText)}`,
-  },
-  {
-    name: "Instagram",
-    icon: "mdi:instagram",
-    url: `https://www.instagram.com/`,
-  },
 ];
 ---
 
 <div class="share-wrapper">
-  <button class="share-trigger" aria-label="Partager">
+  <Button href={shareLink}>
     <Icon name="mdi:share-variant" width="24" height="24" />
     <span>Share</span>
-  </button>
+  </Button>
 
   <div class="share-menu">
     {shareLinks.map((link) => (
@@ -67,26 +71,10 @@ const shareLinks = [
   }
 
  
- .share-trigger  {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 28px;
-    color: var(--white);
-    background-color: var(--secondary-color);
-    text-decoration: none;
-    border-radius: 10px;
-    font-family: 'SecondaryFont', sans-serif;
-    font-size: 1em;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
-  }
+ 
 
-.share-wrapper:has(.share-menu:hover) .share-trigger,
-.share-wrapper:has(.share-trigger:hover) .share-trigger {
+.share-wrapper:has(.share-menu:hover),
+.share-wrapper:has(.share-trigger:hover){
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0,0,0,.18);
     background-color: var(--tertiary-color);

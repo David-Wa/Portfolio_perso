@@ -1,16 +1,17 @@
 ---
 import { Icon } from 'astro-icon/components'
 const { elements = [] } = Astro.props;
+import Button from '../../components/Buttons/Button.astro';
 ---
 
 <ul class="dropdown-menu">
   {elements.map((element: {label: string, href: string, icon: string}) => (
-    <li><a href={element.href}>{element.icon ? (
+    <li><Button href={element.href}  color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--secondary-color)" bgHover="var(--white)" height="100%" width="100%" radius="var(--border-radius)" translateY="0px">{element.icon ? (
       <Icon name={element.icon} width="20" height="20" />
     ) : (
       element.label
     )}
-    </a></li>
+    </Button></li>
   ))}
 </ul>
 
@@ -25,15 +26,23 @@ const { elements = [] } = Astro.props;
   background: var(--tertiary-color);
   list-style: none;
   margin: 0;
+  padding: 0;
   width: 100%;
   border-radius: var(--border-radius) ;
   margin-top: 16px;
   z-index: 10;
 }
 
+.dropdown-menu li {
+  width: 100%;
+}
+
 .dropdown:hover > .dropdown-menu,
 .dropdown.is-open > .dropdown-menu {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .dropdown-menu::before {
@@ -44,28 +53,6 @@ const { elements = [] } = Astro.props;
   width: 100%;
   height: 16px;
 }
-
-
-
-.dropdown-menu li a {
-  font-family: 'SecondaryFont', sans-serif;
-  display: block;
-  padding: 8px 0;
-  color: var(--primary-color);
-  font-size: 13px;
-  text-decoration: none;
-  white-space: nowrap;
-  text-align: center;
-}
-
-.dropdown-menu li a:hover {
-  color: var(--secondary-color);
-  background: var(--white);
-   border-radius: var(--border-radius);
-}
-
-
-
 
  .nav-item {
     color: var(--primary-color);

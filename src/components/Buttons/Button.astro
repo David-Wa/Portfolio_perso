@@ -10,6 +10,7 @@ interface Props {
   display?: string;
   height?: string;
   radius?: string;
+  width?: string;
   translateY?: string;
   bubbleWidth?: string;
 }
@@ -24,6 +25,7 @@ const {
   padding = '12px 28px',
   display = 'inline-flex',
   height = '100%',
+  width = '100%',
   radius = '10px',
   translateY = '-2px',
   bubbleWidth = '12em',
@@ -34,7 +36,7 @@ const {
   href={href}
   rel="noopener noreferrer"
   class="bubble-btn"
-  style={`--bubble-color: ${color}; --bubble-bg: ${bg}; --bubble-color-hover: ${colorHover}; --bubble-bg-hover: ${bgHover}; --bubble-radius: ${radius}; --font-size: ${fontSize}; --padding: ${padding}; --height: ${height}; --translateY: ${translateY}; --bubble-width: ${bubbleWidth}; --display: ${display};`}
+  style={`--bubble-color: ${color}; --bubble-bg: ${bg}; --bubble-color-hover: ${colorHover}; --bubble-bg-hover: ${bgHover}; --bubble-radius: ${radius}; --font-size: ${fontSize}; --padding: ${padding}; --height: ${height}; --width: ${width}; --translateY: ${translateY}; --bubble-width: ${bubbleWidth}; --display: ${display};`}
 >
   <p><slot /></p>
 </a>
@@ -44,7 +46,7 @@ const {
   height: var(--height);
   box-sizing: border-box;
   display: flex;
-  width:fit-content;
+  width: var(--width);
   align-items: center;
   gap: 8px;
   position: relative;

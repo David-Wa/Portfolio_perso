@@ -16,9 +16,9 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
 ---
 
 
-<nav class="nav-links">
+<nav>
 <div class="dropdown">
-<Button href={switchHref}  color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" height="100%" translateY="0px">
+<Button href={switchHref}  color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" height="100%" radius="var(--border-radius)" translateY="0px">
        <span class="flag-icon">
         <Icon name={currentFlag} width="24" height="24" />
       </span>
@@ -33,6 +33,10 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
 
 
 <style>
+nav {
+  height: 100%;
+}
+
 .dropdown {
   all:unset;
   position: relative;
@@ -82,12 +86,5 @@ const targetLabel = isEnglish ? 'FR' : 'EN';
   transition: transform 0.2s;
 }
 
-
-
-.nav-links a:hover,
-.nav-links a:focus {
-  background-color: var(--primary-color);
-  color: var(--tertiary-color);
-}
 
 </style>

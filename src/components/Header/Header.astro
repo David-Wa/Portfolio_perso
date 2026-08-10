@@ -50,7 +50,7 @@ const parentPath =
         <Navigation locale={locale} pathname={pathname} parentPath={parentPath} />
     </div>
 
-    <div class="navbar language">
+    <div class="navbar">
         <Language locale={locale} />
     </div>
 </header>
@@ -213,7 +213,7 @@ header {
 
 .navigation {
   flex: 1 1 auto;
-  justify-content: center;
+  gap: 1rem;
   padding: 0 1rem;
 }
 
@@ -240,10 +240,6 @@ header {
     padding: 10px;
   }
 
-  .navbar {
-    width: 100%;
-    min-height: 48px;
-  }
 
   .navigation {
     justify-content: space-between;
@@ -263,10 +259,5 @@ header {
     display: none;
   }
 
-  .language {
-    display: none;
-    justify-content: center;
-    margin-left: 0;
-  }
 }
 </style>

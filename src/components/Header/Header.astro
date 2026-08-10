@@ -1,44 +1,18 @@
 ---
 import Navigation from './Navigation.astro';
 import Language from './Language.astro';
-import { Icon } from 'astro-icon/components';
-import Button from '../../components/Buttons/Button.astro';
+import Previous from './Previous.astro';
 
 const { locale = 'fr' } = Astro.props;
 
 
-
-const pathname = Astro.url.pathname;
-
-// Remove trailing slash (except for "/")
-const normalized =
-  pathname !== "/" && pathname !== "/en" ? pathname.replace(/\/$/, "") : pathname;
-
-const segments = normalized.split("/").filter(Boolean);
-
-// Parent path
-const parentPath =
-  (segments.length > 2 || (segments.length > 3 && segments[0] !== "en"))
-    ? "/" + segments.slice(0, -1).join("/")
-    : (segments.length > 1 ? ("/" + segments.slice(0, -2).join("/")): (""));
 ---
 
 
 <div class="menu-overlay" aria-hidden="true"></div>
-
 <header>
-
-  {pathname !== "/" && pathname !== "/en" && (
-  <div class="navbar">
-    <div class="previous">
-      <Button href={parentPath} color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" fontSize="1.5em" padding="0 0.8rem" display="flex" height="100%" radius="var(--border-radius)" aria-label={locale === 'en' ? 'Go back' : 'Retourner'} translateY="0px" bubbleWidth="3.5em">
-        <Icon name="mdi:arrow-left" />
-      </Button>
-    </div>
-  </div>
-)}
- 
-    <div class="navbar navigation">
+ <Previous locale={locale} />
+  <div class="navbar navigation">
         <a href={locale === 'en' ? '/en' : '/'} class="logo">
             <img src="/stoy_navbar.svg" alt="Logo" width="120"/>
         </a>
@@ -47,7 +21,7 @@ const parentPath =
             <span></span>
             <span></span>
         </button>
-        <Navigation locale={locale} pathname={pathname} parentPath={parentPath} />
+        <Navigation locale={locale} />
     </div>
 
     <div class="navbar">
@@ -163,25 +137,7 @@ const parentPath =
   transform: translateY(-6px) rotate(-45deg);
 }
 
-.previous {
-  display: flex;
-  margin-left: auto;
-  height: 100%;
-}
 
-
-.previous .bubble-btn:hover,
-.previous .bubble-btn:focus-visible {
-  color: var(--tertiary-color);
-  background-color: var(--primary-color);
-  transform: none;
-  box-shadow: none;
-}
-
-.previous .bubble-btn::before,
-.previous .bubble-btn::after {
-  display: none;
-}
 
 header {
   width: 100%;
@@ -198,22 +154,10 @@ header {
   pointer-events: none;
 }
 
-.navbar {
-  height:56px;
-  display: flex;
-  align-items: center;
-  min-height: 56px;
-  border-radius: var(--border-radius);
-  background-color: var(--tertiary-color);
-  position: relative;
-  top: 0;
-  z-index: 100;
-  pointer-events: auto;
-}
 
 .navigation {
+  justify-content: center;
   flex: 1 1 auto;
-  gap: 1rem;
   padding: 0 1rem;
 }
 

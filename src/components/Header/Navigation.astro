@@ -4,11 +4,27 @@ import DropdownMenu from './Dropdown_menu.astro';
 import Language from './Language.astro';
 import { Icon } from 'astro-icon/components';
 
-const { locale = 'fr', pathname = '/', parentPath = '/' } = Astro.props;
+const { locale = 'fr' } = Astro.props;
+
+const pathname = Astro.url.pathname;
+
+const normalized =
+  pathname !== "/" && pathname !== "/en" ? pathname.replace(/\/$/, "") : pathname;
+
+const segments = normalized.split("/").filter(Boolean);
+
+const parentPath =
+  (segments.length > 2 || (segments.length > 3 && segments[0] !== "en"))
+    ? "/" + segments.slice(0, -1).join("/")
+    : (segments.length > 1 ? ("/" + segments.slice(0, -2).join("/")) : (""));
+
 const navItems = getNavItems(locale);
 const showBackLink = pathname !== '/' && pathname !== '/en';
----
 
+// Sépare le bouton contact des liens "normaux"
+const regularItems = navItems.filter(item => item.class !== 'btn-contact');
+const contactItem = navItems.find(item => item.class === 'btn-contact');
+---
 
 <nav class="nav-links" id="site-nav" aria-label="Navigation principale">
   <div class="mobile-controls">
@@ -23,29 +39,31 @@ const showBackLink = pathname !== '/' && pathname !== '/en';
     </div>
   </div>
 
-  {navItems.map(item => (
-    item.dropdown ? (
-      <div class="dropdown">
-        <a href={item.href} class="nav-item">
-          {item.label} <span class="arrow">▼</span>
+  <div class="nav-items">
+    {regularItems.map(item => (
+      item.dropdown ? (
+        <div class="dropdown">
+          <a href={item.href} class="nav-item">
+            {item.label} <span class="arrow">▼</span>
+          </a>
+          <DropdownMenu elements={item.dropdown} />
+        </div>
+      ) : (
+        <a href={item.href} class={`nav-item ${item.class ?? ""}`}>
+          {item.label}
         </a>
-        <DropdownMenu elements={item.dropdown} />
-      </div>
-    ) : (
-      <a href={item.href} class={`nav-item ${item.class ?? ""}`}>
-         {item.class === "btn-contact" && (
-    <img src="/sticker_hello_my_name_is.svg" alt="" class="img-default" />
-  )}
-  {item.class === "btn-contact" && (
-    <img src="/sticker_hello_my_name_is_hover.svg" alt="" class="img-hover" />
-  )}
-  {item.label}
- 
-</a>
-    )
-  ))}
-</nav>
+      )
+    ))}
+  </div>
 
+  {contactItem && (
+    <a href={contactItem.href} class={`nav-item ${contactItem.class}`}>
+      <img src="/sticker_hello_my_name_is.svg" alt="" class="img-default" />
+      <img src="/sticker_hello_my_name_is_hover.svg" alt="" class="img-hover" />
+      {contactItem.label}
+    </a>
+  )}
+</nav>
 
 <style>
 
@@ -54,19 +72,24 @@ const showBackLink = pathname !== '/' && pathname !== '/en';
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex: 1 1 auto;
-  
-  flex-wrap: wrap;
-  gap: 12px 16px;
   font-family: 'MaPolice', sans-serif;
 }
 
-  .mobile-controls {
-    display: none;
-  }
+.nav-items {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+}
 
-  .nav-links a {
+.mobile-controls {
+  display: none;
+}
+
+.nav-links a {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -162,7 +185,6 @@ const showBackLink = pathname !== '/' && pathname !== '/en';
 
 
 .nav-links a.btn-contact{
-  margin-left: auto;
   color: var(--tertiary-color);
 }
 
@@ -239,6 +261,12 @@ const showBackLink = pathname !== '/' && pathname !== '/en';
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
+  }
+
+  .nav-items {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.3rem;
   }
 
   .nav-links a {

@@ -107,3 +107,18 @@ p{
     text-align: left;
   }
 }
+
+
+.navbar {
+  height:56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  border-radius: var(--border-radius);
+  background-color: var(--tertiary-color);
+  position: relative;
+  top: 0;
+  z-index: 100;
+  pointer-events: auto;
+}

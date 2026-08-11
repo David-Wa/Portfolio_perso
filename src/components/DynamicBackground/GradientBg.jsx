@@ -12,8 +12,8 @@ export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="
       }}
     >
       <ShaderGradientCanvas
-        lazyLoad={false}
-        pixelDensity={0.8}
+        lazyLoad={true}
+        pixelDensity={0.7}
         fov={45}
       >
         <ShaderGradient
@@ -49,6 +49,8 @@ export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="
           uStrength={0.3}
           uTime={0}
           wireframe={false}
+          frameRate={10}
+          powerPreference="low-power"
         />
       </ShaderGradientCanvas>
     </section>

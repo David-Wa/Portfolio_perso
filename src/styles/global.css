@@ -8,8 +8,9 @@
   --tertiary-color: #250902; /* #3B1F2B */ 
   /*#a0b4cc; bleu-gris*/
   --border-radius: 8px;
-    --navbar-height: 72px;
+    --navbar-height: 56px;
     --padding-language:15px;
+    --padding-navbar: 2rem;
 }
 
 
@@ -111,15 +112,13 @@ p{
 
 
 .navbar {
-  height:56px;
+  height:var(--navbar-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 56px;
   border-radius: var(--border-radius);
   background-color: var(--tertiary-color);
   position: relative;
-  top: 0;
   z-index: 100;
   pointer-events: auto;
 }

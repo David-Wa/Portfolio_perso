@@ -1,0 +1,96 @@
+---
+// src/components/Hover.astro
+interface Props {
+  href: string;
+  color?: string;
+  colorHover?: string;
+  fontSize?: string;
+  fontWeight?: string;
+  letterSpacing?: string;
+  bubbleWidth?: string;
+  bubbleOffset?: string;
+  bubbleOffsetHover?: string;
+  duration?: string;
+  underline?: boolean;
+  target?: string;
+  class?: string;
+}
+
+const {
+  href,
+  color = 'var(--secondary-color)',
+  colorHover = 'var(--primary-color)',
+  fontSize = '1em',
+  fontWeight = '500',
+  letterSpacing = '0.3px',
+  bubbleWidth = '12em',
+  bubbleOffset = '12em',
+  bubbleOffsetHover = '1em',
+  duration = '500ms',
+  underline = false,
+  target,
+  class: className,
+} = Astro.props;
+---
+
+
+  href={href}
+  target={target}
+  rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+  class:list={['bubble-link', className]}
+  style={`--color: ${color}; --color-hover: ${colorHover}; --font-size: ${fontSize}; --font-weight: ${fontWeight}; --letter-spacing: ${letterSpacing}; --bubble-width: ${bubbleWidth}; --bubble-offset: ${bubbleOffset}; --bubble-offset-hover: ${bubbleOffsetHover}; --duration: ${duration}; --text-decoration: ${underline ? 'underline' : 'none'};`}
+>
+  <span class="label"><slot /></span>
+  <span class="label label--hover" aria-hidden="true"><slot /></span>
+</a>
+
+<style>
+.bubble-link {
+  position: relative;
+  display: inline-grid;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: var(--text-decoration);
+}
+
+.label {
+  grid-area: 1 / 1;
+  font-family: 'SecondaryFont', sans-serif;
+  font-size: var(--font-size);
+  font-weight: var(--font-weight);
+  letter-spacing: var(--letter-spacing);
+  white-space: nowrap;
+}
+
+.label:not(.label--hover) {
+  color: var(--color);
+  transition: color var(--duration);
+}
+
+.label--hover {
+  pointer-events: none;
+  color: transparent;
+  background-repeat: no-repeat, no-repeat;
+  background-image:
+    radial-gradient(circle, var(--color-hover) 65%, transparent 66%),
+    radial-gradient(circle, var(--color-hover) 65%, transparent 66%);
+  background-size: var(--bubble-width) var(--bubble-width), var(--bubble-width) var(--bubble-width);
+  background-position:
+    calc(-1 * var(--bubble-offset)) center,
+    calc(100% + var(--bubble-offset)) center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: background-position var(--duration);
+}
+
+.bubble-link:hover .label--hover {
+  background-position:
+    calc(-1 * var(--bubble-offset-hover)) center,
+    calc(100% + var(--bubble-offset-hover)) center;
+}
+
+@supports not (background-clip: text) {
+  .label--hover { display: none; }
+  .bubble-link:hover .label { color: var(--color-hover); }
+}
+</style>

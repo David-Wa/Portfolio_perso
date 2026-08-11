@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import ProjectDetail from '../../../components/ProjectComponents/ProjectDetail.astro';
+import ProjectLayout from '../../../layouts/ProjectLayout.astro';
 
 export async function getStaticPaths() {
   const categories = ['prototypage', 'graphisme'] as const;
@@ -23,4 +23,4 @@ export async function getStaticPaths() {
 const { category, project, slug, locale } = Astro.props;
 ---
 
-<ProjectDetail category={category} project={project} slug={slug} locale={locale} />
+<ProjectLayout category={category} project={project} slug={slug} locale={locale} />

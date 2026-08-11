@@ -4,6 +4,7 @@ import Project_img from '../components/ProjectComponents/Project_image.astro';
 import Divider from '../components/Divider.astro';
 import BackgroundPrimaryColor from '../components/DynamicBackground/BackgroundPrimaryColor.astro';
 import { getCategorySections, getLocalizedPath } from '../data/nav';
+import LightBoxOverlay from '../components/Images/LightBoxOverlay.astro';
 
 const { pageTitle, path, locale = 'fr' } = Astro.props;
 const [category] = path.split('/').filter(Boolean);
@@ -87,13 +88,8 @@ const introText = locale === 'en'
   </section>
 )} 
 
-  <!-- LIGHTBOX -->
-  <div class="lightbox-overlay" id="lightbox">
-    <button class="lightbox-close" id="lightbox-close" aria-label="Fermer">&times;</button>
-    <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Précédent">&#10094;</button>
-    <img src="" alt="" id="lightbox-img" />
-    <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Suivant">&#10095;</button>
-  </div>
+<LightBoxOverlay />
+
 </BaseLayout>
 
 <style>
@@ -231,157 +227,5 @@ grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     flex: 1;
   }
 
-  /* LIGHTBOX */
-  .lightbox-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 999;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-    box-sizing: border-box;
-  }
-
-  .lightbox-overlay.active {
-    display: flex;
-  }
-
-  .lightbox-overlay img {
-    height: 100%;
-    width: auto;
-    max-width: 90vw;
-    object-fit: contain;
-  }
-
-  .lightbox-close {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2.5rem;
-    line-height: 1;
-    cursor: pointer;
-    z-index: 1001;
-  }
-
-  .lightbox-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    padding: 12px 16px;
-    cursor: pointer;
-    z-index: 1001;
-    transition: background 0.2s ease;
-  }
-
-  .lightbox-nav:hover {
-    background: rgba(255, 255, 255, 0.25);
-  }
-
-  .lightbox-prev {
-    left: 20px;
-  }
-
-  .lightbox-next {
-    right: 20px;
-  }
-
-  @media (max-width: 600px) {
-    .lightbox-nav {
-      font-size: 1.2rem;
-      padding: 8px 12px;
-    }
-  }
+ 
 </style>
-
-<script>
-  let navImgs: Element[] = [];
-  let overlay: HTMLElement | null = null;
-  let lightboxImg: HTMLImageElement | null = null;
-  let currentIndex: number = 0;
-
-  function initLightbox() {
-    navImgs = Array.from(document.querySelectorAll('.project-image'));
-    overlay = document.getElementById('lightbox');
-    lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
-    currentIndex = 0;
-  }
-
-  function openLightbox(index: number) {
-    if (!overlay) return;
-    currentIndex = index;
-    updateLightboxImage();
-    overlay.classList.add('active');
-  }
-
-  function updateLightboxImage() {
-    const img = navImgs[currentIndex] as HTMLImageElement;
-    if (!img || !lightboxImg) return;
-    lightboxImg.src = img.currentSrc || img.src;
-    lightboxImg.alt = img.alt;
-  }
-
-  function closeLightbox() {
-    if (overlay) overlay.classList.remove('active');
-  }
-
-  function showPrev() {
-    if (navImgs.length === 0) return;
-    currentIndex = (currentIndex - 1 + navImgs.length) % navImgs.length;
-    updateLightboxImage();
-  }
-
-  function showNext() {
-    if (navImgs.length === 0) return;
-    currentIndex = (currentIndex + 1) % navImgs.length;
-    updateLightboxImage();
-  }
-
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement | null;
-    if (!target) return;
-
-    // seule une image SANS making-of ouvre la lightbox au clic direct
-    const img = target.closest('.gallery-img');
-    if (img) {
-      const index = navImgs.indexOf(img);
-      if (index !== -1) openLightbox(index);
-      return;
-    }
-
-    if (target.closest('#lightbox-close')) {
-      closeLightbox();
-      return;
-    }
-
-    if (target.closest('#lightbox-prev')) {
-      showPrev();
-      return;
-    }
-    if (target.closest('#lightbox-next')) {
-      showNext();
-      return;
-    }
-
-    if (target === overlay) {
-      closeLightbox();
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (!overlay || !overlay.classList.contains('active')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') showPrev();
-    if (e.key === 'ArrowRight') showNext();
-  });
-
-  document.addEventListener('astro:page-load', initLightbox);
-</script>

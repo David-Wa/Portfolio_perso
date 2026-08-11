@@ -50,6 +50,8 @@ export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="
           uStrength={0.3}
           uTime={0}
           wireframe={false}
+          loop={true}
+          loopDuration={5}
         />
       </ShaderGradientCanvas>
     </section>

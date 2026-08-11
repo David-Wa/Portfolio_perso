@@ -22,11 +22,69 @@
     currentIndex = 0;
   }
 
-  function openLightbox(index: number) {
-    if (!overlay) return;
+  function resetImgTransform() {
+    if (!lightboxImg) return;
+    lightboxImg.style.transition = 'none';
+    lightboxImg.style.transform = 'none';
+    lightboxImg.style.opacity = '1';
+  }
+
+  function playOpenAnimation(beforeRect: DOMRect) {
+    if (!lightboxImg) return;
+
+    // position finale (celle définie par le CSS : centrée, contenue dans l'écran)
+    const afterRect = lightboxImg.getBoundingClientRect();
+
+    const deltaX = (beforeRect.left + beforeRect.width / 2) - (afterRect.left + afterRect.width / 2);
+    const deltaY = (beforeRect.top + beforeRect.height / 2) - (afterRect.top + afterRect.height / 2);
+    const scaleX = beforeRect.width / afterRect.width;
+    const scaleY = beforeRect.height / afterRect.height;
+
+    // on place l'image (déjà à sa taille finale en CSS) visuellement à l'endroit de la vignette
+    lightboxImg.style.transition = 'none';
+    lightboxImg.style.opacity = '1';
+    lightboxImg.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
+
+    // forcer le navigateur à prendre en compte l'état de départ avant d'animer
+    void lightboxImg.offsetWidth;
+
+    requestAnimationFrame(() => {
+      if (!lightboxImg) return;
+      lightboxImg.style.transition = 'transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      lightboxImg.style.transform = 'translate(0, 0) scale(1, 1)';
+    });
+
+    // une fois l'animation terminée, on nettoie les styles inline
+    // pour laisser le CSS (ex: le zoom plein écran) reprendre la main
+    window.setTimeout(() => {
+      if (!lightboxImg) return;
+      lightboxImg.style.transition = '';
+      lightboxImg.style.transform = '';
+    }, 480);
+  }
+
+  function openLightbox(index: number, clickedEl: HTMLElement) {
+    if (!overlay || !lightboxImg) return;
     currentIndex = index;
     updateLightboxImage();
+
+    const beforeRect = clickedEl.getBoundingClientRect();
+
+    resetImgTransform();
+    lightboxImg.style.opacity = '0'; // évite un flash à la position finale avant calcul
     overlay.classList.add('active');
+
+    const start = () => {
+      if (!lightboxImg) return;
+      lightboxImg.style.opacity = '1';
+      playOpenAnimation(beforeRect);
+    };
+
+    if (lightboxImg.complete && lightboxImg.naturalWidth > 0) {
+      requestAnimationFrame(start);
+    } else {
+      lightboxImg.addEventListener('load', () => requestAnimationFrame(start), { once: true });
+    }
   }
 
   function updateLightboxImage() {
@@ -34,10 +92,20 @@
     if (!img || !lightboxImg) return;
     lightboxImg.src = img.currentSrc || img.src;
     lightboxImg.alt = img.alt;
+    lightboxImg.classList.remove('zoomed');
+    overlay?.classList.remove('zoomed-active');
   }
 
   function closeLightbox() {
     if (overlay) overlay.classList.remove('active');
+    lightboxImg?.classList.remove('zoomed');
+    overlay?.classList.remove('zoomed-active');
+    resetImgTransform();
+  }
+
+  function toggleZoom() {
+    lightboxImg?.classList.toggle('zoomed');
+    overlay?.classList.toggle('zoomed-active');
   }
 
   function showPrev() {
@@ -56,11 +124,17 @@
     const target = e.target as HTMLElement | null;
     if (!target) return;
 
-    // seule une image SANS making-of ouvre la lightbox au clic direct
+    // seule une image avec la classe gallery-img ouvre la lightbox au clic direct
     const img = target.closest('.gallery-img');
     if (img) {
       const index = navImgs.indexOf(img);
-      if (index !== -1) openLightbox(index);
+      if (index !== -1) openLightbox(index, img as HTMLElement);
+      return;
+    }
+
+    // clic sur l'image agrandie -> toggle plein écran
+    if (target.closest('#lightbox-img')) {
+      toggleZoom();
       return;
     }
 
@@ -105,17 +179,33 @@
     align-items: center;
     padding: 2rem;
     box-sizing: border-box;
+    transition: padding 0.2s ease;
   }
 
   .lightbox-overlay.active {
     display: flex;
   }
 
+  .lightbox-overlay.zoomed-active {
+    padding: 0;
+  }
+
   .lightbox-overlay img {
-    height: 100%;
+    height: 90vh;
+    height: 90dvh;
     width: auto;
     max-width: 90vw;
     object-fit: contain;
+    cursor: zoom-in;
+    transition: height 0.2s ease, max-width 0.2s ease, max-height 0.2s ease;
+  }
+
+  .lightbox-overlay img.zoomed {
+    height: 100vh;
+    height: 100dvh;
+    max-width: 100vw;
+    max-height: 100vh;
+    max-height: 100dvh;
   }
 
   .lightbox-close {

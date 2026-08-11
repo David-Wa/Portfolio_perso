@@ -5,8 +5,8 @@ import ButtonShare from '../components/Buttons/ButtonShare.astro';
 import RelatedProjects from '../components/ProjectComponents/RelatedProjects.astro';
 import { Image } from 'astro:assets';
 import Divider from '../components/Divider.astro';
-import BackgroundPrimaryColor from '../components/DynamicBackground/BackgroundPrimaryColor.astro';
 import TypeWriter from '../components/TypeWriter.astro';
+import Lightbox from '../components/Images/LightBoxOverlay.astro';
 
 
 interface Props {
@@ -50,7 +50,6 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
   <Divider />
 
   
-    <BackgroundPrimaryColor>
       <section class="about">
         <div class="about-text">
           <h2>{isEnglish ? 'Story' : 'Histoire'}</h2>
@@ -59,27 +58,28 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
         </div>
         <div class="about-image">
           {mainImage && (
-            <Image src={mainImage.default} alt={project.data.title} width={400} height={500} />
+            <Image src={mainImage.default} alt={project.data.title} width={400} height={500} class="project-image gallery-img" />
           )}
         </div>
       </section>
-    </BackgroundPrimaryColor>
   <Divider />
   <section class="project-gallery">
     <h2>{isEnglish ? 'Making of' : 'Making of'}</h2>
     <div class="gallery-viewport">
       <div class="gallery-track">
         {images.map((img: any) => (
-          <Image src={img.default} alt="photo galerie" width={300} height={400} />
+          <Image src={img.default} alt="photo galerie" width={300} height={400} class="project-image gallery-img" />
         ))}
         {images.map((img: any) => (
-          <Image src={img.default} alt="photo galerie" width={300} height={400} />
+          <Image src={img.default} alt="photo galerie" width={300} height={400} class="project-image gallery-img" />
         ))}
       </div>
     </div>
   </section>
     <Divider />
   <RelatedProjects path={relatedPath} currentSlug={slug} />
+
+  <Lightbox />
 </BaseLayout>
 
 <style>
@@ -89,11 +89,11 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
     display: flex;
     flex-direction: column;
     padding: 0 20px;
-    padding-top: 120px;
     width: 100%;
     text-align: center;
-    color: var(--tertiary-color);
-    background-color: var(--white);
+    color: var(--primary-color);
+    background-color: none;
+    mix-blend-mode: screen;
   }
 
   .about {
@@ -123,6 +123,7 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
     max-width: 400px;
     border-radius: var(--border-radius);
     object-fit: cover;
+    cursor: pointer;
   }
 
   .project-gallery {
@@ -152,6 +153,7 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
     flex-shrink: 0;
     object-fit: cover;
     border-radius: 8px;
+    cursor: pointer;
   }
 
   @keyframes scroll {

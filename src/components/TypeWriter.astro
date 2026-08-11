@@ -16,7 +16,7 @@ const {
   cursor = true,
   as: Tag = 'h1',
   class: className,
-  marginTop = '75px',
+  marginTop = 'var(--title-margin-top)',
 } = Astro.props;
 
 const id = `tw-${Math.random().toString(36).slice(2, 9)}`;

@@ -87,7 +87,7 @@ const heroImages = shuffle(
   }
 </script>
 
-  <BackgroundPrimaryColor color1="#FFFAF2" color2="#DB162F" color3="#DB162F">
+
     <section id="contact" class="about">
       <div class="about-image">
         <img src="/photo_contact.jpg" alt={contactAlt} width="400" height="300" />
@@ -98,7 +98,6 @@ const heroImages = shuffle(
         <Social color="var(--secondary-color)" colorHover="var(--tertiary-color)" />
       </div>
     </section>
-  </BackgroundPrimaryColor>
 
   <section class="parallax-section">
     <div class="hero-content">
@@ -107,7 +106,6 @@ const heroImages = shuffle(
     <img class="image_parallax" src="/photo_parallax.jpg" alt="Parallax image" />
   </section>
 
-  <BackgroundPrimaryColor>
     <section id="about" class="about" data-no-reveal={useNoReveal ? '' : undefined}>
       <div class="about-text">
         <h2>{content.aboutTitle}</h2>
@@ -120,7 +118,6 @@ const heroImages = shuffle(
         <img src="/photo_about.jpeg" alt={aboutAlt} width="400" height="300" />
       </div>
     </section>
-  </BackgroundPrimaryColor>
 </BaseLayout>
 
 <style>
@@ -155,6 +152,7 @@ const heroImages = shuffle(
   gap: 48px;
   padding: 80px 10%;
   overflow: hidden;
+  mix-blend-mode: screen;
 }
 
 

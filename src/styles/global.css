@@ -11,6 +11,7 @@
     --navbar-height: 56px;
     --padding-language:15px;
     --padding-navbar: 2rem;
+    --transition-duration: 1.5s;
 }
 
 
@@ -59,7 +60,7 @@ h2{
 
 p{
     font-family: 'SecondaryFont', sans-serif;
-      color: var(--tertiary-color);
+      color: var(--primary-color);
       font-size: 1.2rem;
       font-weight: 500;
 }
@@ -80,6 +81,7 @@ p{
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
+  background-color: var(--tertiary-color);
 }
 
 @media (max-width: 768px) {
@@ -111,6 +113,11 @@ p{
 }
 
 
+.footer{
+   border-top: 1px solid var(--primary-color);
+   border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
 .navbar {
   height:var(--navbar-height);
   display: flex;
@@ -118,6 +125,8 @@ p{
   justify-content: space-between;
   border-radius: var(--border-radius);
   background-color: var(--tertiary-color);
+  border-bottom: 1px solid var(--primary-color);
+  border-top: 1px solid var(--primary-color);
   position: relative;
   z-index: 100;
   pointer-events: auto;

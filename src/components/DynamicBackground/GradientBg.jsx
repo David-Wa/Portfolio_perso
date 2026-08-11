@@ -43,8 +43,8 @@ export default function GradientBg({color1="#DBDFAC", color2="#250902", color3="
   rangeEnd={40}
   rangeStart={0}
   reflection={0.5}
-  rotationX={0}
-  rotationY={0}
+  rotationX={180}
+  rotationY={90}
   rotationZ={140}
   shader="defaults"
   type="sphere"

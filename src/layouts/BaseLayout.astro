@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import Image from '../assets/pictures/prototypage/bricolage/hobbit/main.jpg';
 import { ClientRouter, fade } from 'astro:transitions';
-
+import BackgroundPrimaryColor from '../components/DynamicBackground/BackgroundPrimaryColor.astro';
 
 const inferredLocale = Astro.url.pathname.startsWith('/en') ? 'en' : 'fr';
 const {pageTitle,
@@ -31,7 +31,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:type" content="website" />
     <ClientRouter /> <!--  fadeIn pour les transitions -->
   </head>
-    <body transition:animate={fade({ duration: '1.5s' })}>
+    <body transition:animate={fade({ duration: 'var(--transition-duration)' })}>
+      <BackgroundPrimaryColor>
     <!-- Filtre SVG pour la texture granuleuse du spray -->
     <svg width="0" height="0" style="position:absolute">
       <filter id="spray-noise">
@@ -149,6 +150,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   // Se déclenche au premier chargement ET à chaque navigation via ClientRouter
   document.addEventListener("astro:page-load", initReveal);
 </script>
+      </BackgroundPrimaryColor>
   </body>
 </html>
 

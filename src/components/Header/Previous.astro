@@ -24,7 +24,7 @@ const parentPath =
   {pathname !== "/" && pathname !== "/en" && (
   <div class="navbar">
     <div class="previous">
-      <Button href={parentPath} color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" fontSize="1.5em" padding="0 0.8rem" display="flex" height="100%" radius="var(--border-radius)" aria-label={locale === 'en' ? 'Go back' : 'Retourner'} translateY="0px" bubbleWidth="3.5em">
+      <Button href={parentPath} color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" fontSize="1.5em" padding="0 0.8rem" display="flex" height="100%" radius="var(--border-radius)" aria-label={locale === 'en' ? 'Go back' : 'Retourner'}>
         <Icon name="mdi:arrow-left" />
       </Button>
     </div>
@@ -37,6 +37,7 @@ const parentPath =
   margin-left: auto;
   height: 100%;
 }
+
 
 
 .previous .bubble-btn:hover,

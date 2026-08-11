@@ -6,6 +6,8 @@ import RelatedProjects from '../components/ProjectComponents/RelatedProjects.ast
 import { Image } from 'astro:assets';
 import Divider from '../components/Divider.astro';
 import BackgroundPrimaryColor from '../components/DynamicBackground/BackgroundPrimaryColor.astro';
+import TypeWriter from '../components/TypeWriter.astro';
+
 
 interface Props {
   category: 'prototypage' | 'graphisme';
@@ -43,7 +45,7 @@ const relatedPath = `${category}/${project.id.split('/')[0]}`;
 
 <BaseLayout pageTitle={title} title={title} description={description} image={mainImage ? new URL(mainImage.default.src, Astro.site) : undefined} locale={locale}>
   <section class="project-title">
-    <h1>{title}</h1>
+    <TypeWriter text={title} speed={55} />
   </section>
   <Divider />
 

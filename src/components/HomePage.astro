@@ -2,8 +2,13 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Social from './Buttons/Social.astro';
 import Button from './Buttons/Button.astro';
-import BackgroundPrimaryColor from './DynamicBackground/BackgroundPrimaryColor.astro';
 import { homeContent } from '../data/home';
+import { Image } from 'astro:assets';
+
+// Images statiques
+import photoContact from '../assets/photo_contact.jpg';
+import photoAbout from '../assets/photo_about.jpeg';
+import photoParallax from '../assets/photo_parallax.jpg';
 
 const {
   locale = 'fr',
@@ -15,206 +20,231 @@ const {
 
 const content = homeContent[locale] ?? homeContent.fr;
 
-import fs from 'node:fs';
-import path from 'node:path';
-
-// Lecture du dossier public/hero au moment du build
-const heroDir = path.join(process.cwd(), 'public', 'hero');
-const allowedExt = ['.jpg', '.jpeg', '.png', '.webp', '.avif'];
-
 function shuffle<T>(array: T[]): T[] {
   const arr = [...array];
+
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
+
   return arr;
 }
 
-const heroImages = shuffle(
-  fs
-    .readdirSync(heroDir)
-    .filter((file) => allowedExt.includes(path.extname(file).toLowerCase()))
-    .map((file) => ({
-      src: `/hero/${file}`,
-      name: path.parse(file).name,
-    }))
+// Images du hero
+const heroModules = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/hero/*.{jpg,jpeg,png,webp,avif}',
+  { eager: true }
 );
+
+const heroImages = shuffle(
+  Object.entries(heroModules).map(([filePath, mod]) => ({
+    image: mod.default,
+    name: filePath
+      .split('/')
+      .pop()!
+      .replace(/\.[^/.]+$/, ''),
+  }))
+);
+
+const heroNames = heroImages.map((img) => img.name);
 ---
 
-
-
 <BaseLayout pageTitle={pageTitle} locale={locale}>
-  <section class="hero">
-  <div class="hero-slideshow">
-    {heroImages.map((img, i) => (
-      <div class={`hero-slide ${i === 0 ? 'active' : ''}`} data-index={i}>
-        <img src={img.src} alt={img.name} fetchpriority="high" />
-      </div>
-    ))}
-    <div class="hero-slide-caption">{heroImages[0]?.name}</div>
-  </div>
 
-  <!-- <div class="hero-content">
-    <h1>{content.heroTitle}</h1>
-    <p>{content.heroSubtitle}</p>
-  </div>-->
-</section>
+  <!-- =========================
+       HERO / SLIDESHOW
+  ========================== -->
+  <section class="hero" aria-label="Présentation">
+    <div class="hero-slideshow">
+
+      {heroImages.map((img, i) => (
+        <div
+          class={`hero-slide ${i === 0 ? 'active' : ''}`}
+          data-index={i}
+          aria-hidden={i !== 0}
+        >
+          <Image
+            src={img.image}
+            alt={img.name}
+            fetchpriority={i === 0 ? 'high' : 'low'}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding={i === 0 ? 'sync' : 'async'}
+            sizes="100vw"
+            widths={[640, 1024, 1600, 1920]}
+          />
+        </div>
+      ))}
+
+      {heroImages.length > 0 && (
+        <div class="hero-slide-caption">
+          {heroNames[0]}
+        </div>
+      )}
+
+    </div>
+
+    <!--
+    <div class="hero-content">
+      <h1>{content.heroTitle}</h1>
+      <p>{content.heroSubtitle}</p>
+    </div>
+    -->
+  </section>
 
 
-<script define:vars={{ heroImages }}>
-  const slides = document.querySelectorAll('.hero-slide');
-  const caption = document.querySelector('.hero-slide-caption');
-  let current = 0;
-  const intervalMs = 5000;
+  <!-- =========================
+       HERO SLIDESHOW JS
+  ========================== -->
+  <script define:vars={{ heroNames }}>
 
-  if (slides.length > 1) {
-    setInterval(() => {
-      slides[current].classList.remove('active');
-      caption.style.opacity = '0';
+    const slides = document.querySelectorAll('.hero-slide');
+    const caption = document.querySelector('.hero-slide-caption');
 
-      current = (current + 1) % slides.length;
+    let current = 0;
+    const intervalMs = 5000;
 
-      slides[current].classList.add('active');
+    if (slides.length > 1 && caption) {
 
-      setTimeout(() => {
-        caption.textContent = heroImages[current].name;
-        caption.style.opacity = '1';
-      }, 600); // correspond à la moitié du fade CSS
-    }, intervalMs);
+      setInterval(() => {
 
-    
-  }
-</script>
+        // Retire la slide actuelle
+        slides[current].classList.remove('active');
+        slides[current].setAttribute('aria-hidden', 'true');
+
+        // Slide suivante
+        current = (current + 1) % slides.length;
+
+        slides[current].classList.add('active');
+        slides[current].setAttribute('aria-hidden', 'false');
+
+        // Caption
+        caption.style.opacity = '0';
+
+        window.setTimeout(() => {
+          caption.textContent = heroNames[current] ?? '';
+          caption.style.opacity = '1';
+        }, 600);
+
+      }, intervalMs);
+    }
+
+  </script>
 
 
-    <section id="contact" class="about">
-      <div class="about-image">
-        <img src="/photo_contact.jpg" alt={contactAlt} width="400" height="300" />
-      </div>
-      <div class="about-text">
-        <h2>{content.contactTitle}</h2>
-        <p>{content.contactText}</p>
-        <Social color="var(--secondary-color)" colorHover="var(--tertiary-color)" />
-      </div>
-    </section>
+  <!-- =========================
+       CONTACT
+  ========================== -->
+  <section id="contact" class="about">
 
-  <section class="parallax-section">
+    <div class="about-image">
+     <Image
+  src={photoContact}
+  alt={contactAlt}
+  width={400}
+  height={300}
+  widths={[320, 400]}
+  sizes="(max-width: 768px) 100vw, 400px"
+/>
+    </div>
+
+    <div class="about-text">
+      <h2>{content.contactTitle}</h2>
+
+      <p>{content.contactText}</p>
+
+      <Social
+        color="var(--secondary-color)"
+        colorHover="var(--tertiary-color)"
+      />
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       PARALLAX
+  ========================== -->
+  <section
+    class="parallax-section"
+    aria-label="Life is good"
+  >
+
     <div class="hero-content">
       <h1>Life is good</h1>
     </div>
-    <img class="image_parallax" src="/photo_parallax.jpg" alt="Parallax image" />
+
+    <Image
+      class="image_parallax"
+      src={photoParallax}
+      alt="Parallax image"
+      widths={[768, 1280, 1920]}
+      sizes="100vw"
+      loading="lazy"
+      decoding="async"
+    />
+
   </section>
 
-    <section id="about" class="about" data-no-reveal={useNoReveal ? '' : undefined}>
-      <div class="about-text">
-        <h2>{content.aboutTitle}</h2>
-        <p>{content.aboutText}</p>
-        <div class="about-buttons">
-          <Button href="/David_Wagner_Resume_NEQ_Statistical_mechanics.pdf">{content.cvLabel}</Button>
-        </div>
+
+  <!-- =========================
+       ABOUT
+  ========================== -->
+  <section
+    id="about"
+    class="about"
+    data-no-reveal={useNoReveal ? '' : undefined}
+  >
+
+    <div class="about-text">
+
+      <h2>{content.aboutTitle}</h2>
+
+      <p>{content.aboutText}</p>
+
+      <div class="about-buttons">
+        <Button
+          href="/David_Wagner_Resume_NEQ_Statistical_mechanics.pdf"
+        >
+          {content.cvLabel}
+        </Button>
       </div>
-      <div class="about-image">
-        <img src="/photo_about.jpeg" alt={aboutAlt} width="400" height="300" />
-      </div>
-    </section>
+
+    </div>
+
+    <div class="about-image">
+
+   <Image
+  src={photoAbout}
+  alt={aboutAlt}
+  width={400}
+  height={300}
+  widths={[320, 400]}
+  sizes="(max-width: 768px) 100vw, 400px"
+  loading="lazy"
+  decoding="async"
+/>
+    </div>
+
+  </section>
+
 </BaseLayout>
+
 
 <style>
 
+  /* =========================
+     HERO
+  ========================== */
 
-  .about-button {
-    position: absolute;
-    padding: 12px 28px;
-    font-family: 'SecondaryFont', sans-serif;
-    font-size: 1em;
-    font-weight: 500;
-    letter-spacing: 0.3px;
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    min-height: 100svh;
+    overflow: hidden;
   }
-
-
-  
-
-.hero {
-  position: relative;
-  height: 100vh;
-  min-height: 100svh;
-  overflow: hidden;
-  width: 100%;
-  align-items: center;
-}
-
-.about {
-  position: relative;
-  display: flex;
-  align-self: center;
-  align-items: center;
-  gap: 48px;
-  padding: 80px 10%;
-  overflow: hidden;
-  mix-blend-mode: screen;
-}
-
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: var(--white);
-  padding: 0 1rem;
-}
-
-.hero-content h1,
-.hero-content p {
-  color: var(--primary-color);
-  background-color: color-mix(in srgb, var(--tertiary-color) 80%, transparent);
-  padding: 0.3em 0.8em;
-  border-radius: 8px;
-  display: inline-block;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-
-.about-text {
-  flex: 1;
-  color: var(--secondary-color);
-}
-
-.about-image {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
-
-.about-image img {
-  width: 100%;
-  max-width: 400px;
-  border-radius: var(--border-radius);
-  object-fit: cover;
-}
-
-.parallax-section {
-  overflow: hidden;
-  height: 200px;
-  width: 100%;
-  position: relative;
-}
-
-.image_parallax {
-  width: 100%;
-  height: 300%;
-  object-fit: cover;
-  position: absolute;
-  top: -55%;
-  left: 0;
-  will-change: transform;
-  z-index: -100;
-}
-
 
 
   .hero-slideshow {
@@ -223,124 +253,439 @@ const heroImages = shuffle(
     z-index: 0;
   }
 
+
   .hero-slide {
     position: absolute;
     inset: 0;
     opacity: 0;
     transition: opacity 1.2s ease-in-out;
+    pointer-events: none;
   }
+
 
   .hero-slide.active {
     opacity: 1;
+    pointer-events: auto;
   }
 
+
   .hero-slide img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
   }
 
+
   .hero-slide-caption {
     position: absolute;
     left: 1.5rem;
     bottom: 1.5rem;
-    z-index: 1;
+    z-index: 2;
+
+    max-width: calc(100% - 3rem);
+
+    font-family: 'SecondaryFont', sans-serif;
     font-size: 1rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    text-shadow: 0 2px 4px var(--tertiary-color);
+
+    color: var(--primary-color);
+
+    text-shadow:
+      0 2px 4px var(--tertiary-color);
+
+    opacity: 1;
     transition: opacity 0.6s ease-in-out;
-    font-family: 'SecondaryFont';
-      color: var(--primary-color);
+
+    pointer-events: none;
   }
 
-  
-@media (max-width: 768px) {
-  .hero {
-    height: 92svh;
-  }
 
-  .about {
+  /* =========================
+     CONTENT
+  ========================== */
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
     flex-direction: column;
-    padding: 48px 6%;
-    gap: 24px;
-  }
+    align-items: center;
+    justify-content: center;
 
-  .about-text,
-  .about-image {
     width: 100%;
-    flex: 1 1 auto;
+    height: 100%;
+
+    padding: 0 1rem;
+
+    color: var(--white);
   }
 
-  .about-image img {
-    max-width: 320px;
-  }
-
-  .parallax-section {
-    height: 140px;
-  }
-
-  .image_parallax {
-    height: 220%;
-    top: -35%;
-  }
-
-  .hero-slide-caption {
-    left: 1rem;
-    bottom: 1rem;
-    font-size: 0.8rem;
-    max-width: calc(100% - 2rem);
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    height: 85svh;
-  }
-
-  .about {
-    padding: 32px 5%;
-  }
 
   .hero-content h1,
   .hero-content p {
-    font-size: 1rem;
+    display: inline-block;
+
+    padding: 0.3em 0.8em;
+
+    color: var(--primary-color);
+
+    background-color:
+      color-mix(
+        in srgb,
+        var(--tertiary-color) 80%,
+        transparent
+      );
+
+    border-radius: 8px;
+
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
 
-  .about-image img {
-    max-width: 260px;
+
+  /* =========================
+     ABOUT / CONTACT
+  ========================== */
+
+  .about {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    gap: 48px;
+
+    padding: 80px 10%;
+
+    overflow: hidden;
+
+    mix-blend-mode: screen;
   }
-}
+
+
+  .about-text {
+    flex: 1;
+    color: var(--secondary-color);
+  }
+
+
+  .about-image {
+    flex: 1;
+
+    display: flex;
+    justify-content: center;
+
+    min-width: 0;
+  }
+
+
+  .about-image img {
+    display: block;
+
+    width: 100%;
+    max-width: 400px;
+
+    height: auto;
+
+    border-radius: var(--border-radius);
+
+    object-fit: cover;
+  }
+
+
+  /* =========================
+     PARALLAX
+  ========================== */
+
+  .parallax-section {
+    position: relative;
+
+    width: 100%;
+    height: 200px;
+
+    overflow: hidden;
+  }
+
+
+  .image_parallax {
+    position: absolute;
+
+    top: -55%;
+    left: 0;
+
+    z-index: -1;
+
+    width: 100%;
+    height: 300%;
+
+    object-fit: cover;
+
+    will-change: transform;
+
+    pointer-events: none;
+  }
+
+
+  /* =========================
+     BUTTON
+  ========================== */
+
+  .about-button {
+    position: absolute;
+
+    padding: 12px 28px;
+
+    font-family: 'SecondaryFont', sans-serif;
+    font-size: 1em;
+    font-weight: 500;
+
+    letter-spacing: 0.3px;
+  }
+
+
+  /* =========================
+     TABLET / MOBILE
+  ========================== */
+
+  @media (max-width: 768px) {
+
+    .hero {
+      height: 92svh;
+      min-height: 92svh;
+    }
+
+
+    .about {
+      flex-direction: column;
+
+      gap: 24px;
+
+      padding: 48px 6%;
+    }
+
+
+    .about-text,
+    .about-image {
+      width: 100%;
+      flex: 1 1 auto;
+    }
+
+
+
+  .about-image img {
+    max-width: 320px;
+    height: 240px;
+  }
+
+
+
+    .parallax-section {
+      height: 140px;
+    }
+
+
+    .image_parallax {
+      top: -35%;
+      height: 220%;
+    }
+
+
+    .hero-slide-caption {
+      left: 1rem;
+      bottom: 1rem;
+
+      max-width: calc(100% - 2rem);
+
+      font-size: 0.8rem;
+    }
+
+  }
+
+
+  /* =========================
+     SMALL MOBILE
+  ========================== */
+
+  @media (max-width: 480px) {
+
+    .hero {
+      height: 85svh;
+      min-height: 85svh;
+    }
+
+
+    .about {
+      padding: 32px 5%;
+    }
+
+
+    .hero-content h1,
+    .hero-content p {
+      font-size: 1rem;
+    }
+
+
+     .about-image img {
+    max-width: 260px;
+    height: 195px;
+  }
+
+  }
+
+
+  /* =========================
+     ACCESSIBILITY
+  ========================== */
+
+  @media (prefers-reduced-motion: reduce) {
+
+    .hero-slide {
+      transition: none;
+    }
+
+
+    .hero-slide-caption {
+      transition: none;
+    }
+
+  }
 
 </style>
 
+
 <script>
+
   let scrollHandler: (() => void) | null = null;
+  let parallaxObserver: IntersectionObserver | null = null;
+
 
   function setupParallax() {
-    const parallaxImg = document.querySelector<HTMLImageElement>('.image_parallax');
-    if (!parallaxImg) return;
+
+    const parallaxImg =
+      document.querySelector<HTMLImageElement>('.image_parallax');
+
+    const parallaxSection =
+      document.querySelector<HTMLElement>('.parallax-section');
+
+
+    if (!parallaxImg || !parallaxSection) {
+      return;
+    }
+
+
+    // Nettoyage d'un éventuel ancien listener
+    if (scrollHandler) {
+      window.removeEventListener('scroll', scrollHandler);
+      scrollHandler = null;
+    }
+
+
+    if (parallaxObserver) {
+      parallaxObserver.disconnect();
+      parallaxObserver = null;
+    }
+
+
+    // Respecte les préférences utilisateur
+    if (
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      parallaxImg.style.transform = 'none';
+      return;
+    }
+
 
     const speed = 0.4;
 
-    if (scrollHandler) {
-      window.removeEventListener('scroll', scrollHandler);
-    }
+    let ticking = false;
+    let isVisible = false;
+
 
     function updateParallax() {
-      if (!parallaxImg) return;
-      const rect = parallaxImg.getBoundingClientRect();
-      const scrolled = window.scrollY;
-      const offset = rect.top + scrolled;
-      const yPos = (scrolled - offset) * speed;
-      parallaxImg.style.transform = `translateY(${yPos}px)`;
+
+      if (!isVisible || ticking) {
+        return;
+      }
+
+
+      ticking = true;
+
+
+      requestAnimationFrame(() => {
+
+        const rect =
+          parallaxSection.getBoundingClientRect();
+
+        const viewportHeight = window.innerHeight;
+
+
+        // Ne fait le calcul que lorsque la section
+        // est proche de la fenêtre
+        if (
+          rect.bottom >= -viewportHeight &&
+          rect.top <= viewportHeight
+        ) {
+
+          const progress =
+            (viewportHeight - rect.top) /
+            (viewportHeight + rect.height);
+
+
+          const movement =
+            (progress - 0.5) *
+            rect.height *
+            speed;
+
+
+          parallaxImg.style.transform =
+            `translate3d(0, ${movement}px, 0)`;
+        }
+
+
+        ticking = false;
+      });
     }
 
+
+    parallaxObserver = new IntersectionObserver(
+      (entries) => {
+
+        isVisible = entries[0]?.isIntersecting ?? false;
+
+        if (isVisible) {
+          updateParallax();
+        }
+
+      },
+      {
+        rootMargin: '200px 0px',
+      }
+    );
+
+
+    parallaxObserver.observe(parallaxSection);
+
+
     scrollHandler = updateParallax;
-    window.addEventListener('scroll', scrollHandler, { passive: true });
+
+    window.addEventListener(
+      'scroll',
+      scrollHandler,
+      { passive: true }
+    );
+
+
     updateParallax();
   }
 
-  document.addEventListener('astro:page-load', setupParallax);
+
+  document.addEventListener(
+    'astro:page-load',
+    setupParallax
+  );
+
 </script>

@@ -1,20 +1,51 @@
 ---
-const { href, src, alt, title, makingOf, locale = 'fr' } = Astro.props;
+import { Image } from 'astro:assets';
+
+const {
+  href,
+  src,
+  alt,
+  title,
+  makingOf,
+  locale = 'fr'
+} = Astro.props;
+
 const Tag = makingOf ? 'a' : 'div';
-const overlayLabel = locale === 'en' ? 'See the making-of' : 'Voir le making-of';
+
+const overlayLabel =
+  locale === 'en'
+    ? 'See the making-of'
+    : 'Voir le making-of';
 ---
 
-<Tag href={makingOf ? href : undefined} class="project-link">
-    <img
-      src={src.src}
-      alt={alt}
-      class:list={["project-image", { "gallery-img": !makingOf }]}
-    />
-    <div class="overlay">
-      <h1>{title}</h1>
-      {makingOf && <p>{overlayLabel}</p>}
-    </div>
-  </Tag>
+<Tag
+  href={makingOf ? href : undefined}
+  class="project-link"
+>
+  <Image
+    src={src}
+    alt={alt}
+    class:list={[
+      'project-image',
+      { 'gallery-img': !makingOf }
+    ]}
+    width={800}
+    height={800}
+    widths={[400, 600, 800, 1200]}
+    sizes="(max-width: 768px) 100vw, 50vw"
+    loading="lazy"
+    decoding="async"
+  />
+
+  <div class="overlay">
+    <h1>{title}</h1>
+
+    {makingOf && (
+      <p>{overlayLabel}</p>
+    )}
+  </div>
+</Tag>
+
 
 <style>
 .project-link {
@@ -22,8 +53,8 @@ const overlayLabel = locale === 'en' ? 'See the making-of' : 'Voir le making-of'
   display: inline-block;
   overflow: hidden;
   width: 100%;
-  cursor: default;
   height: fit-content;
+  cursor: default;
 }
 
 a.project-link {
@@ -36,24 +67,33 @@ a.project-link {
 
 .project-image {
   display: block;
-  transition: filter 0.3s ease;
-  object-fit: cover;
   position: relative;
+
   width: 100%;
- aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+
+  transition: filter 0.3s ease;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   opacity: 0;
+
   transition: opacity 0.3s ease;
+
   color: var(--tertiary-color);
   text-align: center;
+
+  pointer-events: none;
+  z-index: 2;
 }
 
 .project-link:hover .project-image {
@@ -66,33 +106,22 @@ a.project-link {
 
 .project-link::before {
   content: "";
+
   position: absolute;
   inset: 0;
-  background: rgba(255,255,255,0.6);
+
+  background: rgba(255, 255, 255, 0.6);
+
   opacity: 0;
+
   transition: opacity 0.3s ease;
+
   z-index: 1;
-  pointer-events: none; /* ← ajouté */
+
+  pointer-events: none;
 }
 
 .project-link:hover::before {
   opacity: 1;
 }
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  color: var(--tertiary-color);
-  text-align: center;
-  pointer-events: none; /* ← ajouté */
-  z-index: 2;
-}
-
-
 </style>

@@ -9,6 +9,7 @@ const projectSchema = z.object({
   descriptionEn: z.string().optional(),
   content: z.string().optional(),
   contentEn: z.string().optional(),
+  collab: z.string().optional().default('none'),
 });
 
 const prototypage = defineCollection({

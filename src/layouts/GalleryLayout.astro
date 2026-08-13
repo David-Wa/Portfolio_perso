@@ -2,13 +2,13 @@
 import BaseLayout from './BaseLayout.astro';
 import Project_img from '../components/ProjectComponents/Project_image.astro';
 import Divider from '../components/Divider.astro';
-import BackgroundPrimaryColor from '../components/DynamicBackground/BackgroundPrimaryColor.astro';
 import { getCategorySections, getLocalizedPath } from '../data/nav';
 import LightBoxOverlay from '../components/Images/LightBoxOverlay.astro';
 import TypeWriter from '../components/TypeWriter.astro';
 
 const { pageTitle, path, locale = 'fr' } = Astro.props;
 const [category] = path.split('/').filter(Boolean);
+const [subcategory] = path.split('/').filter(Boolean).slice(-1);
 const categorySections = getCategorySections(locale);
 const currentCategorySection = categorySections.find((section) => section.key === category);
 const tabs = currentCategorySection?.subcategories ?? [];
@@ -23,6 +23,7 @@ const makingOfPaths = import.meta.glob(
   '../assets/pictures/**/making-of/**',
   { eager: true }
 );
+
 
 const projects = Object.entries(allImages)
   .filter(([filePath]) => filePath.includes(`/pictures/${path}/`))
@@ -48,6 +49,9 @@ const introText = locale === 'en'
  <section class="page-title">
   <TypeWriter text={pageTitle} speed={55} />
   <p set:html={introText} />
+</section>
+<section class="description">
+  <p><b>#{subcategory}</b> <slot /> </p>
 </section>
   {tabs.length > 0 && (
   <Divider />
@@ -101,6 +105,12 @@ const introText = locale === 'en'
     width: 100%;
   }
 
+  .description{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+  }
   
 .whitebg {
   background-color: var(--white);

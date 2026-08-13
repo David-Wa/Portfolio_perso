@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-const { color = 'var(--primary-color)', colorHover = 'var(--secondary-color)' } = Astro.props;
+const { color = 'var(--primary-color)', colorHover = 'var(--primary-color)' } = Astro.props;
 ---
  <div class="contact-buttons" data-no-reveal>
    
@@ -27,17 +27,14 @@ const { color = 'var(--primary-color)', colorHover = 'var(--secondary-color)' } 
     align-items: center;
   }
 
-.contact-buttons p{
-  color: var(--secondary-color);
-}
 
-  .contact-buttons a {
+  .contact-buttons a, .contact-buttons p {
     color: var(--color);
     display: inline-flex;
     transition: color 0.2s, transform 0.2s;
   }
 
-  .contact-buttons a:hover {
+  .contact-buttons a:hover, .contact-buttons p:hover {
     color: var(--colorHover);
     transform: translateY(-3px);
   }

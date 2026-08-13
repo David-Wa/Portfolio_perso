@@ -9,19 +9,19 @@ const pathname = Astro.url.pathname;
 
 // Remove trailing slash (except for "/")
 const normalized =
-  pathname !== "/" && pathname !== "/en" ? pathname.replace(/\/$/, "") : pathname;
+  (pathname !== "/" && pathname !== "/en") ? pathname.replace(/\/$/, "") : pathname;
 
 const segments = normalized.split("/").filter(Boolean);
 
 // Parent path
 const parentPath =
-  (segments.length > 2 || (segments.length > 3 && segments[0] !== "en"))
+  ((segments.length > 2 && segments[0] !== "en") || (segments.length > 3 && segments[0] === "en"))
     ? "/" + segments.slice(0, -1).join("/")
-    : (segments.length > 1 ? ("/" + segments.slice(0, -2).join("/")): (""));
+    : (("/" + segments.slice(0, -2).join("/")));
 ---
 
     
-  {pathname !== "/" && pathname !== "/en" && (
+  {pathname !== "/" && pathname !== "/en" && !pathname.includes("#") && (
   <div class="navbar">
     <div class="previous">
       <Button href={parentPath} color="var(--primary-color)" bg="var(--tertiary-color)" colorHover="var(--tertiary-color)" bgHover="var(--primary-color)" fontSize="1.5em" padding="0 0.8rem" display="flex" height="100%" radius="var(--border-radius)" aria-label={locale === 'en' ? 'Go back' : 'Retourner'}>
